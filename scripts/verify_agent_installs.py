@@ -42,14 +42,22 @@ def run_install(binary: Path, source: Path, root: Path, spec: dict,
     except subprocess.TimeoutExpired:
         return {"agent": agent, "scope": scope, "ok": False, "error": "installer timeout"}
     relative = spec["project_path"] if scope == "project" else spec["global_path"]
-    base = (home / relative.removeprefix("~/")) if scope == "global" else (cwd / relative)
-    entry = base / SKILL
+    candidates = [(home / relative.removeprefix("~/")) if scope == "global" else (cwd / relative)]
+    # Skills CLI 1.7.4 may choose the shared ~/.agents/skills canonical
+    # location for agents that natively support this alias (OpenCode,
+    # Cursor, Gemini CLI, GitHub Copilot). This is a valid discovery path,
+    # not a failed install. Never claim the dedicated path was used.
+    if scope == "global" and agent in {"opencode", "cursor", "gemini-cli", "github-copilot"}:
+        candidates.append(home / ".agents" / "skills")
+    installed = [base / SKILL for base in candidates if (base / SKILL / "SKILL.md").is_file()]
+    entry = installed[0] if installed else (candidates[0] / SKILL)
     expected = entry / "SKILL.md"
     notes = []
     if result.returncode:
         notes.append(f"skills CLI exited {result.returncode}")
-    if not expected.is_file():
-        notes.append(f"missing installed SKILL.md: {expected}")
+    if not installed:
+        notes.append("Skill not installed at any supported path: " +
+                     ", ".join(str(base / SKILL / "SKILL.md") for base in candidates))
     else:
         text = expected.read_text(encoding="utf-8")
         if not text.startswith("---\nname: archvela-architect\n"):
@@ -71,6 +79,7 @@ def run_install(binary: Path, source: Path, root: Path, spec: dict,
     return {
         "agent": agent, "scope": scope, "ok": not notes,
         "destination": str(expected.relative_to(root)) if expected.is_relative_to(root) else str(expected),
+        "used_shared_global_alias": scope == "global" and ".agents/skills/" in str(expected),
         "cli_exit_code": result.returncode, "issues": notes,
         "stdout_tail": result.stdout[-1200:], "stderr_tail": result.stderr[-1200:],
     }

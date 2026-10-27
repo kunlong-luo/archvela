@@ -38,6 +38,8 @@
 
 路径来自 [Vercel Skills 官方 agent registry](https://github.com/vercel-labs/skills/blob/main/docs/agents.md)。不同版本可能变化，以实际 `skills` CLI 输出为准。
 
+**已观测的 Skills CLI 1.7.4 行为：** 对 OpenCode、Cursor、Gemini CLI、GitHub Copilot 执行 `-g --copy` 时，安装器选用的真实位置可能是共享的 `~/.agents/skills/archvela-architect`，而不是表中对应的专用全局目录。这些客户端官方均支持 `~/.agents/skills` 作为全局发现位置。兼容性脚本因此验证「官方专用位置或共享兼容位置」至少有一处成功，并在 JSON 报告中记录实际目录；绝不把安装器的预期目录当作已经写入的目录。
+
 ## 手动安装与发现验证
 
 本仓库可直接通过 CLI 从本地文件安装到项目或用户目录：
