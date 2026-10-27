@@ -51,9 +51,9 @@ python3 scripts/new_project_docs.py --scene V3-26 --project home-digital-twin --
 python3 scripts/new_project_docs.py --scene V3-26 --project home-digital-twin --output ./example-project --write
 ```
 
-写入仅生成 `docs/architecture/` 下三份文档；有任一同名文件已存在则拒绝覆盖。
+写入仅生成 `docs/architecture/` 下三份**按领域预填充**的 ADR、性能预算和通用 AI Agent 开发任务草案；默认只预演，已有同名文件时拒绝覆盖，失败时回滚本轮生成的文件。辅助脚本可用 `--json` 返回路径清单。文档均需结合仓库审计和目标设备实测审核，不代表自动实施。
 
-参考模板：`references/templates/T01_新项目立项与架构决策_ADR.md`、`T02_分包策略与性能预算.md`、`T03_OpenCode_立项与交付任务卡.md`。
+领域预填充规则：`references/architecture_profiles.json`（六大领域）；参考模板：`references/templates/T01_新项目立项与架构决策_ADR.md`、`T02_分包策略与性能预算.md`、`T03_OpenCode_立项与交付任务卡.md`。
 
 ## 固定输出
 

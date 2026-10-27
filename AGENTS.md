@@ -13,7 +13,8 @@ Maintain Archvela as a **portable scenario-first Agent Skill** for frontend arch
 - Catalog: 62 unique IDs from V3-01 to V3-62, domain counts **13/11/12/8/9/9**; all catalog domain references must exist.
 - Use progressive disclosure: Skill entrypoint stays compact; documentation lives in `references/`.
 - No automatic migration of existing Pagevela or Voxnelo frameworks. Respect project constraints and real test evidence.
-- Keep code stdlib-only by default; generator is dry-run by default and must never overwrite user files.
+- Keep code stdlib-only by default; generator is dry-run by default, refuses existing targets and symlinked architecture folders, and rolls back new files after a partial write failure.
+- Scenario-specific output must include scene ID in all three generated documents; never replace testable recommendations with blank templates.
 - Package / Feature / JS Chunk / Asset Pack are four distinct decisions.
 - Use original media, designs and game artwork or licensed assets; do not clone copyrighted characters or branding.
 - Do not inject unpublished project facts into public docs.

@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Hardened architecture generator: six domain profiles, actual scenario-specific ADR/performance/Agent plan drafts, JSON preview, symlink protection, failure rollback, and regression tests.
+
 - Initial Archvela repository bootstrap and proposed MIT license.
 - Verified real installer destinations can be shared `~/.agents/skills` aliases for OpenCode, Cursor, Gemini CLI and Copilot; installation checker accepts only documented aliases.
 - Added mainstream agent compatibility manifest (20 targets), Skills CLI project/global install smoke tests, CI artifact report and native-client acceptance prompts.

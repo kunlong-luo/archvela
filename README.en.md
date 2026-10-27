@@ -25,7 +25,7 @@ python3 "$SKILL/scripts/scenes.py" --id V3-26 --json
 python3 "$SKILL/scripts/new_project_docs.py" --scene V3-26 --project home-twin --output ./demo
 ```
 
-The project-docs generator is a **dry run by default**. Add `--write` only when the target is reviewed; it refuses to overwrite existing files.
+The project-docs generator is a **dry run by default**. Add `--write` only when the target is reviewed; it refuses to overwrite existing files. The three generated documents contain scene-specific decisions and six-domain architecture profiles; newly created files are rolled back if writing fails.
 
 ## Mainstream Agent compatibility
 
