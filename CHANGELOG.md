@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Added deterministic bilingual scenario aliases and domain filtering for all 62 scenes; installed copies now execute both offline CLIs in CI.
+
 - Hardened architecture generator: six domain profiles, actual scenario-specific ADR/performance/Agent plan drafts, JSON preview, symlink protection, failure rollback, and regression tests.
 
 - Initial Archvela repository bootstrap and proposed MIT license.

@@ -21,6 +21,8 @@ If the destination already exists, inspect before modifying. OpenCode can also d
 SKILL=".agents/skills/archvela-architect"
 python3 "$SKILL/scripts/scenes.py" --list-domains
 python3 "$SKILL/scripts/scenes.py" --query "digital twin"
+python3 "$SKILL/scripts/scenes.py" --query "home digital twin" --json
+python3 "$SKILL/scripts/scenes.py" --domain 03 --limit 5
 python3 "$SKILL/scripts/scenes.py" --id V3-26 --json
 python3 "$SKILL/scripts/new_project_docs.py" --scene V3-26 --project home-twin --output ./demo
 ```

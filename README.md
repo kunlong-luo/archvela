@@ -47,6 +47,8 @@ ln -s "$(pwd)/.agents/skills/archvela-architect" ~/.config/opencode/skills/archv
 SKILL_DIR=".agents/skills/archvela-architect"
 python3 "$SKILL_DIR/scripts/scenes.py" --list-domains
 python3 "$SKILL_DIR/scripts/scenes.py" --query "住宅"
+python3 "$SKILL_DIR/scripts/scenes.py" --query "home digital twin" --json
+python3 "$SKILL_DIR/scripts/scenes.py" --domain 03 --limit 5
 python3 "$SKILL_DIR/scripts/scenes.py" --id V3-26 --json
 python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project home-twin --output ./demo
 # 仅检查过目标目录且同意创建文件后，再添加 --write
@@ -73,7 +75,7 @@ python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project home-tw
 
 ## 跨 AI 编程工具兼容性验证
 
-Archvela 不限于 OpenCode：项目计划使用官方 Skills CLI，对 OpenCode、Codex、Claude Code、Cursor、Gemini CLI、GitHub Copilot、Windsurf、Cline、Roo Code、Kiro CLI 等 **20 种代理安装目标**逐一执行项目级路径和文件内容验证，并对六个核心代理做全局安装测试。
+Archvela 不限于 OpenCode：项目计划使用官方 Skills CLI，对 OpenCode、Codex、Claude Code、Cursor、Gemini CLI、GitHub Copilot、Windsurf、Cline、Roo Code、Kiro CLI 等 **20 种代理安装目标**逐一执行项目级路径和文件内容验证，并对六个核心代理做全局安装测试；同时在每个安装副本内运行场景查询和架构生成器预演，验证复制后的 Skill 可以独立工作。
 
 真实模型运行另分 L2/L3；**安装通过不等于模型已读取或执行成功**。查看 [兼容矩阵和测试分级](./docs/COMPATIBILITY.md) 与 [统一真实客户端测试题](./docs/L3-TEST-PROMPTS.md)。
 

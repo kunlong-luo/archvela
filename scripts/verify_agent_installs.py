@@ -76,6 +76,36 @@ def run_install(binary: Path, source: Path, root: Path, spec: dict,
             notes.append("missing bundled CLI")
         if not (entry / "references" / "03_空间与数字孪生.md").is_file():
             notes.append("missing digital twin reference")
+        if not (entry / "references" / "architecture_profiles.json").is_file():
+            notes.append("missing bundled domain architecture profiles")
+        # Actually execute both offline CLIs from the copied Skill rather than
+        # asserting files are present. No network/API keys or file writes.
+        if not notes:
+            scenes_run = subprocess.run(
+                [sys.executable, str(entry / "scripts" / "scenes.py"),
+                 "--query", "home digital twin", "--json"],
+                cwd=cwd, env=env, text=True, capture_output=True, timeout=timeout,
+                check=False,
+            )
+            if scenes_run.returncode or "V3-26" not in scenes_run.stdout:
+                notes.append("installed scenario lookup failed")
+            docs_out = cwd / "preview-only"
+            docs_run = subprocess.run(
+                [sys.executable, str(entry / "scripts" / "new_project_docs.py"),
+                 "--scene", "V3-26", "--project", "ci-test",
+                 "--output", str(docs_out), "--json"],
+                cwd=cwd, env=env, text=True, capture_output=True, timeout=timeout,
+                check=False,
+            )
+            if docs_run.returncode or docs_out.exists():
+                notes.append("installed generator dry-run failed or wrote files")
+            else:
+                try:
+                    payload = json.loads(docs_run.stdout)
+                    if payload.get("mode") != "dry-run" or len(payload.get("paths", [])) != 3:
+                        notes.append("unexpected generator preview JSON")
+                except json.JSONDecodeError:
+                    notes.append("invalid generator preview JSON")
     return {
         "agent": agent, "scope": scope, "ok": not notes,
         "destination": str(expected.relative_to(root)) if expected.is_relative_to(root) else str(expected),

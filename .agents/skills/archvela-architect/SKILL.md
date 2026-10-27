@@ -36,6 +36,8 @@ metadata:
 ```bash
 python3 scripts/scenes.py --list-domains
 python3 scripts/scenes.py --query "农村数字孪生"
+python3 scripts/scenes.py --query "home digital twin" --json
+python3 scripts/scenes.py --domain 03 --limit 5
 python3 scripts/scenes.py --id V3-26 --json
 ```
 
