@@ -6,7 +6,7 @@ test("2D proportional plan and truthful precision disclosures are visible", asyn
   await expect(page.getByRole("img", { name: "宅基地与主屋平面比例示意" })).toBeVisible();
   await expect(page.getByText("11.20 × 8.40 m", { exact: true }).first()).toBeVisible();
   await expect(page.getByText(/非施工图、非实测 BIM 模型/)).toBeVisible();
-  await expect(page.getByRole("button", { name: "平面" })).toHaveAttribute("aria-pressed", "true");
+  await expect(page.getByRole("button", { name: "平面", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(page.locator("canvas")).toHaveCount(0);
 });
 

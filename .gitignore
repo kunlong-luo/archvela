@@ -18,3 +18,8 @@ node_modules/
 .astro/
 *.tsbuildinfo
 coverage/
+
+# Playwright browser test outputs
+tests/browser/playwright-report/
+tests/browser/test-results/
+tests/browser/blob-report/
