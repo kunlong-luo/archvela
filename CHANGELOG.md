@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Modernized GitHub Actions to Node 24/ESM-compatible official action majors and pinned the tested Skills CLI to 1.7.4 for repeatable installer checks.
+
 - Added deterministic bilingual scenario aliases and domain filtering for all 62 scenes; installed copies now execute both offline CLIs in CI.
 
 - Hardened architecture generator: six domain profiles, actual scenario-specific ADR/performance/Agent plan drafts, JSON preview, symlink protection, failure rollback, and regression tests.
