@@ -12,12 +12,12 @@ Three independent, deliberately small front-end prototypes demonstrate how the *
 
 ```bash
 cd examples/cinematic-site       # or saas-workspace / home-digital-twin
-npm install
+npm ci
 npm run dev
 npm run build
 ```
 
-Run `npm run test --if-present` and `npm run typecheck` in each folder. Use Node 24; the CI installs and builds **each project separately**, with no forced workspace or shared packages.
+Run `npm run test --if-present` and `npm run typecheck` in each folder. All three examples now include committed `package-lock.json` files; prefer `npm ci` for reproducible local and CI installs. Use Node 24; the CI installs and builds **each project separately**, with no forced workspace or shared packages.
 
 ## What is deliberately not done
 
@@ -32,6 +32,10 @@ Run `npm run test --if-present` and `npm run typecheck` in each folder. Use Node
 Each demo includes its own ADR and has a distinct theme. Do not extract `packages/ui` simply because two Next.js apps exist; first document true reuse with at least two real consumers and tests.
 
 All demos are illustrative. H1 footprint 11.20 × 8.40 m and plot 15 × 14 m are **dimension inputs**, but actual site placement, heights and construction details have not been verified; the 3D diagram states this clearly.
+
+## Browser E2E
+
+[Playwright browser tests](../tests/browser/README.md) drive **desktop Chromium and a mobile-emulation viewport** through the actual production servers. They cover search, status changes, 3D viewer controls, WebGL-unavailable fallback, and selected mobile layout checks. CI captures screenshots/video/traces on failure. This is not a real-device GPU or accessibility audit.
 
 ## CI
 

@@ -76,6 +76,12 @@ python3 "$SKILL_DIR/scripts/plan_contract.py" ./example/docs/architecture/archve
 
 查看 [examples/README.md](./examples/README.md)；[独立构建 CI](./.github/workflows/examples.yml) 针对每个项目执行依赖安装、测试、类型检查、生产构建和 HTTP 页面冒烟验证。三份 ADR 及安装命令在各自 README 中。
 
+## 可复现安装与浏览器验收
+
+三个示例和 Playwright 工程均提交了 npm 锁文件。使用 `npm ci` 可按锁文件安装，`.github/workflows/lockfiles.yml` 会阻止未同步的依赖清单。
+
+[Playwright 浏览器测试](./tests/browser/README.md) 在本地启动生产构建，使用桌面 Chromium 和 Pixel 模拟视口检查用户操作与 WebGL 降级；**不代表真实手机 GPU 或其他浏览器已通过**。
+
 ## 四层分包原则
 
 | 层级 | 关注点 | 例子 |

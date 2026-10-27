@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: "24"
       - name: Install Playwright test runner
-        run: npm install --no-audit --no-fund --prefix tests/browser
+        run: npm ci --no-audit --no-fund --prefix tests/browser
       - name: Install Chromium + system browser dependencies
         run: npm exec --prefix tests/browser -- playwright install --with-deps chromium
       - name: Install and build three independent frontends
@@ -31,7 +31,7 @@ jobs:
         run: |
           set -euo pipefail
           for app in cinematic-site saas-workspace home-digital-twin; do
-            npm install --no-audit --no-fund --prefix "examples/$app"
+            npm ci --no-audit --no-fund --prefix "examples/$app"
             npm run build --prefix "examples/$app"
           done
       - name: Run desktop + mobile browser acceptance for each app

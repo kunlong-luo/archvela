@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Added committed npm lockfiles for the three standalone runnable examples and the browser test runner; CI now uses `npm ci` and checks lockfile drift.
+- Added Playwright 1.64.1 desktop/mobile Chromium tests for real website, SaaS and digital-twin user interactions with WebGL-unavailable fallback and failure traces.
+
 - Added three independent runnable architecture demos: V3-02 cinematic Next.js + lazy Three.js, V3-14 interactive Next.js SaaS workspace, and V3-26 accessible Vite + React Three Fiber house-scale viewer.
 - Added examples' ADR documentation and cross-project CI for npm tests, typecheck, production build and HTTP smoke; each app isolated without a forced monorepo.
 

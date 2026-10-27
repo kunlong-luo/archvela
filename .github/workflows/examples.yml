@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: "24"
       - name: Install independent example dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: Offline business logic tests (if available)
         run: npm run test --if-present
       - name: Typecheck
