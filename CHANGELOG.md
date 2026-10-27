@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 - Initial Archvela repository bootstrap and proposed MIT license.
+- Added mainstream agent compatibility manifest (20 targets), Skills CLI project/global install smoke tests, CI artifact report and native-client acceptance prompts.
 
 ## [0.1.0] - 2026-10-27 (candidate)
 

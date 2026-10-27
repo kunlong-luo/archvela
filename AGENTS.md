@@ -18,6 +18,13 @@ Maintain Archvela as a **portable scenario-first Agent Skill** for frontend arch
 - Use original media, designs and game artwork or licensed assets; do not clone copyrighted characters or branding.
 - Do not inject unpublished project facts into public docs.
 
+## Multi-agent portability
+- One portable `.agents/skills/archvela-architect` source, not separate divergent Skill copies per Agent.
+- 20-agent installer matrix and CLI smoke tests live in `compatibility/agents.json` and `scripts/verify_agent_installs.py`.
+- Be precise about testing level: L0 schema, L1 installation, L2 native discovery, L3 model-driven end-to-end.
+- Don't claim real L2/L3 unless the actual target agent executed and evidence was captured.
+- Cross-agent installer CI must not use any personal API keys or target a production home directory.
+
 ## Verification
 ```bash
 python3 -m unittest discover -s tests -v

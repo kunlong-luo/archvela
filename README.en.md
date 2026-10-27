@@ -27,6 +27,10 @@ python3 "$SKILL/scripts/new_project_docs.py" --scene V3-26 --project home-twin -
 
 The project-docs generator is a **dry run by default**. Add `--write` only when the target is reviewed; it refuses to overwrite existing files.
 
+## Mainstream Agent compatibility
+
+The CI validates **local Skills CLI installation into 20 agent targets** and global installation for six key agents. This is an *installer-level* smoke test (L1), not proof of actual model/agent execution (L2–L3). See [compatibility and installation matrix](./docs/COMPATIBILITY.md) and [live-agent acceptance prompts](./docs/L3-TEST-PROMPTS.md).
+
 ## Architecture discipline
 
 Use one primary scenario and one end-to-end user journey. Make explicit ADR decisions; split the work at **package / feature / JavaScript chunk / media-asset pack** levels. Keep existing applications' framework choices unless a migration is justified by evidence. Defer WebGL/3D/video and heavy editors until their interactions require them. Never claim a model is survey-accurate, a benchmark has passed, or a release has shipped without evidence.

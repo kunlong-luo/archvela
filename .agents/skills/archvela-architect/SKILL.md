@@ -1,8 +1,8 @@
 ---
 name: archvela-architect
-description: 场景驱动的前端与渲染产品架构 Skill，帮助独立开发者/单人团队规划高质量 SaaS、企业官网、跨境电商、AI 工作台、农村与住宅数字孪生、GIS、2D/3D 网页游戏等 62 种场景。根据真实仓库选择 React/Next.js/Astro/Vite/Rsbuild、Motion/GSAP、Three.js/R3F/CesiumJS/Babylon.js 等，生成 ADR、功能模块、四层分包、性能预算和可验收的 OpenCode 开发任务。适用于新项目及既有前端项目评审；先审计再修改，绝不强迫重构。
+description: 场景驱动的前端与渲染产品架构 Skill，帮助独立开发者/单人团队规划高质量 SaaS、企业官网、跨境电商、AI 工作台、农村与住宅数字孪生、GIS、2D/3D 网页游戏等 62 种场景。根据真实仓库选择 React/Next.js/Astro/Vite/Rsbuild、Motion/GSAP、Three.js/R3F/CesiumJS/Babylon.js 等，生成 ADR、功能模块、四层分包、性能预算和可验收的 AI 编程开发任务。适用于新项目及既有前端项目评审；先审计再修改，绝不强迫重构。
 license: MIT
-compatibility: OpenCode and Agent Skills clients; Python 3.10+ only for optional local helper scripts.
+compatibility: Agent Skills-capable coding agents; optional Python 3.10+ CLI helpers.
 metadata:
   author: kunlong-luo
   version: "0.1.0"

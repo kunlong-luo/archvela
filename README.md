@@ -71,6 +71,12 @@ python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project home-tw
 
 所有示例是候选技术方案，不意味着已在项目中安装、部署或验证。实施时重新检查 API、版本、浏览器支持和素材许可证。
 
+## 跨 AI 编程工具兼容性验证
+
+Archvela 不限于 OpenCode：项目计划使用官方 Skills CLI，对 OpenCode、Codex、Claude Code、Cursor、Gemini CLI、GitHub Copilot、Windsurf、Cline、Roo Code、Kiro CLI 等 **20 种代理安装目标**逐一执行项目级路径和文件内容验证，并对六个核心代理做全局安装测试。
+
+真实模型运行另分 L2/L3；**安装通过不等于模型已读取或执行成功**。查看 [兼容矩阵和测试分级](./docs/COMPATIBILITY.md) 与 [统一真实客户端测试题](./docs/L3-TEST-PROMPTS.md)。
+
 ## 研发与质量
 
 ```bash
