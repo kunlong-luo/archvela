@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Added three independent runnable architecture demos: V3-02 cinematic Next.js + lazy Three.js, V3-14 interactive Next.js SaaS workspace, and V3-26 accessible Vite + React Three Fiber house-scale viewer.
+- Added examples' ADR documentation and cross-project CI for npm tests, typecheck, production build and HTTP smoke; each app isolated without a forced monorepo.
+
 - Added optional structured cross-agent architecture handoff and offline draft/reviewed/delivered evidence gates. Existing three Markdown files remain the default.
 
 - Modernized GitHub Actions to Node 24/ESM-compatible official action majors and pinned the tested Skills CLI to 1.7.4 for repeatable installer checks.

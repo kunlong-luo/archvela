@@ -1,0 +1,68 @@
+name: Build Runnable Architecture Examples
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        example: [cinematic-site, saas-workspace, home-digital-twin]
+    defaults:
+      run:
+        working-directory: examples/${{ matrix.example }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Install independent example dependencies
+        run: npm install --no-audit --no-fund
+      - name: Offline business logic tests (if available)
+        run: npm run test --if-present
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Production build
+        run: npm run build
+      - name: Start production HTTP server and smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ matrix.example }}" == "home-digital-twin" ]]; then
+            npm run preview -- --host 127.0.0.1 --port 4180 > /tmp/archvela-server.log 2>&1 &
+            match="Archvela"
+          else
+            npm run start -- -p 4180 > /tmp/archvela-server.log 2>&1 &
+            if [[ "${{ matrix.example }}" == "cinematic-site" ]]; then
+              match="Design that"
+            else
+              match="Good afternoon"
+            fi
+          fi
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          ready=0
+          for attempt in $(seq 1 35); do
+            if curl -fsS --max-time 3 http://127.0.0.1:4180/ -o /tmp/archvela-response.html; then
+              ready=1
+              break
+            fi
+            sleep 1
+          done
+          if [[ "$ready" != "1" ]]; then
+            cat /tmp/archvela-server.log
+            exit 1
+          fi
+          grep -q "$match" /tmp/archvela-response.html
+          echo "HTTP smoke successful for ${{ matrix.example }}"

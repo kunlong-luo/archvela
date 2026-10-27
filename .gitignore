@@ -12,3 +12,9 @@ __pycache__/
 dist/
 build/
 node_modules/
+
+# Independent front-end examples
+.next/
+.astro/
+*.tsbuildinfo
+coverage/
