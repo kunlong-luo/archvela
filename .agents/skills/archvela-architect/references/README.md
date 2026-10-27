@@ -13,6 +13,10 @@
 
 `architecture_profiles.json` 提供六种领域的 Package/Feature/Chunk/Asset 策略、回退路径、迭代 PR 和验收重点。生成器会将对应场景与领域规则合并到三份草案开头；原始 V3 文档与 T01/T02/T03 模板保持独立可回溯。
 
+## 可选结构化规划合同
+
+如需要在 OpenCode/Codex/Claude Code 等不同代理之间传递技术决策，使用 `scripts/new_project_docs.py --plan-json` 生成 `archvela-plan.json`，再运行 `scripts/plan_contract.py <path> --level draft`。reviewed/delivered 只是形式与证据引用校验，不代替真实测试。
+
 ## 范围
 
 - 01 网站与商业展示：13 场景

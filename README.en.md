@@ -33,6 +33,10 @@ The project-docs generator is a **dry run by default**. Add `--write` only when 
 
 The CI validates **local Skills CLI installation into 20 agent targets** and global installation for six key agents. This is an *installer-level* smoke test (L1), not proof of actual model/agent execution (L2–L3). See [compatibility and installation matrix](./docs/COMPATIBILITY.md) and [live-agent acceptance prompts](./docs/L3-TEST-PROMPTS.md).
 
+## Structured cross-agent planning contract
+
+Add `--plan-json` to `new_project_docs.py` for an optional machine-readable `archvela-plan.json` alongside the original three Markdown artifacts. `scripts/plan_contract.py` validates the draft, reviewed or delivered evidence **structure**. These checks cannot prove the real test outcomes, performance, or AI correctness.
+
 ## Architecture discipline
 
 Use one primary scenario and one end-to-end user journey. Make explicit ADR decisions; split the work at **package / feature / JavaScript chunk / media-asset pack** levels. Keep existing applications' framework choices unless a migration is justified by evidence. Defer WebGL/3D/video and heavy editors until their interactions require them. Never claim a model is survey-accurate, a benchmark has passed, or a release has shipped without evidence.

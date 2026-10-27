@@ -19,6 +19,12 @@ Maintain Archvela as a **portable scenario-first Agent Skill** for frontend arch
 - Use original media, designs and game artwork or licensed assets; do not clone copyrighted characters or branding.
 - Do not inject unpublished project facts into public docs.
 
+## Structured plan handoff
+
+- Keep `--plan-json` optional: default output stays three Markdown files.
+- The generated `archvela-plan.json` is a draft; reviewers must fill selected technology, repository evidence, all four boundaries, real target devices, fallback and tests.
+- `plan_contract.py --level reviewed` and `--level delivered` check data and evidence **presence**, not truth. Never fabricate measurements or test runs just to pass a validator.
+
 ## Multi-agent portability
 - One portable `.agents/skills/archvela-architect` source, not separate divergent Skill copies per Agent.
 - 20-agent installer matrix and CLI smoke tests live in `compatibility/agents.json` and `scripts/verify_agent_installs.py`.

@@ -93,7 +93,7 @@ def run_install(binary: Path, source: Path, root: Path, spec: dict,
             docs_run = subprocess.run(
                 [sys.executable, str(entry / "scripts" / "new_project_docs.py"),
                  "--scene", "V3-26", "--project", "ci-test",
-                 "--output", str(docs_out), "--json"],
+                 "--output", str(docs_out), "--plan-json", "--json"],
                 cwd=cwd, env=env, text=True, capture_output=True, timeout=timeout,
                 check=False,
             )
@@ -102,10 +102,39 @@ def run_install(binary: Path, source: Path, root: Path, spec: dict,
             else:
                 try:
                     payload = json.loads(docs_run.stdout)
-                    if payload.get("mode") != "dry-run" or len(payload.get("paths", [])) != 3:
+                    if payload.get("mode") != "dry-run" or len(payload.get("paths", [])) != 4:
                         notes.append("unexpected generator preview JSON")
                 except json.JSONDecodeError:
                     notes.append("invalid generator preview JSON")
+            # Write only into the disposable runner workspace and validate the
+            # copied Skill's new cross-agent machine-readable contract.
+            if not notes:
+                artifact_out = cwd / "write-smoke"
+                write_run = subprocess.run(
+                    [sys.executable, str(entry / "scripts" / "new_project_docs.py"),
+                     "--scene", "V3-26", "--project", "ci-sample",
+                     "--output", str(artifact_out), "--plan-json", "--write", "--json"],
+                    cwd=cwd, env=env, text=True, capture_output=True, timeout=timeout,
+                    check=False,
+                )
+                plan_path = artifact_out / "docs/architecture/archvela-plan.json"
+                if write_run.returncode != 0 or not plan_path.is_file():
+                    notes.append("installed generator could not write isolated plan fixture")
+                else:
+                    try:
+                        outcome = json.loads(write_run.stdout)
+                        if outcome.get("status") != "created":
+                            notes.append("installed generator JSON output is not a creation receipt")
+                    except json.JSONDecodeError:
+                        notes.append("installed generator --json --write response is invalid JSON")
+                    validator = subprocess.run(
+                        [sys.executable, str(entry / "scripts" / "plan_contract.py"),
+                         str(plan_path), "--level", "draft", "--json"],
+                        cwd=cwd, env=env, text=True, capture_output=True, timeout=timeout,
+                        check=False,
+                    )
+                    if validator.returncode != 0:
+                        notes.append("installed plan-contract draft validation failed")
     return {
         "agent": agent, "scope": scope, "ok": not notes,
         "destination": str(expected.relative_to(root)) if expected.is_relative_to(root) else str(expected),

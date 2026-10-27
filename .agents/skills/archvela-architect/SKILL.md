@@ -53,7 +53,18 @@ python3 scripts/new_project_docs.py --scene V3-26 --project home-digital-twin --
 python3 scripts/new_project_docs.py --scene V3-26 --project home-digital-twin --output ./example-project --write
 ```
 
-写入仅生成 `docs/architecture/` 下三份**按领域预填充**的 ADR、性能预算和通用 AI Agent 开发任务草案；默认只预演，已有同名文件时拒绝覆盖，失败时回滚本轮生成的文件。辅助脚本可用 `--json` 返回路径清单。文档均需结合仓库审计和目标设备实测审核，不代表自动实施。
+默认生成三份 Markdown 架构草案；可添加 `--plan-json` 生成第四份机器可读的 `archvela-plan.json`，在不同 Agent 之间传递场景、技术选型、四层分包、审计和验收信息。默认只预演；有同名文件拒绝覆盖，失败会回滚本轮文件。文档不代表已实施或测试通过。
+
+```bash
+python3 scripts/new_project_docs.py --scene V3-26 --project home-twin --output ./example-project --plan-json
+# 经确认后才写文件
+python3 scripts/new_project_docs.py --scene V3-26 --project home-twin --output ./example-project --plan-json --write
+python3 scripts/plan_contract.py ./example-project/docs/architecture/archvela-plan.json --level draft
+# AI/开发者填完架构决策与仓库审计后运行 reviewed；交付后再执行 delivered
+python3 scripts/plan_contract.py ./example-project/docs/architecture/archvela-plan.json --level reviewed
+```
+
+结构检查仅能证明字段齐备，无法验证用户填写的实测数据和测试记录是否真实。实际质量仍需真实设备、编译和 E2E 检验。
 
 领域预填充规则：`references/architecture_profiles.json`（六大领域）；参考模板：`references/templates/T01_新项目立项与架构决策_ADR.md`、`T02_分包策略与性能预算.md`、`T03_OpenCode_立项与交付任务卡.md`。
 

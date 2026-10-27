@@ -129,7 +129,7 @@ def reject_unsafe_dirs(output: Path) -> None:
     """Don't follow symlinked docs folders into another unrelated directory."""
     docs = output / "docs"
     dest = docs / "architecture"
-    for path in (docs, dest):
+    for path in (output, docs, dest):
         if path.is_symlink():
             raise ValueError(f"Refusing symlinked architecture directory: {path}")
         if path.exists() and not path.is_dir():
@@ -142,6 +142,7 @@ def main() -> int:
     parser.add_argument("--project", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--write", action="store_true")
+    parser.add_argument("--plan-json", action="store_true", help="Include structured archvela-plan.json")
     parser.add_argument("--json", action="store_true", help="JSON result for automation (no file bodies)")
     args = parser.parse_args()
 
@@ -161,6 +162,11 @@ def main() -> int:
         print(f"ABORT: {exc}", file=sys.stderr)
         return 2
     planned = [(dest / name, body) for name, body in render_documents(project, scene, profile)]
+    if args.plan_json:
+        from plan_contract import draft_plan
+        document = draft_plan(project, scene, profile)
+        planned.append((dest / "archvela-plan.json",
+                        json.dumps(document, ensure_ascii=False, indent=2) + "\n"))
     existing = [path for path, _ in planned if path.exists() or path.is_symlink()]
     if existing:
         print("ABORT: architecture files already exist:", file=sys.stderr)
@@ -168,16 +174,17 @@ def main() -> int:
             print(f"  {path}", file=sys.stderr)
         return 2
 
-    if args.json:
-        print(json.dumps({
-            "mode": "write" if args.write else "dry-run",
-            "scene": scene["id"], "project": project, "paths": [str(p) for p, _ in planned],
-        }, ensure_ascii=False, indent=2))
-    else:
-        print(f'Scene: {scene["id"]} {scene["title"]} | Mode: {"WRITE" if args.write else "DRY-RUN"}')
-        for path, _ in planned:
-            print(path)
     if not args.write:
+        if args.json:
+            print(json.dumps({
+                "mode": "dry-run", "status": "preview",
+                "scene": scene["id"], "project": project,
+                "paths": [str(p) for p, _ in planned],
+            }, ensure_ascii=False, indent=2))
+        else:
+            print(f'Scene: {scene["id"]} {scene["title"]} | Mode: DRY-RUN')
+            for path, _ in planned:
+                print(path)
         return 0
 
     created_files: list[Path] = []
@@ -205,7 +212,14 @@ def main() -> int:
                     pass
         print(f"ABORT: write failed and generated files rolled back: {exc}", file=sys.stderr)
         return 3
-    print("Created three scenario-specific drafts; review all assumptions before implementation.")
+    if args.json:
+        print(json.dumps({
+            "mode": "write", "status": "created",
+            "scene": scene["id"], "project": project,
+            "paths": [str(p) for p, _ in planned],
+        }, ensure_ascii=False, indent=2))
+    else:
+        print(f"Created {len(planned)} scenario-specific drafts; review all assumptions before implementation.")
     return 0
 
 

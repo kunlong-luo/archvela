@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- Added optional structured cross-agent architecture handoff and offline draft/reviewed/delivered evidence gates. Existing three Markdown files remain the default.
+
 - Modernized GitHub Actions to Node 24/ESM-compatible official action majors and pinned the tested Skills CLI to 1.7.4 for repeatable installer checks.
 
 - Added deterministic bilingual scenario aliases and domain filtering for all 62 scenes; installed copies now execute both offline CLIs in CI.

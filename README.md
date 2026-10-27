@@ -56,6 +56,20 @@ python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project home-tw
 
 生成器默认只预演；三份文档按所选场景和领域预填充真实功能、分包初稿、回退及 PR 切片，而不是简单复制空白模板。已有同名文件时拒绝覆盖，写入发生异常会回滚本轮已创建的文件；`--json` 可以输出机器可读的路径清单。
 
+## 跨 AI 工具的架构交接文件
+
+`new_project_docs.py` 可选 `--plan-json`，除了已有的三份 Markdown 草案，还会产生 `archvela-plan.json`。其中包含唯一场景编号、候选与最终技术选型、Package/Feature/Chunk/Asset Pack 四层决策、仓库审计、兼容设备、回退、测试记录和证据引用。默认仍只预演，不会写文件。
+
+```bash
+SKILL_DIR=".agents/skills/archvela-architect"
+python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project demo --output ./example --plan-json
+# 确认目标目录后才执行 --write
+python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project demo --output ./example --plan-json --write
+python3 "$SKILL_DIR/scripts/plan_contract.py" ./example/docs/architecture/archvela-plan.json --level draft
+```
+
+`reviewed` 要求架构决策、四层分包、审计证据、设备与测试计划；`delivered` 要求测试/实测证据字段。**这些验证是可追踪的格式门禁，不会自动验证 AI 的结论或真实性。**
+
 ## 四层分包原则
 
 | 层级 | 关注点 | 例子 |
