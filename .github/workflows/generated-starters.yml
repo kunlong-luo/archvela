@@ -1,0 +1,45 @@
+name: Generated projects — build smoke
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario: [V3-02, V3-14, V3-26]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Generate new isolated starter from V3 scene
+        run: |
+          python3 scripts/archvela_create.py create --scene ${{ matrix.scenario }} \
+            --project generated-smoke --output "$RUNNER_TEMP" --write --json
+      - name: Install locked npm dependencies from generated output
+        run: npm ci --no-audit --no-fund --prefix "$RUNNER_TEMP/generated-smoke"
+      - name: Test and build generated project (not source demo)
+        run: |
+          npm run test --if-present --prefix "$RUNNER_TEMP/generated-smoke"
+          npm run typecheck --prefix "$RUNNER_TEMP/generated-smoke"
+          npm run build --prefix "$RUNNER_TEMP/generated-smoke"
+      - name: Confirm generated architectural plan
+        run: |
+          python3 .agents/skills/archvela-architect/scripts/plan_contract.py \
+            "$RUNNER_TEMP/generated-smoke/docs/architecture/archvela-plan.json" \
+            --level draft --json

@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+- Added a safe scenario-to-project CLI with three verified runnable templates, renamed locked npm metadata, generated ADR/performance/Agent plans, collision/symlink checks, and actual generated-project CI builds.
+
+
 - Added staged release-readiness checklist, GitHub CodeQL/security dependency review and Dependabot update configuration.
 - Added balanced 12-task Agent evaluation data and safe reviewer-grading scaffolding (no live models or fabricated performance scores).
 
