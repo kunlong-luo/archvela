@@ -39,32 +39,38 @@ def safe_sources(template: str) -> list[tuple[Path, bytes]]:
         raise ValueError("Starter source unavailable or symlinked")
     files = []
     total = 0
-    for path in sorted(source.rglob("*")):
-        rel = path.relative_to(source)
-        if path.is_symlink():
-            # A symlink anywhere under a bundled template is unacceptable,
-            # including a symlink directory outside the project.
-            raise ValueError("Symlink in starter source: " + str(rel))
-        if path.is_dir():
-            continue
-        if len(rel.parts) == 1:
-            allowed = rel.name in ROOT_FILES
-        else:
-            allowed = rel.parts[0] in DIRS and path.suffix.lower() in SUFFIXES
-        if not allowed:
-            # Ignore local build products and npm caches, but fail on any
-            # other unexpected files to stop accidentally bundling .env/keys.
-            if rel.parts[0] in {".next", "dist", "node_modules", ".git", "coverage",
-                                "playwright-report", "test-results", ".vite"}:
-                continue
-            raise ValueError("Unexpected starter file (inspect manually): " + str(rel))
-        if not path.is_file() or path.stat().st_size > 5_000_000:
-            raise ValueError("File missing or exceeds 5MB single-file guard: " + str(rel))
-        content = path.read_bytes()
-        total += len(content)
-        if total > 20_000_000:
-            raise ValueError("Starter exceeds 20MB maximum")
-        files.append((rel, content))
+    ignored = {".next", "dist", "node_modules", ".git", "coverage",
+               "playwright-report", "test-results", ".vite"}
+    for folder, dirnames, filenames in os.walk(source, followlinks=False):
+        directory = Path(folder)
+        # Prune build outputs BEFORE walking them: locally installed starter
+        # node_modules can contain thousands of files and symlinks.
+        for name in list(dirnames):
+            if name in ignored:
+                dirnames.remove(name)
+            elif (directory / name).is_symlink():
+                raise ValueError("Symlink in starter source: " +
+                                 str((directory / name).relative_to(source)))
+        for filename in sorted(filenames):
+            path = directory / filename
+            rel = path.relative_to(source)
+            if path.is_symlink():
+                raise ValueError("Symlink in starter source: " + str(rel))
+            if len(rel.parts) == 1:
+                allowed = rel.name in ROOT_FILES
+            else:
+                allowed = rel.parts[0] in DIRS and path.suffix.lower() in SUFFIXES
+            if not allowed:
+                if rel.parts[0] in ignored:
+                    continue
+                raise ValueError("Unexpected starter file (inspect manually): " + str(rel))
+            if not path.is_file() or path.stat().st_size > 5_000_000:
+                raise ValueError("File missing or exceeds 5MB single-file guard: " + str(rel))
+            content = path.read_bytes()
+            total += len(content)
+            if total > 20_000_000:
+                raise ValueError("Starter exceeds 20MB maximum")
+            files.append((rel, content))
     if not any(p == Path("package.json") for p, _ in files):
         raise ValueError("Starter lacks package.json")
     if not any(p == Path("package-lock.json") for p, _ in files):

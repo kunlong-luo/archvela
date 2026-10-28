@@ -1,4 +1,5 @@
 """Safe Archvela CLI sample scaffolding tests: no node/model/network access."""
+import importlib.util
 import json
 import subprocess
 import sys
@@ -59,6 +60,31 @@ class ScaffoldTests(unittest.TestCase):
                             "--output", tmp, "--write")
                 self.assertEqual(again.returncode, 2)
                 self.assertEqual(first, (dest / "package.json").read_bytes())
+
+    def test_prunes_existing_node_modules_without_copying_it(self):
+        # A real user may have already run npm ci inside examples/.
+        # The generator must ignore local build directories and their symlinks.
+        spec = importlib.util.spec_from_file_location("archvela_create_test", SCRIPT)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = root / "examples/cinematic-site"
+            source.mkdir(parents=True)
+            (source / "package.json").write_text('{"name":"sample","private":true}', encoding="utf-8")
+            (source / "package-lock.json").write_text('{"name":"sample","lockfileVersion":3}', encoding="utf-8")
+            node = source / "node_modules"
+            node.mkdir()
+            (node / "copied-secret.env").write_text("TEST FIXTURE ONLY", encoding="utf-8")
+            (source / ".next").mkdir()
+            (source / ".next/server.js").write_text("fixture", encoding="utf-8")
+            previous = module.REPO
+            try:
+                module.REPO = root
+                paths = {str(rel) for rel, _ in module.safe_sources("cinematic-site")}
+                self.assertEqual(paths, {"package.json", "package-lock.json"})
+            finally:
+                module.REPO = previous
 
     def test_unsupported_scene_refuses_project_generation(self):
         with tempfile.TemporaryDirectory() as tmp:
