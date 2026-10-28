@@ -7,7 +7,10 @@
 - [ ] Repository owner approves public MIT licensing, attribution and bundled V3 reference rights.
 - [ ] PR #1 is reviewed and merged, then PR #6, then this PR; rebase stacked branches if necessary.
 - [ ] All CI checks pass on merged `main`: 62-case source validation, Python 3.10–13, 26 Skills CLI installer checks, three app builds, browser E2E, lockfile consistency.
-- [ ] CodeQL and dependency review scanning complete. Review reported warnings rather than suppressing without explanation.
+- [ ] CodeQL Python and JavaScript/TypeScript scans pass without unresolved critical findings.
+- [ ] All four npm lockfiles pass CI `npm audit --package-lock-only --include=dev --audit-level=high` (registry-side scan; vulnerabilities may change over time).
+- [ ] **Repository owner enables GitHub Dependency Graph:** Settings → Security & analysis → Dependency graph. The PR Dependency Review action does not work while it is disabled. CI explicitly records "review pending" rather than misreporting a scan. A green fallback npm audit is **not** proof that GitHub's PR dependency review passed.
+- [ ] GitHub Dependency Review executes on a PR and passes after Dependency Graph is enabled; investigate vulnerability advisories rather than suppressing them without written reason.
 - [ ] Review GitHub repository settings: branch protection/ruleset, Dependabot alerts, private vulnerability reporting, secret scanning if available, Actions token permissions.
 - [ ] Install Skill by cloning public `main` into a clean project. Confirm it is discoverable in at least one real Agent client, not merely via installation paths.
 - [ ] Reproducibly run one V3 architecture generation end-to-end; archive input request, output documents, safe write evidence and test result.
