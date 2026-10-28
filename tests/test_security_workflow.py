@@ -15,7 +15,7 @@ class SecurityWorkflowTests(unittest.TestCase):
         self.assertIn("npm-audit:", workflow)
         self.assertIn("cinematic-site, saas-workspace, home-digital-twin, browser-tests", workflow)
         self.assertIn("--package-lock-only --include=dev --audit-level=high", workflow)
-        self.assertNotIn("npm audit fix", workflow.replace("or\n          # install", "or\n          # install"))
+        self.assertNotIn("\n          npm audit fix", workflow)
 
     def test_dependency_review_is_not_claimed_without_capability(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")
