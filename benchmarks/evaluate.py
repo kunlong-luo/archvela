@@ -130,6 +130,58 @@ def score(manifest: dict, grading: dict) -> dict:
     }
 
 
+def verify_artifact_files(grading: dict, root_path: Path) -> dict:
+    """Verify evidence *file presence and bytes*, never the truth of its content.
+
+    Paths in grading records must be relative to the explicitly supplied
+    directory. Symlink paths and traversal are rejected to prevent accidentally
+    reading private data outside the selected experiment workspace.
+    """
+    if root_path.is_symlink():
+        raise ValueError("Evidence root must not be a symlink")
+    root = root_path.expanduser().resolve(strict=True)
+    if not root.is_dir():
+        raise ValueError("Evidence root must be an existing directory")
+    digests: dict[str, dict[str, str]] = {}
+    seen: set[str] = set()
+    for record in grading["records"]:
+        blind_id = record["blind_id"]
+        digests[blind_id] = {}
+        for field in ("response_artifact", "run_log_artifact"):
+            raw = record[field]
+            relative = Path(raw)
+            if (relative.is_absolute() or not relative.parts or
+                    ".." in relative.parts or "." in relative.parts):
+                raise ValueError("Unsafe evidence path for " + blind_id + ": " + field)
+            key = str(relative)
+            if key in seen:
+                raise ValueError("Duplicate evidence file: " + key)
+            seen.add(key)
+            target = root
+            for part in relative.parts:
+                target = target / part
+                if target.is_symlink():
+                    raise ValueError("Symlink in evidence path: " + key)
+            target = target.resolve(strict=True)
+            if not target.is_relative_to(root) or not target.is_file():
+                raise ValueError("Evidence is not a regular file inside root: " + key)
+            size = target.stat().st_size
+            if not 0 < size <= 8_000_000:
+                raise ValueError("Evidence file empty or exceeds 8MB: " + key)
+            digest = hashlib.sha256()
+            with target.open("rb") as reader:
+                for block in iter(lambda: reader.read(64 * 1024), b""):
+                    digest.update(block)
+            digests[blind_id][field] = digest.hexdigest()
+    return {
+        "file_check": "passed",
+        "files_checked": len(seen),
+        "hash_algorithm": "sha256",
+        "fingerprints": digests,
+        "caveat": "Existence and hashes verified; file content, grader accuracy and model execution are not verified.",
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Archvela 12-case human-reviewed, paired agent benchmark")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -143,6 +195,8 @@ def main() -> int:
     s = sub.add_parser("score", help="Refuse to calculate scores from missing human evidence")
     s.add_argument("--manifest", type=Path, required=True)
     s.add_argument("--grades", type=Path, required=True)
+    s.add_argument("--artifacts-dir", type=Path,
+                   help="Verify all 48 response/log files inside an approved local directory")
     s.add_argument("--json", action="store_true")
     args = parser.parse_args()
     try:
@@ -175,6 +229,12 @@ def main() -> int:
             manifest = json.loads(args.manifest.read_text(encoding="utf-8"))
             grading = json.loads(args.grades.read_text(encoding="utf-8"))
             result = score(manifest, grading)
+            result["evidence_files"] = (
+                verify_artifact_files(grading, args.artifacts_dir)
+                if args.artifacts_dir else
+                {"file_check": "not_requested", "files_checked": 0,
+                 "caveat": "No artifact directory supplied; only self-reported file names were checked."}
+            )
             if args.json:
                 print(json.dumps(result, ensure_ascii=False, indent=2))
             else:

@@ -26,6 +26,16 @@ python3 benchmarks/evaluate.py score --manifest ./study-001/runner-manifest.json
   --grades ./study-001/blank-human-grades.json --json
 ```
 
+For an **auditable local evidence bundle**, place each trial's output and tool transcript in an approved local evidence folder, and put **relative filenames** in `response_artifact` and `run_log_artifact`. Then score with:
+
+```bash
+python3 benchmarks/evaluate.py score --manifest ./study-001/runner-manifest.json \
+  --grades ./study-001/blank-human-grades.json \
+  --artifacts-dir ./study-001/artifacts --json
+```
+
+This verifies **48 existing, nonempty, non-symlinked files**, forbids directory traversal/duplicate file reuse and records their SHA-256 digests. It does not read private files outside the selected evidence directory, upload any logs, or establish that a real model was called. Reports without `--artifacts-dir` explicitly say that only self-reported filenames were checked.
+
 The scorer **refuses incomplete sheets**. Never use the synthetic test fixtures in `tests/test_agent_benchmark.py` as results. Human review should be calibrated across multiple graders and practical code build/E2E evidence; see [evaluation protocol](../docs/AGENT-EVAL-PROTOCOL.md).
 
 Note: model trials may create data or cost money. The harness does **not** run models without user-managed credentials/authorization.

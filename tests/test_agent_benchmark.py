@@ -61,6 +61,55 @@ class BenchmarkTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "trial mismatch"):
             mod.score(manifest, sheet)
 
+    def test_evidence_file_hashes_are_verified_without_agent_execution(self):
+        manifest = mod.make_manifest(42, "fixture-model", 1)
+        sheet = mod.create_grading_sheet(manifest)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for record in sheet["records"]:
+                blind_id = record["blind_id"]
+                response = blind_id + "-response.md"
+                logfile = blind_id + "-log.txt"
+                (root / response).write_text("TEST ONLY — not an agent answer", encoding="utf-8")
+                (root / logfile).write_text("TEST ONLY — not a real tool log", encoding="utf-8")
+                record["response_artifact"] = response
+                record["run_log_artifact"] = logfile
+                record["reviewer"] = "fixture-human"
+                record["grades"] = {key: 2 for key in mod.RUBRIC}
+            mod.score(manifest, sheet)
+            inspection = mod.verify_artifact_files(sheet, root)
+            self.assertEqual(inspection["files_checked"], 48)
+            self.assertEqual(inspection["file_check"], "passed")
+            self.assertEqual(len(inspection["fingerprints"]), 24)
+            (root / sheet["records"][0]["response_artifact"]).unlink()
+            with self.assertRaises((OSError, ValueError)):
+                mod.verify_artifact_files(sheet, root)
+
+    def test_reject_symlink_traversal_and_duplicate_evidence(self):
+        manifest = mod.make_manifest(42, "fixture-model", 1)
+        sheet = mod.create_grading_sheet(manifest)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for record in sheet["records"]:
+                record["response_artifact"] = record["blind_id"] + ".md"
+                record["run_log_artifact"] = record["blind_id"] + ".log"
+                (root / record["response_artifact"]).write_text("sample", encoding="utf-8")
+                (root / record["run_log_artifact"]).write_text("sample", encoding="utf-8")
+            record = sheet["records"][0]
+            old = record["response_artifact"]
+            record["response_artifact"] = "../outside.md"
+            with self.assertRaisesRegex(ValueError, "Unsafe evidence path"):
+                mod.verify_artifact_files(sheet, root)
+            record["response_artifact"] = old
+            record["run_log_artifact"] = sheet["records"][1]["run_log_artifact"]
+            with self.assertRaisesRegex(ValueError, "Duplicate evidence file"):
+                mod.verify_artifact_files(sheet, root)
+            record["run_log_artifact"] = record["blind_id"] + ".log"
+            (root / old).unlink()
+            (root / old).symlink_to(root / record["run_log_artifact"])
+            with self.assertRaisesRegex(ValueError, "Symlink in evidence path"):
+                mod.verify_artifact_files(sheet, root)
+
     def test_no_external_operations_to_create_study(self):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp) / "planned"
