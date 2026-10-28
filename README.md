@@ -105,6 +105,17 @@ Archvela 不限于 OpenCode：项目计划使用官方 Skills CLI，对 OpenCode
 
 真实模型运行另分 L2/L3；**安装通过不等于模型已读取或执行成功**。查看 [兼容矩阵和测试分级](./docs/COMPATIBILITY.md) 与 [统一真实客户端测试题](./docs/L3-TEST-PROMPTS.md)。
 
+## 发布前安全基线与真实 Agent 对照研究
+
+- [Release Readiness 检查表](./docs/RELEASE-READINESS.md)：GitHub 合并/许可证/安全权限/真实客户端安装验收，**不会自动发布**。
+- [安全工作流](./.github/workflows/security.yml)：GitHub CodeQL 分析与新增依赖审核；Dependabot 每周提出更新 PR，版本实际变更需 CI 验证。
+- [12 任务 AI Agent 对照评测](./benchmarks/README.md)：每个领域两题，同模型进行 Baseline 与 Archvela Skill 配对试验，人工盲评分且要求真实证据。**目前只有评测工具，没有任何模型实测结果。**
+
+```bash
+python3 benchmarks/evaluate.py validate-cases
+python3 benchmarks/evaluate.py prepare --model MODEL-NAME --output ./study-001
+```
+
 ## 研发与质量
 
 ```bash

@@ -23,3 +23,7 @@ coverage/
 tests/browser/playwright-report/
 tests/browser/test-results/
 tests/browser/blob-report/
+
+# Local model evaluations and potential private transcripts
+study-*/
+benchmarks/runs/
