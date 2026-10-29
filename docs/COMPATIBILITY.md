@@ -1,6 +1,6 @@
 # Archvela · 主流 AI 编程工具兼容性与验收矩阵
 
-> 2026-10-27 核对官方路径。文档中的「支持」指 Agent Skills 发现格式符合目标客户端/安装器规则；「安装通过」须以 [compatibility.yml](../.github/workflows/compatibility.yml) 的真实运行成功结果为准；**不等于该客户端真实模型推理或 Skill 调用成功**。
+> 2026-10-29 核对安装器路径与 GitHub 来源安装 CI。文档中的「支持」指 Agent Skills 发现格式符合目标客户端/安装器规则；「安装通过」须以 [compatibility.yml](../.github/workflows/compatibility.yml) 的真实运行成功结果为准；**不等于该客户端真实模型推理或 Skill 调用成功**。
 
 ## 测试分级
 
@@ -54,7 +54,7 @@ npx skills add . --skill archvela-architect -g \
   -a gemini-cli -a github-copilot -y
 ```
 
-如果是下载公开仓库版本，合并 PR 之后才可使用 `npx skills add kunlong-luo/archvela`；未合并前公开仓库 `main` 中尚无技能。
+**公开仓库安装已经可用并接受 CI 验证：**`npx skills add kunlong-luo/archvela --skill archvela-architect`。在 CI 中，Codex、Claude Code、OpenCode 的 GitHub 来源项目级安装和固定 Git 提交版本安装均进行了落盘检查。此项仍只代表 L1 安装成功，不能充当真实客户端 L2/L3 证据。
 
 **建议本地确认流程：**
 1. 在真实代理里检查 Archvela 的技能名称、description 和根目录是否识别。
