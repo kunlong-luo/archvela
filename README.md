@@ -50,7 +50,7 @@ npx skills update archvela-architect
 npx skills remove archvela-architect
 ```
 
-> 注意：仓库现有 CI 验证的是 Skills CLI **本地来源安装**（L1）；上面直接从 GitHub 安装的便捷命令遵循官方 Skills CLI 文档，但尚未建立独立的远程安装 CI。安装成功也不等于模型一定读取并正确执行了 Skill（L2/L3 需要真实客户端试验）。不要将私钥或客户文件提供给安装器。官方参考：[Skills CLI](https://github.com/vercel-labs/skills/blob/main/docs/commands.md)。
+> 注意：仓库现有 CI 验证的是 Skills CLI **本地来源安装**（L1）；CI 现额外从公开 GitHub 仓库执行安装并检查 Codex、Claude Code、OpenCode 的落盘文件，也验证固定 Git 提交版本的 Skill 来源（L1）。但这仍不等于模型一定读取并正确执行 Skill（L2/L3 需要真实客户端试验）。不要将私钥或客户文件提供给安装器。官方参考：[Skills CLI](https://github.com/vercel-labs/skills/blob/main/docs/commands.md)。
 
 ## 使用示例
 

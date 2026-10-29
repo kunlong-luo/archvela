@@ -25,7 +25,7 @@ npx skills add kunlong-luo/archvela --skill archvela-architect \
 
 Use `--agent cursor`, `--agent gemini-cli`, `--agent github-copilot` etc. for other supported clients. Manage installed skills with `npx skills list`, `npx skills check`, `npx skills update archvela-architect`, or `npx skills remove archvela-architect`.
 
-**Evidence level:** Archvela CI covers Skills CLI **local-source** installs to 20 agent targets (L1). Direct installs from its public GitHub URL follow the [official CLI usage](https://github.com/vercel-labs/skills/blob/main/docs/commands.md) but are not yet separately tested in remote-install CI. Neither form proves the agent model discovered or used the Skill in a real session.
+**Evidence level:** Archvela CI covers Skills CLI **local-source** installs to 20 agent targets (L1). CI additionally runs a public GitHub-source installation for Codex, Claude Code and OpenCode, and checks pinned Git-commit installation (L1). See the [official CLI usage](https://github.com/vercel-labs/skills/blob/main/docs/commands.md). Neither form proves the agent model discovered or used the Skill in a real session.
 
 ## Quick start
 
