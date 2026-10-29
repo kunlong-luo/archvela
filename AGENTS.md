@@ -3,6 +3,11 @@
 ## Scope
 Maintain Archvela as a **portable scenario-first Agent Skill** for frontend architecture, browser rendering, UX, loading strategies and testing. No autonomous production deployment or third-party skill/script execution.
 
+## Documentation language policy
+- **English is canonical** for root `README.md` and `docs/GETTING-STARTED.md`; full Chinese translations are `README.zh.md` and `docs/GETTING-STARTED.zh.md`.
+- Keep English and Chinese entrypoints in sync whenever commands, scenario scope, install coverage or warnings change. Never reintroduce `README.en.md`.
+- Validate localized links via `tests/test_documentation.py` and link the corresponding language versions in both directions.
+
 ## Before edits
 1. Read this file, `README.md`, `.agents/skills/archvela-architect/SKILL.md`, and relevant reference files only.
 2. Inspect existing changes and tests. Do not wipe authored V3 content or collapse 62 scenarios into a shorter list.
