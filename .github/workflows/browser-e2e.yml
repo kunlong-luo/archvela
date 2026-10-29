@@ -1,0 +1,54 @@
+name: Browser E2E — three starters
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      CI: "true"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Install Playwright test runner
+        run: npm ci --no-audit --no-fund --prefix tests/browser
+      - name: Install Chromium + system browser dependencies
+        run: npm exec --prefix tests/browser -- playwright install --with-deps chromium
+      - name: Install and build three independent frontends
+        shell: bash
+        run: |
+          set -euo pipefail
+          for app in cinematic-site saas-workspace home-digital-twin; do
+            npm ci --no-audit --no-fund --prefix "examples/$app"
+            npm run build --prefix "examples/$app"
+          done
+      - name: Run desktop + mobile browser acceptance for each app
+        shell: bash
+        run: |
+          set -euo pipefail
+          for app in cinematic-site saas-workspace home-digital-twin; do
+            echo "::group::Playwright $app"
+            ARCHVELA_EXAMPLE="$app" npm test --prefix tests/browser
+            echo "::endgroup::"
+          done
+      - name: Upload browser screenshots, traces and HTML report on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: archvela-browser-failures
+          path: |
+            tests/browser/playwright-report/
+            tests/browser/test-results/
+          if-no-files-found: ignore

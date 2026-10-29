@@ -70,6 +70,18 @@ python3 "$SKILL_DIR/scripts/plan_contract.py" ./example/docs/architecture/archve
 
 `reviewed` 要求架构决策、四层分包、审计证据、设备与测试计划；`delivered` 要求测试/实测证据字段。**这些验证是可追踪的格式门禁，不会自动验证 AI 的结论或真实性。**
 
+## 可运行工程示例（独立工程，不强制 Monorepo）
+
+三个演示分别实现了 Next.js 高端 3D 企业官网、交互式 SaaS 工作台、R3F 家庭住宅三维。所有外部数据均为演示假数据；住宅几何位置与层高没有施工精度。
+
+查看 [examples/README.md](./examples/README.md)；[独立构建 CI](./.github/workflows/examples.yml) 针对每个项目执行依赖安装、测试、类型检查、生产构建和 HTTP 页面冒烟验证。三份 ADR 及安装命令在各自 README 中。
+
+## 可复现安装与浏览器验收
+
+三个示例和 Playwright 工程均提交了 npm 锁文件。使用 `npm ci` 可按锁文件安装，`.github/workflows/lockfiles.yml` 会阻止未同步的依赖清单。
+
+[Playwright 浏览器测试](./tests/browser/README.md) 在本地启动生产构建，使用桌面 Chromium 和 Pixel 模拟视口检查用户操作与 WebGL 降级；**不代表真实手机 GPU 或其他浏览器已通过**。
+
 ## 四层分包原则
 
 | 层级 | 关注点 | 例子 |

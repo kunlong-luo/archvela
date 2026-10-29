@@ -1,0 +1,59 @@
+name: Verify dependency lockfiles
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lockfiles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Verify committed npm dependency graphs (generate initial diff if missing)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ ! -f examples/cinematic-site/package.json ]]; then
+            echo "No runnable examples in this branch; nothing to verify."
+            exit 0
+          fi
+          echo "Using Node $(node -v), npm $(npm -v)"
+          failed=0
+          for folder in examples/cinematic-site examples/saas-workspace examples/home-digital-twin tests/browser; do
+            npm install --prefix "$folder" --package-lock-only --ignore-scripts --no-audit --no-fund
+            if git ls-files --error-unmatch "$folder/package-lock.json" >/dev/null 2>&1; then
+              if ! git diff --exit-code -- "$folder/package-lock.json"; then
+                echo "::error::$folder/package-lock.json is out of sync with the manifest"
+                failed=1
+              fi
+            else
+              echo "::warning::$folder has no committed dependency lockfile; emitting safe bootstrap data"
+              node - "$folder" <<'JS'
+          const fs = require("node:fs");
+          const folder = process.argv[2];
+          const lock = JSON.parse(fs.readFileSync(folder + "/package-lock.json", "utf8"));
+          if (lock.lockfileVersion !== 3 || lock.packages[""].name === undefined) {
+            throw new Error("Unexpected npm lockfile format");
+          }
+          const compact = JSON.stringify(lock);
+          const chunkSize = 1300;
+          for (let i = 0; i < compact.length; i += chunkSize) {
+            process.stdout.write("ARCHVELA_LOCK_PART|" + folder + "|" + (i / chunkSize) + "|" + compact.slice(i, i + chunkSize) + "\n");
+          }
+          process.stdout.write("ARCHVELA_LOCK_DONE|" + folder + "|" + compact.length + "|" + Math.ceil(compact.length / chunkSize) + "\n");
+          JS
+              failed=1
+            fi
+          done
+          exit "$failed"

@@ -10,3 +10,7 @@ Archvela welcomes proposals to improve frontend architecture decisions, browser 
 6. Clearly label unverified performance estimates, mock/real data, external API requirements, third-party media licenses and safety-sensitive uses.
 
 Please do not add private credentials, customer materials, proprietary source code or executable third-party Skill scripts without provenance and review.
+
+## Reproducible frontend examples
+
+Changes to any `examples/*/package.json` or `tests/browser/package.json` must include the corresponding `package-lock.json`, generated with Node 24/npm. Use `npm ci` in the supported CI path. Browser E2E tests run locally built services, not published production URLs; record real-device and other-browser limitations separately.
