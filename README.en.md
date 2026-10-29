@@ -4,16 +4,28 @@ Archvela is a scenario-first frontend architecture skill designed for solo build
 
 **Domains:** commercial websites and SaaS · productivity apps · 3D/GIS digital twins · education · web games and immersive experiences · geospatial/data storytelling.
 
-## Install for OpenCode
+## One-command install for Codex, Claude Code, OpenCode and more
+
+Run inside your target project (requires Node.js 22.20+ and GitHub access). You **do not** need to clone Archvela or create symlinks by hand:
 
 ```bash
-git clone https://github.com/kunlong-luo/archvela.git
-cd archvela
-mkdir -p ~/.config/opencode/skills
-ln -s "$(pwd)/.agents/skills/archvela-architect" ~/.config/opencode/skills/archvela-architect
+npx skills add kunlong-luo/archvela --skill archvela-architect
 ```
 
-If the destination already exists, inspect before modifying. OpenCode can also discover the Skill locally while working inside this repository. Refer to [OpenCode's official documentation](https://docs.opencode.ai/docs/skills/).
+Select your coding agent interactively, or specify several targets with explicit copy installation:
+
+```bash
+npx skills add kunlong-luo/archvela --skill archvela-architect \
+  --agent codex --agent claude-code --agent opencode --copy --yes
+
+# Install for the current user rather than only this project:
+npx skills add kunlong-luo/archvela --skill archvela-architect \
+  --agent codex --agent claude-code --agent opencode --global --copy --yes
+```
+
+Use `--agent cursor`, `--agent gemini-cli`, `--agent github-copilot` etc. for other supported clients. Manage installed skills with `npx skills list`, `npx skills check`, `npx skills update archvela-architect`, or `npx skills remove archvela-architect`.
+
+**Evidence level:** Archvela CI covers Skills CLI **local-source** installs to 20 agent targets (L1). Direct installs from its public GitHub URL follow the [official CLI usage](https://github.com/vercel-labs/skills/blob/main/docs/commands.md) but are not yet separately tested in remote-install CI. Neither form proves the agent model discovered or used the Skill in a real session.
 
 ## Quick start
 
