@@ -23,7 +23,7 @@ class SecurityWorkflowTests(unittest.TestCase):
         self.assertIn("dependency-graph/sbom", workflow)
         self.assertIn("enabled=false", workflow)
         self.assertIn("needs.dependency-graph-capability.outputs.enabled == 'true'", workflow)
-        self.assertIn("actions/dependency-review-action@v4", workflow)
+        self.assertIn("actions/dependency-review-action@v5", workflow)
         self.assertIn("exit 1", workflow)
         notes = RELEASE.read_text(encoding="utf-8")
         self.assertIn("Dependency Graph", notes)
