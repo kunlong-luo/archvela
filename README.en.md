@@ -1,70 +1,174 @@
-# Archvela — From Ideas to Architecture
+<div align="center">
 
-Archvela is a scenario-first frontend architecture skill designed for solo builders and AI coding assistants. It includes **62 practical product scenarios in six domains**, an OpenCode-compatible `SKILL.md`, three architecture document templates, and read-only-by-default Python helper tools.
+# Archvela
 
-**Domains:** commercial websites and SaaS · productivity apps · 3D/GIS digital twins · education · web games and immersive experiences · geospatial/data storytelling.
+### From ideas to verifiable frontend architecture
 
-## One-command install for Codex, Claude Code, OpenCode and more
+A **scenario-first Agent Skill** for independent developers and AI coding assistants. Understand the product constraints first, make architecture tradeoffs, then produce auditable plans or a runnable starter.
 
-Run inside your target project (requires Node.js 22.20+ and GitHub access). You **do not** need to clone Archvela or create symlinks by hand:
+[简体中文](./README.md) · [Getting Started](./docs/GETTING-STARTED.md) · [Scenario Catalog](./.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md) · [Contributing](./CONTRIBUTING.md)
+
+[![Skill validation](https://github.com/kunlong-luo/archvela/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/kunlong-luo/archvela/actions/workflows/validate.yml)
+[![Agent installation](https://github.com/kunlong-luo/archvela/actions/workflows/compatibility.yml/badge.svg?branch=main)](https://github.com/kunlong-luo/archvela/actions/workflows/compatibility.yml)
+[![Example builds](https://github.com/kunlong-luo/archvela/actions/workflows/examples.yml/badge.svg?branch=main)](https://github.com/kunlong-luo/archvela/actions/workflows/examples.yml)
+[![Security](https://github.com/kunlong-luo/archvela/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/kunlong-luo/archvela/actions/workflows/security.yml)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+
+**62 architecture scenarios · 6 domains · 3 runnable starters · 20 installer targets**
+
+</div>
+
+> [!IMPORTANT]
+> **Pre-release software.** The 62 scenarios are architecture references, **not** 62 complete applications. Only V3-02, V3-14, and V3-26 currently generate runnable source projects. CI validates metadata and installer behavior (L0/L1); real-agent discovery and improved coding outcomes (L2/L3) have **not** been demonstrated. No official GitHub Release exists.
+
+## What problem does Archvela solve?
+
+AI assistants can write code quickly but still overengineer a simple website, select an unsuitable framework, blur module boundaries, or present unverified performance claims. Archvela gives an auditable path from product intent to acceptance criteria:
+
+```mermaid
+flowchart LR
+    A["User goal and constraints"] --> B["Match V3 scenario"]
+    B --> C["Architecture ADR"]
+    C --> D["Four-layer split and fallback"]
+    D --> E{"Delivery"}
+    E --> F["Architecture docs\n62 scenarios"]
+    E --> G["Runnable starter\n3 scenarios"]
+    F --> H["Tests and human evidence"]
+    G --> H
+```
+
+- **Scenario-first decisions.** Identify the core user journey, SEO, accessibility, target devices and resource budgets before selecting Next.js, Vite, Astro, React or rendering tools.
+- **Respect existing systems.** Audit before refactoring; switching frameworks needs evidence, not fashion.
+- **Four explicit boundaries.** Separate reusable packages, user-facing features, JavaScript chunks and media/3D asset packs.
+- **Safe by default.** Generators preview before writing and reject collisions. Draft architecture is not verified implementation.
+
+## Install in one command
+
+From **your target project directory**, with Node.js 22.20+, npm and access to GitHub:
 
 ```bash
 npx skills add kunlong-luo/archvela --skill archvela-architect
 ```
 
-Select your coding agent interactively, or specify several targets with explicit copy installation:
+Choose an agent interactively, or install to several supported clients in one project:
 
 ```bash
 npx skills add kunlong-luo/archvela --skill archvela-architect \
   --agent codex --agent claude-code --agent opencode --copy --yes
-
-# Install for the current user rather than only this project:
-npx skills add kunlong-luo/archvela --skill archvela-architect \
-  --agent codex --agent claude-code --agent opencode --global --copy --yes
 ```
 
-Use `--agent cursor`, `--agent gemini-cli`, `--agent github-copilot` etc. for other supported clients. Manage installed skills with `npx skills list`, `npx skills check`, `npx skills update archvela-architect`, or `npx skills remove archvela-architect`.
+Add `--global` for user-wide rather than project-local installation. The `--copy` option avoids a dependency on symlinks to the source repository. For Cursor, Gemini CLI, Copilot, Windsurf and more, see the [20-target compatibility matrix](./docs/COMPATIBILITY.md).
 
-**Evidence level:** Archvela CI covers Skills CLI **local-source** installs to 20 agent targets (L1). CI additionally runs a public GitHub-source installation for Codex, Claude Code and OpenCode, and checks pinned Git-commit installation (L1). See the [official CLI usage](https://github.com/vercel-labs/skills/blob/main/docs/commands.md). Neither form proves the agent model discovered or used the Skill in a real session.
+**What is verified:** GitHub Actions has exercised the public GitHub-source installation for Codex, Claude Code and OpenCode, and a pinned-commit installation. That is **L1 installer verification**, not proof that their live models discovered, invoked or benefited from the Skill. Review any third-party scripts before installing.
 
-## Quick start
+**Example prompt to use inside your agent:**
+
+> Use `archvela-architect` to plan a premium marketing website with SEO and poor-network fallbacks. Ask about essential constraints first. Return a scenario ID, ADR, four-layer split, performance budget, and acceptance criteria for three small PRs. **Analyze only; do not change files.**
+
+For offline scenario search, clone the repository and use its Python scripts:
 
 ```bash
-SKILL=".agents/skills/archvela-architect"
-python3 "$SKILL/scripts/scenes.py" --list-domains
-python3 "$SKILL/scripts/scenes.py" --query "digital twin"
-python3 "$SKILL/scripts/scenes.py" --query "home digital twin" --json
-python3 "$SKILL/scripts/scenes.py" --domain 03 --limit 5
-python3 "$SKILL/scripts/scenes.py" --id V3-26 --json
-python3 "$SKILL/scripts/new_project_docs.py" --scene V3-26 --project home-twin --output ./demo
+git clone https://github.com/kunlong-luo/archvela.git
+cd archvela
+python3 .agents/skills/archvela-architect/scripts/scenes.py --query "home digital twin"
 ```
 
-The project-docs generator is a **dry run by default**. Add `--write` only when the target is reviewed; it refuses to overwrite existing files. The three generated documents contain scene-specific decisions and six-domain architecture profiles; newly created files are rolled back if writing fails.
+[Full walkthrough, troubleshooting and both usage paths →](./docs/GETTING-STARTED.md)
 
-## Mainstream Agent compatibility
+## What ships today?
 
-The CI validates **local Skills CLI installation into 20 agent targets** and global installation for six key agents. This is an *installer-level* smoke test (L1), not proof of actual model/agent execution (L2–L3). See [compatibility and installation matrix](./docs/COMPATIBILITY.md) and [live-agent acceptance prompts](./docs/L3-TEST-PROMPTS.md).
+| Capability | Status | Output |
+|---|---|---|
+| 62 scenarios across six domains | Available | Decision guidance, key tasks, risks and acceptance ideas |
+| Portable Agent Skill | L1 verified | `SKILL.md`, progressive references, optional Python tools |
+| Architecture document generator | Available | ADR, performance / split budget, agent delivery card; optional `archvela-plan.json` |
+| Project scaffolding | **3 starters** | Separate Next/Vite projects, lockfiles and architecture drafts |
+| Browser acceptance | Automated | Chromium desktop/mobile **viewports**, not physical GPU certification |
+| Live agent-effectiveness benchmark | **Not run** | 12-task paired harness and an operator-only pilot preparation tool |
 
-## Structured cross-agent planning contract
+### Six domains
 
-Add `--plan-json` to `new_project_docs.py` for an optional machine-readable `archvela-plan.json` alongside the original three Markdown artifacts. `scripts/plan_contract.py` validates the draft, reviewed or delivered evidence **structure**. These checks cannot prove the real test outcomes, performance, or AI correctness.
+| Domain | Scenarios | Examples |
+|---|---:|---|
+| Commercial websites and showcases | 13 | Marketing sites, storefronts, configurators |
+| Business apps and productivity | 11 | SaaS, AI workspaces, BI, editors |
+| Spatial and digital twins | 12 | Homes, agriculture, factories, BIM |
+| Education and expert visualization | 8 | Language learning, simulations, training |
+| Games and immersive media | 9 | Web games, exhibitions, XR |
+| Geospatial and public data | 9 | GIS, thematic maps, animated trajectories |
 
-## Runnable project generator
+Browse the [V3 catalog](./.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md), IDs `V3-01` to `V3-62`.
 
-`python3 scripts/archvela_create.py list` shows the **three** available runnable starters. `create --scene V3-26 --project my-new-app --output ./workspace` is a dry-run; add `--write` to generate an isolated, npm-lockfile-based project with draft architecture documents. Unsupported scenarios fail clearly. [Generator guide](./docs/PROJECT-GENERATOR.md).
+## Three runnable starters
 
-## Release safety and model evaluations
+| Scenario | Stack | User interaction |
+|---|---|---|
+| [V3-02 · Cinematic Site](./examples/cinematic-site) | Next.js 16 / React 19 / lazy Three.js | SEO-friendly marketing site with opt-in interactive 3D |
+| [V3-14 · SaaS Workspace](./examples/saas-workspace) | Next.js 16 / React 19 | Search, filtering, state changes and on-demand chart |
+| [V3-26 · Home Digital Twin](./examples/home-digital-twin) | Vite 8 / React 19 / R3F 9 | 2D-first house concept with optional 3D and fallback |
 
-[Release readiness gate](./docs/RELEASE-READINESS.md) · [Agent evaluation protocol](./docs/AGENT-EVAL-PROTOCOL.md) · [12-case study harness](./benchmarks/README.md).
+These are **isolated demonstrations with fictional data**, not production applications or engineering-grade construction models. See [runnable examples](./examples/README.md).
 
-The repository includes security-scanning workflows and a paired, reviewer-graded baseline-vs-Skill evaluation **harness**. All four foundational feature PRs (#1, #6, #7 and #8) have been merged. No real model runs or measured effectiveness claims have been produced. Release tags and deployments remain manual, owner-approved steps.
+Generate a separate project from a tested scenario (preview before writing):
+
+```bash
+python3 scripts/archvela_create.py list
+python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace
+python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace --write
+cd workspace/home-demo
+npm ci && npm run build
+```
+
+The other **59 scenarios generate architecture documentation only**, not runnable application source. [Generator design and safety →](./docs/PROJECT-GENERATOR.md)
 
 ## Architecture discipline
 
-Use one primary scenario and one end-to-end user journey. Make explicit ADR decisions; split the work at **package / feature / JavaScript chunk / media-asset pack** levels. Keep existing applications' framework choices unless a migration is justified by evidence. Defer WebGL/3D/video and heavy editors until their interactions require them. Never claim a model is survey-accurate, a benchmark has passed, or a release has shipped without evidence.
+| Layer | Question |
+|---|---|
+| **Package** | What is truly shared across projects? Would independent repositories be simpler? |
+| **Feature** | How does each module align to an actual user task? |
+| **JS Chunk** | What should load lazily, such as maps, editors, or 3D? |
+| **Asset Pack** | How should GLB, video, texture, images and map tiles load and degrade? |
 
-The project focuses on **frontend and browser rendering**, not database design, server deployment or AI autonomous execution.
+The optional `archvela-plan.json` lets one Agent hand off decisions to another; `plan_contract.py` checks the **structure** of `draft`, `reviewed` or `delivered` evidence, not the truth of claims. [Planning contract →](./docs/PLAN-CONTRACT.md)
 
-See the [Chinese README](./README.md), [Skill definition](./.agents/skills/archvela-architect/SKILL.md), [scenario catalog](./.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md), and [contributing guide](./CONTRIBUTING.md).
+### What our validation actually means
 
-The repository uses the [MIT License](./LICENSE) for original code and documentation the owner has the right to license. Third-party code, assets, datasets, trademarks and other material require independent rights review before redistribution.
+- **L0:** Skill metadata, scripts, catalog invariants and regression tests.
+- **L1:** 20 Skills CLI local installation targets; six global-target checks; Codex / Claude Code / OpenCode public GitHub installation and pinned-commit installation.
+- **L2/L3:** Real client discovery, model calls, and paired architecture/coding outcomes remain **unverified**. [Evaluation protocol](./docs/AGENT-EVAL-PROTOCOL.md) · [Tracking issue #21](https://github.com/kunlong-luo/archvela/issues/21).
+- **CI:** Lockfiles, independent example builds, generated-project builds, Chromium E2E, CodeQL, four npm audits and PR dependency review. Passing CI cannot guarantee security or physical-device compatibility.
+
+## Repository map
+
+```text
+.agents/skills/archvela-architect/  # Skill, references, scenarios and helper scripts
+scripts/                          # Independent starter generator and installer checks
+examples/                         # Three isolated runnable starters
+tests/                            # Python regression and Playwright browser tests
+benchmarks/                       # Offline paired study and unexecuted pilot cards
+compatibility/                    # 20 agent installation targets
+docs/                             # Getting started, architecture and release gates
+.github/workflows/                # Seven CI workflows
+```
+
+## Development and community
+
+Auxiliary tools require **Python 3.10+**; the frontend examples and CI use **Node.js 24**.
+
+```bash
+python3 -m unittest discover -s tests -v
+python3 -m compileall -q .agents/skills/archvela-architect/scripts
+```
+
+Read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a PR. Report vulnerabilities through [SECURITY.md](./SECURITY.md), never by disclosing secrets or exploit details in a public issue. [Open an issue](https://github.com/kunlong-luo/archvela/issues) for bugs, scenario proposals or discussion.
+
+## License and release status
+
+Archvela is **pre-release**. No tag, Release, production deployment or model benchmark should be claimed without evidence. See [Release Readiness](./docs/RELEASE-READINESS.md). The [MIT License](./LICENSE) covers only original material the owner is authorized to license; third-party assets, datasets, trademarks and sourced text require separate permission and provenance review.
+
+---
+
+<div align="center">
+  <sub>For independent makers who choose evidence, clarity and maintainability over framework hype.</sub>
+</div>
