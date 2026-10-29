@@ -1,158 +1,175 @@
-# Archvela · 智能产品架构工坊
+<div align="center">
 
-> **From Ideas to Architecture.** 一个面向独立开发者的场景驱动前端架构 Skill：将产品创意变成有依据的技术决策、可维护的分包方案和可验收的开发任务。
+# Archvela
 
-[English](./README.en.md) · [Skill](./.agents/skills/archvela-architect/SKILL.md) · [62 个场景](./.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md) · [贡献指南](./CONTRIBUTING.md)
+### 从产品想法，到可验证的前端架构
+**From Ideas to Architecture**
 
-## 为什么是 Archvela？
+面向独立开发者与 AI Coding Agent 的场景驱动架构 Skill。先理解产品与约束，再选择技术、规划分包、生成架构草案或可运行的项目起点。
 
-不仅推荐热门框架，而是以 **62 种实际产品场景 × 六大领域 × 四层分包策略** 帮一个人持续开发多个各具特色的产品，同时避免巨型 Monorepo、无差别添加依赖与未经验证的“架构升级”。
+[English](./README.en.md) · [快速上手](./docs/GETTING-STARTED.md) · [场景目录](./.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md) · [参与贡献](./CONTRIBUTING.md)
 
-| 六大领域 | 场景数 | 代表产品 |
-|---|---:|---|
-| 网站与商业展示 | 13 | 简单/电影化企业官网、SaaS 营销、跨境独立站、3D 配置器 |
-| 业务应用与生产工具 | 11 | 高级后台、Agent 工作流、BI、图片与视频编辑 |
-| 空间与数字孪生 | 12 | 农村 GIS、住宅设施、工厂、BIM、仓储、光伏 |
-| 教育与专业可视化 | 8 | 英语口语、物理实验、医学影像与工程培训 |
-| 互动娱乐与沉浸体验 | 9 | 2D/3D 网页游戏、虚拟展馆、XR 与高保真展示 |
-| 地理数据与公共展示 | 9 | 专题地图、交通轨迹、空间数据与交互式报告 |
+[![Skill validation](https://github.com/kunlong-luo/archvela/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/kunlong-luo/archvela/actions/workflows/validate.yml)
+[![Agent installation](https://github.com/kunlong-luo/archvela/actions/workflows/compatibility.yml/badge.svg?branch=main)](https://github.com/kunlong-luo/archvela/actions/workflows/compatibility.yml)
+[![Example builds](https://github.com/kunlong-luo/archvela/actions/workflows/examples.yml/badge.svg?branch=main)](https://github.com/kunlong-luo/archvela/actions/workflows/examples.yml)
+[![Security](https://github.com/kunlong-luo/archvela/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/kunlong-luo/archvela/actions/workflows/security.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-**本仓库第一版提供 Skill + 参考资料 + 安全工具脚本，不是自动生成完整商业应用的网站。**
+**62 个场景参考 · 6 大领域 · 3 个可运行 Starter · 20 个 Agent 安装目标**
 
-## 一条命令安装 · Codex / Claude Code / OpenCode / Cursor 等
+</div>
 
-**不需要手动克隆仓库或创建符号链接。** 在你需要使用 Skill 的项目目录中运行以下命令（需要 Node.js 22.20+ 和可访问 GitHub 的网络）：
+> [!IMPORTANT]
+> **项目仍处于预发布阶段。** 62 个场景是架构参考，不是 62 套完整应用；当前仅 V3-02、V3-14、V3-26 能生成可运行代码。安装与 CI 验证属于 L0/L1；真实模型是否能正确调用 Skill、是否改善交付质量仍待 L2/L3 实测。尚未创建正式 GitHub Release。
+
+## 为什么需要 Archvela？
+
+AI 能快速生成页面，但仍可能选错架构、把轻量站点做成复杂应用、混淆分包层级，或者输出无法验证的“最佳方案”。Archvela 将规划过程约束为一条可以审查的链路：
+
+```mermaid
+flowchart LR
+    A["产品目标与约束"] --> B["匹配 V3 场景"]
+    B --> C["ADR 技术取舍"]
+    C --> D["四层分包 / 性能与回退"]
+    D --> E{"选择交付方式"}
+    E --> F["架构文档与任务卡\n全部 62 场景"]
+    E --> G["可运行 Starter\n当前仅 3 场景"]
+    F --> H["测试 / 证据 / 人工复核"]
+    G --> H
+```
+
+- **场景先行**：先确定用户旅程、SEO、设备、离线、可访问性和风险，再选择 React / Next.js / Vite / Astro 等候选方案。
+- **不强迫重构**：已有项目优先只读审计；新技术要有可证明的收益和迁移成本。
+- **四层分包**：分别规划 Package、Feature、JS Chunk、Asset Pack，避免把代码组织与资源加载混为一谈。
+- **安全且可追溯**：生成器默认预演，不覆盖已有文件；架构结论与真实测试结果严格区分。
+
+## 30 秒安装
+
+在**你的目标项目目录**运行（需要 Node.js 22.20+、npm 与 GitHub 网络访问）：
 
 ```bash
 npx skills add kunlong-luo/archvela --skill archvela-architect
 ```
 
-这会交互式选择目标 Agent，默认安装到当前项目。也可以明确指定目标（使用 `--copy` 避免符号链接依赖；`--yes` 表示接受安装选择）：
+按交互提示选择 Agent；或者直接在同一项目安装到三个常用客户端：
 
 ```bash
-# Codex + Claude Code + OpenCode，共用同一项目
 npx skills add kunlong-luo/archvela --skill archvela-architect \
   --agent codex --agent claude-code --agent opencode --copy --yes
-
-# 如果希望在各项目共用，添加 --global（即 -g）
-npx skills add kunlong-luo/archvela --skill archvela-architect \
-  --agent codex --agent claude-code --agent opencode --global --copy --yes
 ```
 
-安装 Cursor、Gemini CLI、GitHub Copilot、Windsurf 等时，把 `--agent` 参数替换为对应 ID；[兼容矩阵](./docs/COMPATIBILITY.md)列出已做**路径与文件内容检查**的 20 个目标。安装完成后：
+需要用户级安装而非项目级安装时加 `--global`。Cursor、Gemini CLI、GitHub Copilot、Windsurf 等目标请查看 [20 个目标及路径说明](./docs/COMPATIBILITY.md)。`--copy` 采用实际文件副本，避免对源仓库符号链接的依赖。
+
+> 这条 GitHub 来源安装命令已在 CI 对 Codex、Claude Code、OpenCode 进行了**安装器与文件落盘验证**；它不等于已在三种客户端里完成真实模型推理。对第三方安装脚本与仓库内容请先审核。
+
+**安装之后，在 Agent 中试试：**
+
+> 使用 `archvela-architect`，为一个支持 SEO 和弱网降级的高端企业官网规划技术架构。先询问必要约束，输出场景 ID、ADR、四层分包、性能预算和 3 个小 PR 的验收计划。**仅分析，不修改代码。**
+
+无需 Agent 也能运行场景检索（在克隆后的 Archvela 仓库根目录）：
 
 ```bash
-npx skills list
-npx skills check
-# 升级已安装 Skill
-npx skills update archvela-architect
-# 不再需要时卸载（先确认是项目级还是全局）
-npx skills remove archvela-architect
+git clone https://github.com/kunlong-luo/archvela.git
+cd archvela
+python3 .agents/skills/archvela-architect/scripts/scenes.py --query "home digital twin"
 ```
 
-> 注意：仓库现有 CI 验证的是 Skills CLI **本地来源安装**（L1）；CI 现额外从公开 GitHub 仓库执行安装并检查 Codex、Claude Code、OpenCode 的落盘文件，也验证固定 Git 提交版本的 Skill 来源（L1）。但这仍不等于模型一定读取并正确执行 Skill（L2/L3 需要真实客户端试验）。不要将私钥或客户文件提供给安装器。官方参考：[Skills CLI](https://github.com/vercel-labs/skills/blob/main/docs/commands.md)。
+[详细安装、常见错误与两条完整体验路线 →](./docs/GETTING-STARTED.md)
 
-## 使用示例
+## 你能获得什么？
 
-在 Codex、Claude Code、OpenCode 等支持 Skills 的客户端中提问：“使用 `archvela-architect`，帮我设计一个高端动态企业官网；只审计和输出架构 ADR、分包方案、性能预算、MVP 任务卡，暂不修改代码。”
-
-不依赖代理，也能查询资料：
-
-```bash
-SKILL_DIR=".agents/skills/archvela-architect"
-python3 "$SKILL_DIR/scripts/scenes.py" --list-domains
-python3 "$SKILL_DIR/scripts/scenes.py" --query "住宅"
-python3 "$SKILL_DIR/scripts/scenes.py" --query "home digital twin" --json
-python3 "$SKILL_DIR/scripts/scenes.py" --domain 03 --limit 5
-python3 "$SKILL_DIR/scripts/scenes.py" --id V3-26 --json
-python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project home-twin --output ./demo
-# 仅检查过目标目录且同意创建文件后，再添加 --write
-```
-
-生成器默认只预演；三份文档按所选场景和领域预填充真实功能、分包初稿、回退及 PR 切片，而不是简单复制空白模板。已有同名文件时拒绝覆盖，写入发生异常会回滚本轮已创建的文件；`--json` 可以输出机器可读的路径清单。
-
-## 跨 AI 工具的架构交接文件
-
-`new_project_docs.py` 可选 `--plan-json`，除了已有的三份 Markdown 草案，还会产生 `archvela-plan.json`。其中包含唯一场景编号、候选与最终技术选型、Package/Feature/Chunk/Asset Pack 四层决策、仓库审计、兼容设备、回退、测试记录和证据引用。默认仍只预演，不会写文件。
-
-```bash
-SKILL_DIR=".agents/skills/archvela-architect"
-python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project demo --output ./example --plan-json
-# 确认目标目录后才执行 --write
-python3 "$SKILL_DIR/scripts/new_project_docs.py" --scene V3-26 --project demo --output ./example --plan-json --write
-python3 "$SKILL_DIR/scripts/plan_contract.py" ./example/docs/architecture/archvela-plan.json --level draft
-```
-
-`reviewed` 要求架构决策、四层分包、审计证据、设备与测试计划；`delivered` 要求测试/实测证据字段。**这些验证是可追踪的格式门禁，不会自动验证 AI 的结论或真实性。**
-
-## 可运行工程示例（独立工程，不强制 Monorepo）
-
-三个演示分别实现了 Next.js 高端 3D 企业官网、交互式 SaaS 工作台、R3F 家庭住宅三维。所有外部数据均为演示假数据；住宅几何位置与层高没有施工精度。
-
-查看 [examples/README.md](./examples/README.md)；[独立构建 CI](./.github/workflows/examples.yml) 针对每个项目执行依赖安装、测试、类型检查、生产构建和 HTTP 页面冒烟验证。三份 ADR 及安装命令在各自 README 中。
-
-## 可复现安装与浏览器验收
-
-三个示例和 Playwright 工程均提交了 npm 锁文件。使用 `npm ci` 可按锁文件安装，`.github/workflows/lockfiles.yml` 会阻止未同步的依赖清单。
-
-[Playwright 浏览器测试](./tests/browser/README.md) 在本地启动生产构建，使用桌面 Chromium 和 Pixel 模拟视口检查用户操作与 WebGL 降级；**不代表真实手机 GPU 或其他浏览器已通过**。
-
-## 四层分包原则
-
-| 层级 | 关注点 | 例子 |
+| 能力 | 当前状态 | 交付内容 |
 |---|---|---|
-| Package | 是否跨项目真实复用 | 先保持每个产品独立；有需求才抽公共包 |
-| Feature | 按用户任务边界组织代码 | editor、scene、map、campaign、game-combat |
-| Chunk | 代码按路由和重功能加载 | 地图、3D、PDF、视频编辑器按需加载 |
-| Asset Pack | 大媒体和模型资源策略 | 海报、KTX2、GLB/LOD、视频、地图瓦片 |
+| 六大领域 / 62 场景 | 可用 | 架构选型、核心任务、风险与验收思路 |
+| Agent Skill | L1 已验证 | `SKILL.md` + 渐进式参考资料 + Python 辅助工具 |
+| 架构文档生成 | 可用 | ADR、性能与分包预算、Agent 任务卡；可选 `archvela-plan.json` |
+| 项目代码生成 | **3 个 Starter** | 独立 React/Next/Vite 工程、锁文件与架构草案 |
+| 浏览器测试 | CI 已运行 | 桌面与移动视口 Chromium E2E，非真实手机 GPU 认证 |
+| 真实 Agent 效果评测 | **未完成** | 已提供 12 任务配对评测框架和真实试点准备工具 |
 
-## 实例及兼容性
+### 六大领域
 
-- **Pagevela** 的现有 React + Vite PWA 架构应保留；改造从真实性能证据出发。
-- **Voxnelo** 目前是 React + Rsbuild/Electron，本地优先语音练习；官网与桌面端是不同架构决策。
-- 数字孪生将地理尺度的 CesiumJS 和住宅设备精模的 R3F 分开组织；复杂 Web 游戏选专门的引擎。
+| 领域 | 场景数 | 典型方向 |
+|---|---:|---|
+| 网站与商业展示 | 13 | 企业官网、独立站、产品展示、3D 配置器 |
+| 业务应用与生产工具 | 11 | SaaS、AI 工作台、BI、编辑器 |
+| 空间与数字孪生 | 12 | 住宅、农业、工业设施、BIM |
+| 教育与专业可视化 | 8 | 语言学习、交互实验、专业训练 |
+| 互动娱乐与沉浸体验 | 9 | Web 游戏、虚拟展馆、XR |
+| 地理数据与公共展示 | 9 | GIS、专题地图、轨迹与数据叙事 |
 
-所有示例是候选技术方案，不意味着已在项目中安装、部署或验证。实施时重新检查 API、版本、浏览器支持和素材许可证。
+完整数据见 [V3 场景目录](./.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md)，按编号 `V3-01` 到 `V3-62` 检索。
 
-## 跨 AI 编程工具兼容性验证
+## 三个可以运行的示例
 
-Archvela 不限于 OpenCode：项目计划使用官方 Skills CLI，对 OpenCode、Codex、Claude Code、Cursor、Gemini CLI、GitHub Copilot、Windsurf、Cline、Roo Code、Kiro CLI 等 **20 种代理安装目标**逐一执行项目级路径和文件内容验证，并对六个核心代理做全局安装测试；同时在每个安装副本内运行场景查询和架构生成器预演，验证复制后的 Skill 可以独立工作。
+| 场景 | 技术方案 | 实际演示 |
+|---|---|---|
+| [V3-02 · Cinematic Site](./examples/cinematic-site) | Next.js 16 / React 19 / 按需 Three.js | SEO 优先的企业官网、点击后加载与卸载 3D |
+| [V3-14 · SaaS Workspace](./examples/saas-workspace) | Next.js 16 / React 19 | 搜索、筛选、状态操作、按需图表 |
+| [V3-26 · Home Digital Twin](./examples/home-digital-twin) | Vite 8 / React 19 / R3F 9 | 先显示 2D 平面图，再加载 3D，具备 WebGL 降级 |
 
-真实模型运行另分 L2/L3；**安装通过不等于模型已读取或执行成功**。查看 [兼容矩阵和测试分级](./docs/COMPATIBILITY.md) 与 [统一真实客户端测试题](./docs/L3-TEST-PROMPTS.md)。
+这些是**独立工程与虚构演示数据**，不是商业成品、真实 IoT 接入或具施工精度的住宅模型。详见 [示例与运行方法](./examples/README.md)。
 
-## 从场景生成独立项目（新增 CLI）
-
-已有三个经过构建验证的示例现在可以通过统一的命令复制为**独立、带锁文件和架构合同的新工程**：
+从场景生成一个新项目（默认 **dry-run**，最后一步才写入）：
 
 ```bash
 python3 scripts/archvela_create.py list
 python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace
-# 默认仅预演。检查后明确添加 --write
 python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace --write
+cd workspace/home-demo
+npm ci && npm run build
 ```
 
-只支持 V3-02、V3-14、V3-26 三个可运行模板，其余 59 个场景仍可生成**架构文档**但不能伪称有完整代码模板。CI 会在新目录中实际 `npm ci` 和 `build`。详见 [项目生成器设计与安全边界](./docs/PROJECT-GENERATOR.md)。
+其余 **59 个场景仅支持生成架构文档**，不会假装能输出完整可运行的项目。[生成器完整说明 →](./docs/PROJECT-GENERATOR.md)
 
-## 发布前安全基线与真实 Agent 对照研究
+## 设计与质量约束
 
-- [Release Readiness 检查表](./docs/RELEASE-READINESS.md)：GitHub 合并/许可证/安全权限/真实客户端安装验收，**不会自动发布**。
-- [安全工作流](./.github/workflows/security.yml)：GitHub CodeQL 分析与新增依赖审核；Dependabot 每周提出更新 PR，版本实际变更需 CI 验证。
-- [12 任务 AI Agent 对照评测](./benchmarks/README.md)：每个领域两题，同模型进行 Baseline 与 Archvela Skill 配对试验，人工盲评分且要求真实证据。**目前只有评测工具，没有任何模型实测结果。**
+| 边界 | 需要回答的问题 |
+|---|---|
+| **Package** | 是否真的需要跨项目复用？独立仓库是否更简单？ |
+| **Feature** | 用户实际完成什么任务？功能模块按什么边界划分？ |
+| **JS Chunk** | 哪些路由、地图、编辑器或 3D 功能必须按需加载？ |
+| **Asset Pack** | 图片、GLB、视频、纹理和瓦片如何分级、压缩与回退？ |
 
-```bash
-python3 benchmarks/evaluate.py validate-cases
-python3 benchmarks/evaluate.py prepare --model MODEL-NAME --output ./study-001
+`archvela-plan.json` 可以把这些决策从一个 Agent 交给另一个 Agent；`plan_contract.py` 提供 `draft`、`reviewed`、`delivered` **字段/证据结构**检查，但不声称其能验证事实真实性。[结构化计划合同 →](./docs/PLAN-CONTRACT.md)
+
+### 验证范围，而非宣传数字
+
+- **L0**：Skill 元数据、62 场景和工具脚本测试。
+- **L1**：Skills CLI 本地来源 20 目标安装检查、六个全局目标测试，以及 Codex / Claude Code / OpenCode 的 GitHub 来源安装和固定提交安装测试。
+- **L2/L3**：实际客户端发现、模型调用、架构/代码质量对照——**尚未取得真实试验结果**。[评测协议](./docs/AGENT-EVAL-PROTOCOL.md) · [试点跟踪 #21](https://github.com/kunlong-luo/archvela/issues/21)
+- **CI**：锁文件、示例/生成项目构建、Chromium E2E、CodeQL、四组 npm 审计与 PR Dependency Review。通过检查不保证零漏洞，也不代表所有设备通过。
+
+## 仓库导航
+
+```text
+.agents/skills/archvela-architect/  # Skill、六大领域参考、62 场景、工具
+scripts/                          # 独立项目生成器、兼容验证
+examples/                         # 三个可运行的独立 Starter
+tests/                            # Python 回归与 Playwright E2E
+benchmarks/                       # 配对评测、真实客户端试点准备（未运行模型）
+compatibility/                    # 20 个 Agent 的安装目标清单
+docs/                             # 入门、兼容性、架构合同、发布门禁
+.github/workflows/                # 七条 CI 工作流
 ```
 
-## 研发与质量
+## 开发、贡献与安全
+
+要求 **Python 3.10+**（辅助工具）和 **Node.js 24**（示例工程与 CI）。在仓库根目录运行：
 
 ```bash
 python3 -m unittest discover -s tests -v
 python3 -m compileall -q .agents/skills/archvela-architect/scripts
 ```
 
-GitHub Actions 对目录元数据、62 场景、脚本安全行为和生成器的“不覆盖”规则进行自动检查。见 [AGENTS.md](./AGENTS.md) 和 [SECURITY.md](./SECURITY.md)。
+提交代码前请阅读 [CONTRIBUTING.md](./CONTRIBUTING.md)；提交安全漏洞请遵循 [SECURITY.md](./SECURITY.md)，不要在公开 Issue 贴出密钥或利用细节。可通过 [Issues](https://github.com/kunlong-luo/archvela/issues) 提出场景、缺陷或改进建议；大型变更先讨论设计取舍。
 
-## 开源说明
+## 项目状态与许可
 
-本仓库采用 [MIT 许可证](./LICENSE)，授权范围限于权利人有权许可的原创代码与文档。第三方商标、源代码、数据、图像、模型和音乐不会因为本项目的 MIT 许可证而自动获得再分发授权；发布前仍需核查出处和许可。
+Archvela 仍为**预发布项目**，版本标签、Release、部署及正式模型评测都不应凭空宣称完成。[Release Readiness](./docs/RELEASE-READINESS.md) 记录明确的发布门禁。项目以 [MIT License](./LICENSE) 授权权利人有权许可的原创代码和文档；第三方素材、商标、数据集与引用内容仍需独立检查许可证与来源。
+
+---
+
+<div align="center">
+  <sub>Built for independent makers who prefer evidence, clarity and maintainable software over framework hype.</sub>
+</div>
