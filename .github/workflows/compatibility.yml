@@ -1,0 +1,45 @@
+name: Cross-Agent Skill Installer Compatibility
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cross-agent-install:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install upstream Skills CLI in isolated runner directory
+        run: |
+          npm install --no-audit --no-fund --prefix "$RUNNER_TEMP/skills-cli" skills@1.7.4
+          "$RUNNER_TEMP/skills-cli/node_modules/.bin/skills" --version
+      - name: Check project installations for 20 agents and global paths for 6 key agents
+        env:
+          DO_NOT_TRACK: "1"
+          DISABLE_TELEMETRY: "1"
+        run: |
+          python3 scripts/verify_agent_installs.py \
+            --skills-cli "$RUNNER_TEMP/skills-cli/node_modules/.bin/skills" \
+            --source "$GITHUB_WORKSPACE" \
+            --global-smoke \
+            --json-out "$RUNNER_TEMP/archvela-agent-results.json"
+      - name: Upload detailed compatibility report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: cross-agent-installer-results
+          path: ${{ runner.temp }}/archvela-agent-results.json
+          if-no-files-found: warn
