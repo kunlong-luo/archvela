@@ -36,6 +36,28 @@ jobs:
             --source "$GITHUB_WORKSPACE" \
             --global-smoke \
             --json-out "$RUNNER_TEMP/archvela-agent-results.json"
+      - name: Verify public GitHub one-command install for Codex, Claude Code and OpenCode
+        env:
+          DO_NOT_TRACK: "1"
+          DISABLE_TELEMETRY: "1"
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/archvela-public-install"
+          cd "$RUNNER_TEMP/archvela-public-install"
+          "$RUNNER_TEMP/skills-cli/node_modules/.bin/skills" add kunlong-luo/archvela \
+            --skill archvela-architect \
+            --agent codex --agent claude-code --agent opencode \
+            --copy --yes
+          for expected in \
+            .agents/skills/archvela-architect/SKILL.md \
+            .claude/skills/archvela-architect/SKILL.md \
+            .agents/skills/archvela-architect/references/scenarios.json; do
+            test -s "$expected" || {
+              echo "::error::Public-source install missing $expected"
+              exit 1
+            }
+          done
+          python3 -c 'import json; from pathlib import Path; x=json.loads(Path(".agents/skills/archvela-architect/references/scenarios.json").read_text()); assert len(x) == 62'
       - name: Upload detailed compatibility report
         if: always()
         uses: actions/upload-artifact@v7
