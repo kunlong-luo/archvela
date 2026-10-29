@@ -45,7 +45,7 @@ Add `--plan-json` to `new_project_docs.py` for an optional machine-readable `arc
 
 [Release readiness gate](./docs/RELEASE-READINESS.md) · [Agent evaluation protocol](./docs/AGENT-EVAL-PROTOCOL.md) · [12-case study harness](./benchmarks/README.md).
 
-The repository now includes security-scanning workflows and a paired, reviewer-graded baseline-vs-Skill evaluation **harness**. No real model runs or measured effectiveness claims have been produced. Release tags, merges and deployment are manual owner-approved steps.
+The repository includes security-scanning workflows and a paired, reviewer-graded baseline-vs-Skill evaluation **harness**. All four foundational feature PRs (#1, #6, #7 and #8) have been merged. No real model runs or measured effectiveness claims have been produced. Release tags and deployments remain manual, owner-approved steps.
 
 ## Architecture discipline
 
@@ -55,4 +55,4 @@ The project focuses on **frontend and browser rendering**, not database design, 
 
 See the [Chinese README](./README.md), [Skill definition](./.agents/skills/archvela-architect/SKILL.md), [scenario catalog](./.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md), and [contributing guide](./CONTRIBUTING.md).
 
-The MIT license in this PR is proposed for repository-owner review before merging.
+The repository uses the [MIT License](./LICENSE) for original code and documentation the owner has the right to license. Third-party code, assets, datasets, trademarks and other material require independent rights review before redistribution.
