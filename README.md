@@ -19,27 +19,42 @@
 
 **本仓库第一版提供 Skill + 参考资料 + 安全工具脚本，不是自动生成完整商业应用的网站。**
 
-## OpenCode 安装
+## 一条命令安装 · Codex / Claude Code / OpenCode / Cursor 等
 
-克隆仓库：
-
-```bash
-git clone https://github.com/kunlong-luo/archvela.git
-cd archvela
-```
-
-在 Archvela 仓库中使用时，OpenCode 可发现 `.agents/skills/archvela-architect/SKILL.md`。若要在**其他项目**中全局使用：
+**不需要手动克隆仓库或创建符号链接。** 在你需要使用 Skill 的项目目录中运行以下命令（需要 Node.js 22.20+ 和可访问 GitHub 的网络）：
 
 ```bash
-mkdir -p ~/.config/opencode/skills
-ln -s "$(pwd)/.agents/skills/archvela-architect" ~/.config/opencode/skills/archvela-architect
+npx skills add kunlong-luo/archvela --skill archvela-architect
 ```
 
-如目标目录已存在，请先检查，不要直接覆盖。也可以把该技能目录复制到对应 OpenCode 全局 Skill 目录。更多兼容位置参考 [OpenCode Skills 官方文档](https://docs.opencode.ai/docs/skills/)。
+这会交互式选择目标 Agent，默认安装到当前项目。也可以明确指定目标（使用 `--copy` 避免符号链接依赖；`--yes` 表示接受安装选择）：
+
+```bash
+# Codex + Claude Code + OpenCode，共用同一项目
+npx skills add kunlong-luo/archvela --skill archvela-architect \
+  --agent codex --agent claude-code --agent opencode --copy --yes
+
+# 如果希望在各项目共用，添加 --global（即 -g）
+npx skills add kunlong-luo/archvela --skill archvela-architect \
+  --agent codex --agent claude-code --agent opencode --global --copy --yes
+```
+
+安装 Cursor、Gemini CLI、GitHub Copilot、Windsurf 等时，把 `--agent` 参数替换为对应 ID；[兼容矩阵](./docs/COMPATIBILITY.md)列出已做**路径与文件内容检查**的 20 个目标。安装完成后：
+
+```bash
+npx skills list
+npx skills check
+# 升级已安装 Skill
+npx skills update archvela-architect
+# 不再需要时卸载（先确认是项目级还是全局）
+npx skills remove archvela-architect
+```
+
+> 注意：仓库现有 CI 验证的是 Skills CLI **本地来源安装**（L1）；上面直接从 GitHub 安装的便捷命令遵循官方 Skills CLI 文档，但尚未建立独立的远程安装 CI。安装成功也不等于模型一定读取并正确执行了 Skill（L2/L3 需要真实客户端试验）。不要将私钥或客户文件提供给安装器。官方参考：[Skills CLI](https://github.com/vercel-labs/skills/blob/main/docs/commands.md)。
 
 ## 使用示例
 
-在 OpenCode 中提问：“使用 `archvela-architect`，帮我设计一个高端动态企业官网；只审计和输出架构 ADR、分包方案、性能预算、MVP 任务卡，暂不修改代码。”
+在 Codex、Claude Code、OpenCode 等支持 Skills 的客户端中提问：“使用 `archvela-architect`，帮我设计一个高端动态企业官网；只审计和输出架构 ADR、分包方案、性能预算、MVP 任务卡，暂不修改代码。”
 
 不依赖代理，也能查询资料：
 
