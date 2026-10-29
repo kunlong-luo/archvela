@@ -34,7 +34,7 @@ No workflow in this repository merges PRs, creates tags, publishes NPM packages,
 - [x] Previous Dependency Graph issue #9 was closed after PR Dependency Review ran successfully. Do **not** reopen it because an earlier note was stale.
 - [x] On 2026-10-29, maintenance PRs #12, #17 and #20 were merged; main at `fcdb925` passed seven workflows. Retest this new V0.3 branch and final main after merging, rather than reusing old statuses.
 - [ ] Confirm zero unnecessary remote branches. Six branches corresponding to merged PRs remained at the time of planning; deletion is an independent operational action and is **not** implied by PR merge.
-- [ ] Demonstrate one successful **public GitHub source** Skills CLI install to each primary client (Codex, Claude Code, OpenCode), not just the existing 20 local-source path checks.
+- [x] GitHub Actions public-source Skills CLI installation smoke for Codex, Claude Code and OpenCode, plus pinned Git-commit install, executed successfully in PR #23. This is installer-level L1 only; real-agent model discovery remains unverified.
 - [ ] Run 12 real, authorized pilot sessions (2 tasks x baseline/treatment x 3 clients), with fixed commit and model IDs; archive **redacted** responses and actual tool logs separately from operator assignments.
 - [ ] Run complete first-pass 72 sessions (12 tasks x 2 arms x 3 clients) if results support expansion; obtain independent blinded grades and reproducible code execution records.
 - [ ] Verify project-site performance, basic accessibility, asset/license provenance, and a real-agent end-to-end example.
