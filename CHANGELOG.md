@@ -2,6 +2,14 @@
 
 ## [Unreleased]
 
+### Documentation and community quality (2026-10-29)
+
+- Rebuilt Chinese and English README landing pages with aligned install instructions, an architecture flowchart, coverage tables, runnable-starter boundaries and explicit L0/L1 vs L2/L3 evidence limits.
+- Added a practical getting-started guide for Agent Skills installs and offline Python scaffolding, plus public repository metadata suggestions and maintainer security settings checklist.
+- Added GitHub issue and pull request templates, expanded evidence-first contributor guidance, and offline documentation regression tests for local links and honest capability claims.
+- Corrected a stale compatibility note that inaccurately implied public GitHub-source Skill installation was unavailable.
+
+
 - Added a safe scenario-to-project CLI with three verified runnable templates, renamed locked npm metadata, generated ADR/performance/Agent plans, collision/symlink checks, and actual generated-project CI builds.
 
 
