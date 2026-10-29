@@ -1,0 +1,145 @@
+{
+  "version": 1,
+  "description": "Curated 12-task cross-domain eval set. No real agent runs or benchmark wins implied.",
+  "rubric_dimensions": [
+    "scenario_fit",
+    "architecture_reasoning",
+    "four_layer_split",
+    "fallback_safety",
+    "verification_plan"
+  ],
+  "cases": [
+    {
+      "id": "AV-01",
+      "scenario_id": "V3-02",
+      "prompt": "高端企业官网需要 SEO、互动 3D 产品展示和弱网回退。已有静态内容为主，提出最小架构与首屏加载方案。",
+      "acceptance_topics": [
+        "SEO/SSR or SSG content first",
+        "defer 3D",
+        "fallback",
+        "accessibility"
+      ]
+    },
+    {
+      "id": "AV-02",
+      "scenario_id": "V3-08",
+      "prompt": "跨境 B2B 出口询盘网站需要多语言、可访问联系表单与合法采集同意；团队只有一名开发者。",
+      "acceptance_topics": [
+        "lead form privacy",
+        "i18n/SEO",
+        "server/client boundary",
+        "spam protection"
+      ]
+    },
+    {
+      "id": "AV-03",
+      "scenario_id": "V3-14",
+      "prompt": "已有 React 管理后台，海量设备告警分页筛选会卡顿；保留原项目并制定性能与回归计划。",
+      "acceptance_topics": [
+        "preserve existing repo",
+        "virtualization or pagination",
+        "chunk splitting",
+        "E2E"
+      ]
+    },
+    {
+      "id": "AV-04",
+      "scenario_id": "V3-18",
+      "prompt": "设计一套 AI 漫剧制作工作台：时间轴、配音、字幕、视频预览，移动端可降级；不能自动上传私密素材。",
+      "acceptance_topics": [
+        "timeline state",
+        "media loading",
+        "consent/privacy",
+        "render fallback"
+      ]
+    },
+    {
+      "id": "AV-05",
+      "scenario_id": "V3-25",
+      "prompt": "农村 GIS 数字孪生需要田块边界、土壤监测和灌溉图层；地图与近景建模分别选型。",
+      "acceptance_topics": [
+        "GIS coordinate systems",
+        "Cesium vs Three roles",
+        "LOD and tiles",
+        "provenance"
+      ]
+    },
+    {
+      "id": "AV-06",
+      "scenario_id": "V3-26",
+      "prompt": "住宅宅基地 15×14m，主屋 11.2×8.4m。没有权威的房屋坐标和层高，只做概念展示，不能编造施工尺寸。",
+      "acceptance_topics": [
+        "geometric constraints",
+        "unverified placement",
+        "2D fallback",
+        "not construction drawing"
+      ]
+    },
+    {
+      "id": "AV-07",
+      "scenario_id": "V3-37",
+      "prompt": "英语口语网页练习工具需要录音、波形、听力与反馈；无麦克风权限时仍可练习。",
+      "acceptance_topics": [
+        "mic permission",
+        "audio latency",
+        "privacy",
+        "text fallback"
+      ]
+    },
+    {
+      "id": "AV-08",
+      "scenario_id": "V3-40",
+      "prompt": "医学影像教学工具要在浏览器加载大尺寸影像并标注教育用途，不得自动做诊断。",
+      "acceptance_topics": [
+        "clinical boundary",
+        "lazy imaging viewer",
+        "sensitive data",
+        "accessible explanation"
+      ]
+    },
+    {
+      "id": "AV-09",
+      "scenario_id": "V3-45",
+      "prompt": "原创 3D 塔防网页游戏只做一关可玩的纵向 MVP，英雄技能动画与战斗逻辑必须分离。",
+      "acceptance_topics": [
+        "game loop",
+        "asset packs",
+        "original IP",
+        "FPS budget"
+      ]
+    },
+    {
+      "id": "AV-10",
+      "scenario_id": "V3-46",
+      "prompt": "2D 塔防游戏要求低端安卓设备能玩，场景切换不加载全部图集，战斗可重复测试。",
+      "acceptance_topics": [
+        "2D renderer",
+        "asset per-level",
+        "deterministic tests",
+        "mobile limits"
+      ]
+    },
+    {
+      "id": "AV-11",
+      "scenario_id": "V3-54",
+      "prompt": "交通轨迹可视化每分钟刷新数据，要清楚显示数据延迟、坐标来源和大数据性能回退。",
+      "acceptance_topics": [
+        "map layers",
+        "data timestamps",
+        "aggregation",
+        "table fallback"
+      ]
+    },
+    {
+      "id": "AV-12",
+      "scenario_id": "V3-60",
+      "prompt": "公众灾害风险地图需要清晰的不确定性、权威来源日期、无图形设备的文字回退；不可夸大安全保障。",
+      "acceptance_topics": [
+        "risk communication",
+        "data source",
+        "map/table alternate",
+        "accessibility"
+      ]
+    }
+  ]
+}

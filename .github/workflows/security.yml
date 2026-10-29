@@ -1,0 +1,117 @@
+name: Security scanning
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "13 4 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codeql:
+    name: CodeQL static analysis (${{ matrix.language }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [python, javascript-typescript]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended
+      - uses: github/codeql-action/analyze@v4
+
+  npm-audit:
+    name: NPM vulnerability audit (${{ matrix.package }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [cinematic-site, saas-workspace, home-digital-twin, browser-tests]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - name: Audit locked production and development dependencies
+        shell: bash
+        env:
+          NPM_CONFIG_AUDIT: "true"
+        run: |
+          set -euo pipefail
+          case "${{ matrix.package }}" in
+            browser-tests) directory="tests/browser";;
+            *) directory="examples/${{ matrix.package }}";;
+          esac
+          test -s "$directory/package-lock.json" || {
+            echo "::error::Missing lockfile for $directory"
+            exit 1
+          }
+          # Read only the committed lockfile; do not run npm audit fix or
+          # install scripts. This queries the configured npm registry.
+          npm audit --prefix "$directory" --package-lock-only --include=dev --audit-level=high
+
+  dependency-graph-capability:
+    name: Dependency Graph availability (repository owner action if disabled)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      enabled: ${{ steps.probe.outputs.enabled }}
+    steps:
+      - name: Inspect GitHub Dependency Graph availability
+        id: probe
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          code=$(curl --silent --show-error --location \
+            --output "$RUNNER_TEMP/archvela-sbom-response.json" \
+            --write-out '%{http_code}' \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/dependency-graph/sbom")
+          if [[ "$code" == "200" ]]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "GitHub Dependency Graph is available; running PR dependency review."
+          elif [[ "$code" == "404" ]]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Dependency Graph is unavailable. Enable it in repository Settings > Security & analysis; PR dependency-review cannot run until then. npm audit and CodeQL still enforce security checks."
+            echo "DEPENDENCY REVIEW PENDING OWNER SETTING" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "::error::Cannot determine Dependency Graph availability (HTTP $code). Do not silently bypass dependency review."
+            exit 1
+          fi
+
+  dependency-review:
+    name: Dependency review (requires GitHub Dependency Graph)
+    if: github.event_name == 'pull_request' && needs.dependency-graph-capability.outputs.enabled == 'true'
+    needs: [dependency-graph-capability]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high

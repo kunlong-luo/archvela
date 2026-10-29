@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+- Added staged release-readiness checklist, GitHub CodeQL/security dependency review and Dependabot update configuration.
+- Added balanced 12-task Agent evaluation data and safe reviewer-grading scaffolding (no live models or fabricated performance scores).
+
+
 - Added committed npm lockfiles for the three standalone runnable examples and the browser test runner; CI now uses `npm ci` and checks lockfile drift.
 - Added Playwright 1.64.1 desktop/mobile Chromium tests for real website, SaaS and digital-twin user interactions with WebGL-unavailable fallback and failure traces.
 

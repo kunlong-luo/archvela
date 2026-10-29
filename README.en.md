@@ -37,6 +37,12 @@ The CI validates **local Skills CLI installation into 20 agent targets** and glo
 
 Add `--plan-json` to `new_project_docs.py` for an optional machine-readable `archvela-plan.json` alongside the original three Markdown artifacts. `scripts/plan_contract.py` validates the draft, reviewed or delivered evidence **structure**. These checks cannot prove the real test outcomes, performance, or AI correctness.
 
+## Release safety and model evaluations
+
+[Release readiness gate](./docs/RELEASE-READINESS.md) · [Agent evaluation protocol](./docs/AGENT-EVAL-PROTOCOL.md) · [12-case study harness](./benchmarks/README.md).
+
+The repository now includes security-scanning workflows and a paired, reviewer-graded baseline-vs-Skill evaluation **harness**. No real model runs or measured effectiveness claims have been produced. Release tags, merges and deployment are manual owner-approved steps.
+
 ## Architecture discipline
 
 Use one primary scenario and one end-to-end user journey. Make explicit ADR decisions; split the work at **package / feature / JavaScript chunk / media-asset pack** levels. Keep existing applications' framework choices unless a migration is justified by evidence. Defer WebGL/3D/video and heavy editors until their interactions require them. Never claim a model is survey-accurate, a benchmark has passed, or a release has shipped without evidence.

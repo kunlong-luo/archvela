@@ -32,6 +32,12 @@ Maintain Archvela as a **portable scenario-first Agent Skill** for frontend arch
 - Don't claim real L2/L3 unless the actual target agent executed and evidence was captured.
 - Cross-agent installer CI must not use any personal API keys or target a production home directory.
 
+## Security and empirical evidence
+- Do not merge or release without repository owner approval of LICENSE, bundled reference rights and changelog.
+- Security CI analyzes JS/TS/Python and dependency changes; do not silently suppress new findings.
+- The 12-task evaluator is **an experiment protocol**, not evidence of model benefit. All recorded grades, tokens, durations and compiled artifacts must be reproducible, never generated as placeholders for a public win.
+- Human review should be blinded to baseline/treatment assignments when possible; keep artifacts and manifest provenance.
+
 ## Verification
 ```bash
 python3 -m unittest discover -s tests -v
