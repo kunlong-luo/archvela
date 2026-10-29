@@ -10,6 +10,44 @@ This repo contains a **reproducible study scaffold**, not evidence that Archvela
 - No external API calls, credentials, paid token consumption, CLI execution of models, or simulated wins are included.
 - Output score reflects **human-entered labels and artifacts only**; it does *not* run or verify code, and cannot establish agent superiority on its own.
 
+## V0.3 · Real-client pilot (operator-run, no invented model results)
+
+Before scaling to the full 12-task study, smoke-test **2 tasks x 2 conditions per client**
+in Codex, Claude Code, and OpenCode: **12 real agent sessions** total across three clients.
+A complete first-pass study would be **12 tasks x 2 conditions x 3 clients = 72
+individual runs, or 36 paired task comparisons**.
+
+Create isolated operator cards from a *pinned 40-character Git SHA*. Run this
+outside the source checkout to prevent unintended parent-directory Skill discovery:
+
+```bash
+# Run from the Archvela source repository, but output to a fresh external directory
+ARCHVELA_SHA="$(git rev-parse main)"
+python3 benchmarks/pilot.py --agent codex --model EXACT-MODEL-ID \
+  --skill-sha "$ARCHVELA_SHA" --output /tmp/archvela-codex-pilot
+
+# Repeat with --agent claude-code and --agent opencode, a separate
+# output directory for each, and each client's actual model ID.
+```
+
+The command creates an **operator-only** assignment manifest, verbatim prompt
+files, paired empty workspaces, instructions for pinned Skill installation in
+treatment only, and an empty blind-review area. No model or Skills CLI is run by
+`pilot.py`. Do not share `operator-manifest.json` or `RUN.md` with graders.
+The study *must* use genuine authorized agent sessions with consistent budgets,
+fresh contexts, no inherited global Archvela skill in baseline, and evidence
+redacted for secrets. If the pinned GitHub-source install fails, stop and record
+the failure rather than silently installing a moving `main`.
+
+**The pilot intentionally has no scoring subcommand.** Its purpose is to expose
+installation, discovery, isolation, and evidence-capture failures before a
+full paired evaluation. After piloting, prepare a full 24-slot study with the
+existing `evaluate.py prepare` command and score only after collecting 24 real
+outputs/logs and independent human grades. Do not present a missing or
+synthetic output as measured effectiveness.
+
+See [full human evaluation protocol](../docs/AGENT-EVAL-PROTOCOL.md).
+
 ## Start an evaluation study
 
 ```bash
