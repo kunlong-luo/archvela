@@ -10,9 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 DOCS = (
     "README.md",
-    "README.en.md",
+    "README.zh.md",
     "CONTRIBUTING.md",
     "docs/GETTING-STARTED.md",
+    "docs/GETTING-STARTED.zh.md",
     "docs/COMPATIBILITY.md",
     "docs/RELEASE-READINESS.md",
 )
@@ -39,23 +40,49 @@ class DocumentationIntegrityTests(unittest.TestCase):
                     invalid.append(f"{relative} -> {target}")
         self.assertEqual(invalid, [], "Broken or escaping relative Markdown links")
 
-    def test_both_readmes_present_supported_install_and_limits(self):
-        zh = (ROOT / "README.md").read_text(encoding="utf-8")
-        en = (ROOT / "README.en.md").read_text(encoding="utf-8")
-        for text in (zh, en):
+    def test_english_first_readme_names_and_translation_integrity(self):
+        english_path = ROOT / "README.md"
+        chinese_path = ROOT / "README.zh.md"
+        self.assertTrue(english_path.is_file())
+        self.assertTrue(chinese_path.is_file())
+        self.assertFalse((ROOT / "README.en.md").exists(),
+                         "Do not reintroduce an English README suffix")
+
+        en = english_path.read_text(encoding="utf-8")
+        zh = chinese_path.read_text(encoding="utf-8")
+        self.assertIn("From ideas to verifiable frontend architecture", en)
+        self.assertIn("从产品想法，到可验证的前端架构", zh)
+        self.assertIn("[简体中文 / Chinese](./README.zh.md)", en)
+        self.assertIn("[English](./README.md)", zh)
+        self.assertIn("(./docs/GETTING-STARTED.md)", en)
+        self.assertIn("(./docs/GETTING-STARTED.zh.md)", zh)
+        for text in (en, zh):
             for token in (
                 "npx skills add kunlong-luo/archvela",
                 "--agent codex --agent claude-code --agent opencode",
                 "V3-02", "V3-14", "V3-26",
                 "62", "59", "L1", "L2/L3",
-                "docs/GETTING-STARTED.md",
-                "benchmarks/",
-                "CONTRIBUTING.md",
+                "benchmarks/", "CONTRIBUTING.md",
             ):
                 self.assertIn(token, text)
             self.assertNotIn("ln -s ", text)
+            self.assertNotIn("README.en.md", text)
         self.assertIn("尚未", zh)
         self.assertIn("not", en.lower())
+
+    def test_quickstart_languages_are_consistent(self):
+        en = (ROOT / "docs/GETTING-STARTED.md").read_text(encoding="utf-8")
+        zh = (ROOT / "docs/GETTING-STARTED.zh.md").read_text(encoding="utf-8")
+        self.assertIn("# Getting started with Archvela", en)
+        self.assertIn("# Archvela · Getting started / 快速上手", zh)
+        self.assertIn("(./GETTING-STARTED.zh.md)", en)
+        self.assertIn("(./GETTING-STARTED.md)", zh)
+        self.assertIn("(../README.md)", en)
+        self.assertIn("(../README.zh.md)", zh)
+        for text in (en, zh):
+            self.assertIn("npx skills add kunlong-luo/archvela", text)
+            self.assertIn("--write", text)
+            self.assertNotIn("README.en.md", text)
 
     def test_github_templates_and_safety_docs_exist(self):
         for path in (
