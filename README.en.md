@@ -37,6 +37,10 @@ The CI validates **local Skills CLI installation into 20 agent targets** and glo
 
 Add `--plan-json` to `new_project_docs.py` for an optional machine-readable `archvela-plan.json` alongside the original three Markdown artifacts. `scripts/plan_contract.py` validates the draft, reviewed or delivered evidence **structure**. These checks cannot prove the real test outcomes, performance, or AI correctness.
 
+## Runnable project generator
+
+`python3 scripts/archvela_create.py list` shows the **three** available runnable starters. `create --scene V3-26 --project my-new-app --output ./workspace` is a dry-run; add `--write` to generate an isolated, npm-lockfile-based project with draft architecture documents. Unsupported scenarios fail clearly. [Generator guide](./docs/PROJECT-GENERATOR.md).
+
 ## Release safety and model evaluations
 
 [Release readiness gate](./docs/RELEASE-READINESS.md) · [Agent evaluation protocol](./docs/AGENT-EVAL-PROTOCOL.md) · [12-case study harness](./benchmarks/README.md).

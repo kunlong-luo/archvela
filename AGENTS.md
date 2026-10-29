@@ -32,6 +32,12 @@ Maintain Archvela as a **portable scenario-first Agent Skill** for frontend arch
 - Don't claim real L2/L3 unless the actual target agent executed and evidence was captured.
 - Cross-agent installer CI must not use any personal API keys or target a production home directory.
 
+## Project scaffolding rules
+- Keep 62 knowledge scenes distinct from the **three** currently executable project starters.
+- No writes by default; `--write` only to a new npm-safe project slug under a user-selected parent.
+- Ensure copied `package.json` and `package-lock.json` names match and that generated apps pass `npm ci` + build in CI.
+- Only allowlisted files can be copied; never include `.env`, local credentials, production data or `node_modules`.
+
 ## Security and empirical evidence
 - Do not merge or release without repository owner approval of LICENSE, bundled reference rights and changelog.
 - Security CI analyzes JS/TS/Python and dependency changes; do not silently suppress new findings.

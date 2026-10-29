@@ -105,6 +105,19 @@ Archvela 不限于 OpenCode：项目计划使用官方 Skills CLI，对 OpenCode
 
 真实模型运行另分 L2/L3；**安装通过不等于模型已读取或执行成功**。查看 [兼容矩阵和测试分级](./docs/COMPATIBILITY.md) 与 [统一真实客户端测试题](./docs/L3-TEST-PROMPTS.md)。
 
+## 从场景生成独立项目（新增 CLI）
+
+已有三个经过构建验证的示例现在可以通过统一的命令复制为**独立、带锁文件和架构合同的新工程**：
+
+```bash
+python3 scripts/archvela_create.py list
+python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace
+# 默认仅预演。检查后明确添加 --write
+python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace --write
+```
+
+只支持 V3-02、V3-14、V3-26 三个可运行模板，其余 59 个场景仍可生成**架构文档**但不能伪称有完整代码模板。CI 会在新目录中实际 `npm ci` 和 `build`。详见 [项目生成器设计与安全边界](./docs/PROJECT-GENERATOR.md)。
+
 ## 发布前安全基线与真实 Agent 对照研究
 
 - [Release Readiness 检查表](./docs/RELEASE-READINESS.md)：GitHub 合并/许可证/安全权限/真实客户端安装验收，**不会自动发布**。
