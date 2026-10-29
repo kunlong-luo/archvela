@@ -1,5 +1,12 @@
 # Changelog
 
+
+### English-first documentation convention (2026-10-29)
+
+- Made `README.md` the default English GitHub homepage and migrated the full Chinese project overview to `README.zh.md`; removed the obsolete `README.en.md` name.
+- Kept an English-first `docs/GETTING-STARTED.md` and a complete `docs/GETTING-STARTED.zh.md` translation, with correct bidirectional language navigation.
+- Updated contribution rules, maintainer guidance and offline documentation regression tests to enforce English/Chinese filenames and avoid broken links.
+
 ## [Unreleased]
 
 ### Documentation and community quality (2026-10-29)

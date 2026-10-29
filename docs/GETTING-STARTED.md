@@ -1,56 +1,62 @@
-# Archvela · Getting started / 快速上手
+# Getting started with Archvela
 
-[返回中文 README](../README.md) · [English README](../README.en.md) · [兼容性说明](./COMPATIBILITY.md)
+**English (default)** · [简体中文](./GETTING-STARTED.zh.md) · [Project overview](../README.md) · [Agent compatibility](./COMPATIBILITY.md)
 
-这个指南展示**两条不同路线**：
+Archvela supports two workflows:
 
-- **A · 让 Coding Agent 帮你规划架构**：在自己的项目目录安装 `archvela-architect`，向 Agent 提问。无需克隆 Archvela。
-- **B · 不依赖 AI，自己探索场景和生成项目**：克隆 Archvela，使用标准库 Python CLI 或三个可运行的 Starter。
+- **Use the Skill with a coding agent** to plan and review frontend architecture in your existing project.
+- **Use the local tooling** to search the 62 scenario references, create draft architecture documents, or scaffold one of three runnable examples.
 
-> Archvela 不会代替你购买 API、登录模型或部署应用。安装路径测试（L1）不证明模型实际读取技能（L2/L3）。
+Archvela is a *pre-release toolkit*: installing its Skill is not proof that an AI model will correctly discover or follow it. Generated architecture documents are drafts requiring review.
 
-## 准备环境
+## Requirements
 
-| 场景 | 需要 |
+| Workflow | Requirements |
 |---|---|
-| 安装到 Agent | Node.js 22.20+、npm、可访问 GitHub；对应 Agent 客户端由你自行安装并登录 |
-| Python 场景/文档工具 | Python 3.10+，核心脚本不需要额外 pip 包 |
-| 运行 React/Next/Vite 示例 | Node.js 24 / npm，以提交的 `package-lock.json` 为准 |
+| Install the Skill | Node.js 22.20+, npm, GitHub access, and your own installed coding-agent client |
+| Browse scenarios / generate documents | Python 3.10+; the core helper scripts use the standard library |
+| Build standalone examples | Node.js 24, npm and the committed `package-lock.json` files |
 
-## A · 在自己的项目中安装 Agent Skill
+## Option A — Install in your project
 
-**1. 打开你的目标项目目录。** 在终端执行：
+Open a terminal **inside the target project**, then use the interactive installer:
 
 ```bash
 npx skills add kunlong-luo/archvela --skill archvela-architect
 ```
 
-按交互提示选择 Codex、Claude Code、OpenCode 或其他适配目标。想跳过交互并同时装到三个主流客户端：
+To select Codex, Claude Code and OpenCode explicitly:
 
 ```bash
 npx skills add kunlong-luo/archvela --skill archvela-architect \
   --agent codex --agent claude-code --agent opencode --copy --yes
 ```
 
-默认是**项目级安装**；`--global` 是用户级安装，会触及用户主目录。安装前检查目标项目是否已有同名 Skill，必要时先备份其现有内容，不要无意覆盖定制版本。
+This is a **project-local** install by default. Add `--global` only if you intend to install to your user-level Skills directories. The `--copy` option avoids requiring a symlink back to the original repository. Inspect an existing `archvela-architect` installation before replacing any customized local copy.
 
-**2. 查看实际安装文件。** 从项目根目录检查对应路径：
+### Confirm installation
 
-| Agent | 项目级安装目录 |
+Check the actual installer output and project files. Common project paths include:
+
+| Agent | Expected project-level Skill entrypoint |
 |---|---|
 | Codex / OpenCode | `.agents/skills/archvela-architect/SKILL.md` |
 | Claude Code | `.claude/skills/archvela-architect/SKILL.md` |
-| 其他目标 | [兼容矩阵](./COMPATIBILITY.md) |
+| Other agents | See the [compatibility matrix](./COMPATIBILITY.md) |
 
-Skills CLI 可能根据版本使用共享目录或专用目录，以**实际安装输出为准**。可以执行 `npx skills list` 查询安装结果。
+Actual destinations can vary with the Skills CLI version and shared-directory support. You can also inspect installed Skills with:
 
-**3. 在真正的 Agent 会话中测试。** 开一个全新会话，显式要求使用 `archvela-architect`：
+```bash
+npx skills list
+```
 
-> 使用 Archvela 帮我为已有 React 网站做只读架构审查。先找出主要用户旅程、路由、依赖和构建方式；只输出 V3 场景匹配、ADR、四层分包、性能预算和验收条件。不要修改文件或执行部署。
+**Test discovery in a real, fresh agent session.** Try this prompt:
 
-验证 Agent 能否真的加载 `SKILL.md`、引用所选的场景，而不是仅从安装目录推断模型已经调用。
+> Use the `archvela-architect` Skill to audit my existing React project. First inspect its main user journeys, routing, dependencies and build configuration. Return the closest V3 scenario, an architecture decision record (ADR), a four-layer splitting plan, a performance budget and verifiable acceptance criteria. **Read-only analysis: do not edit files or deploy.**
 
-**4. 升级或卸载。** 请先阅读对应 Skills CLI 的确认提示：
+For a valid L2 discovery claim, observe that the *actual client* loads the Skill and retrieves an appropriate scenario. File presence alone establishes only L1 installer behavior.
+
+To manage an installation, read the CLI prompts before confirming updates or removal:
 
 ```bash
 npx skills list
@@ -59,18 +65,18 @@ npx skills update archvela-architect
 npx skills remove archvela-architect
 ```
 
-[Skills CLI 命令文档](https://github.com/vercel-labs/skills/blob/main/docs/commands.md)
+See [Skills CLI command reference](https://github.com/vercel-labs/skills/blob/main/docs/commands.md).
 
-## B · 离线检索场景和生成文档
+## Option B — Search and generate without an AI agent
 
-**1. 获取完整仓库：**
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/kunlong-luo/archvela.git
 cd archvela
 ```
 
-**2. 查找场景：**
+### 2. Browse the catalog
 
 ```bash
 python3 .agents/skills/archvela-architect/scripts/scenes.py --list-domains
@@ -78,29 +84,37 @@ python3 .agents/skills/archvela-architect/scripts/scenes.py --query "digital twi
 python3 .agents/skills/archvela-architect/scripts/scenes.py --id V3-26 --json
 ```
 
-**3. 预演架构文档，再决定是否写入：**
+These commands search the checked-in 62-scenario catalog; they do not call an AI model.
+
+### 3. Preview architecture documents
+
+A preview is **read-only**:
 
 ```bash
 python3 .agents/skills/archvela-architect/scripts/new_project_docs.py \
   --scene V3-26 --project my-home --output ./scratch/my-home --plan-json
 ```
 
-只有核对预演中的目标路径并确认允许创建后，才执行：
+After inspecting the destination and preview, add `--write` to create the draft files:
 
 ```bash
 python3 .agents/skills/archvela-architect/scripts/new_project_docs.py \
   --scene V3-26 --project my-home --output ./scratch/my-home --plan-json --write
+
 python3 .agents/skills/archvela-architect/scripts/plan_contract.py \
   ./scratch/my-home/docs/architecture/archvela-plan.json --level draft
 ```
 
-输出包括 ADR、性能/分包预算、Agent 任务卡，以及可选 `archvela-plan.json`。`draft` 检查字段结构；`reviewed` 和 `delivered` 也不证明填入的性能或测试数据真实。
+The outputs include an ADR, performance/splitting budget, agent delivery card and optional `archvela-plan.json`. Contract validation checks required fields and evidence structure; it cannot verify whether user-supplied test results or performance metrics are genuine.
 
-**4. 从三个经过构建验证的场景生成代码：**
+### 4. Scaffold a runnable example
+
+**Only** V3-02 (cinematic site), V3-14 (SaaS workspace) and V3-26 (home digital twin) currently ship runnable source templates. The other 59 scenarios provide architecture reference material and document generation, **not** complete code projects.
 
 ```bash
 python3 scripts/archvela_create.py list
 python3 scripts/archvela_create.py create --scene V3-02 --project brand-demo --output ./workspace
+# Inspect the dry-run output and intended directory, then:
 python3 scripts/archvela_create.py create --scene V3-02 --project brand-demo --output ./workspace --write
 cd workspace/brand-demo
 npm ci
@@ -108,20 +122,20 @@ npm run build
 npm run dev
 ```
 
-`V3-02` 是电影化企业官网、`V3-14` 是 SaaS 工作台、`V3-26` 是住宅数字孪生；**其余场景还不能生成可运行代码**。独立构建后查看服务启动的本地地址，不需要部署。
+No deployment, model invocation, or package install happens from the dry-run itself.
 
-## 故障排查
+## Troubleshooting
 
-| 症状 | 先检查 |
+| Symptom | What to check |
 |---|---|
-| `npx` 或安装失败 | `node --version`、`npm --version`、网络访问、代理、npm registry；检查 Skills CLI 输出 |
-| Agent 看不到 Skill | 在正确项目根目录重新打开会话，检查实际目录与 `SKILL.md`；不要把文件存在当成模型发现 |
-| 找不到 Python 脚本 | 是否在 `archvela` 仓库根目录，或使用了不属于该 Agent 的安装路径 |
-| 提示目标文件已存在 | **预期的安全防护**；更换新输出目录，不要直接覆盖 |
-| 想验证“比不装 Skill 更好” | 用 [真实 Agent 评测协议](./AGENT-EVAL-PROTOCOL.md) 和 [试点工具](../benchmarks/README.md)，不能用安装测试替代 |
+| `npx` or install fails | `node --version`, `npm --version`, access to GitHub and the npm registry, proxy settings, and installer diagnostics |
+| Agent cannot see the Skill | Reopen the client in the correct project, inspect the actual Skill directory and client-specific discovery rules |
+| Python script not found | Run from the Archvela repository root or the correct installed Skill directory |
+| The output path already exists | This is intentional overwrite protection. Choose a new destination rather than bypassing the guard |
+| Need to establish model effectiveness | Use the [real-agent evaluation protocol](./AGENT-EVAL-PROTOCOL.md), not the installer CI result |
 
-## 下一步
+## Next steps
 
-继续阅读 [场景目录](../.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md)、[可运行示例](../examples/README.md)、[架构合同](./PLAN-CONTRACT.md) 和 [贡献指南](../CONTRIBUTING.md)。
+Explore the [scenario catalog](../.agents/skills/archvela-architect/references/07_V3_全场景蓝图与选型索引.md), [runnable examples](../examples/README.md), [structured plan contract](./PLAN-CONTRACT.md), [evaluation harness](../benchmarks/README.md) and [contribution guide](../CONTRIBUTING.md).
 
-> 安全提示：不要将密钥、客户源码或未授权数据交给未知的 Agent 插件或安装器；所有生成文档与架构建议必须由开发者审核后再执行。
+**Security:** review third-party installers and generated code. Do not send secrets, proprietary customer files, or unauthorized data to an unknown agent or plugin.

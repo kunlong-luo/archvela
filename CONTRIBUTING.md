@@ -2,7 +2,11 @@
 
 Thank you for helping independent developers build maintainable frontend products. Contributions can improve the Skill, the 62-scenario reference catalog, generators, runnable examples, tests and documentation.
 
-[中文 README](./README.md) · [English README](./README.en.md) · [Quickstart](./docs/GETTING-STARTED.md) · [Security](./SECURITY.md)
+[English README](./README.md) · [中文 README](./README.zh.md) · [Getting Started](./docs/GETTING-STARTED.md) · [中文入门](./docs/GETTING-STARTED.zh.md) · [Security](./SECURITY.md)
+
+## Documentation language convention
+
+**English is the default language** for the GitHub landing and canonical entrypoint documentation: `README.md` and `docs/GETTING-STARTED.md`. Their maintained Chinese translations live at `README.zh.md` and `docs/GETTING-STARTED.zh.md`. Link back to the corresponding language from both versions, and update both when instructions, capabilities or safety claims change. Keep repo-relative links valid; run the documentation regression tests before opening a PR. Domain-specific V3 reference documents may remain in Chinese, but English-facing navigation should explain those limitations rather than mislabeling them as English.
 
 ## Before opening an issue or PR
 

@@ -35,7 +35,7 @@ agent-skills, ai-coding, architecture, frontend, nextjs, react, typescript, deve
 - CI tests currently verify installation/structure, builds and browser interactions. They do **not** prove model-backed benefits.
 - The external Skills CLI is a third-party tool; references to supported agents describe installer targets, not endorsements or integrations certified by their vendors.
 - Badges reflect the latest GitHub Actions runs on `main`; they are not static quality scores.
-- Keep user-visible READMEs bilingual and check local links through `tests/test_documentation.py`.
+- English is the default GitHub entrypoint (`README.md`) and quickstart (`docs/GETTING-STARTED.md`); their full Chinese translations are `README.zh.md` and `docs/GETTING-STARTED.zh.md`. Keep both languages synchronized and check local links through `tests/test_documentation.py`.
 
 ## Branch cleanup command (maintainers only)
 
