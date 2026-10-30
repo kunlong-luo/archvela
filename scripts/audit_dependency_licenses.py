@@ -102,10 +102,23 @@ def verify_register(register: dict, observed: dict) -> None:
     if (register.get("status") != "pending_human_review"
             or register.get("rights_cleared") is not False):
         raise ValueError("Unverified third-party dependency rights approval claimed")
-    for key in ("lockfile_git_blob_sha", "expected_package_rows",
-                "expected_flagged_rows", "flagged_dependencies"):
+    for key in ("lockfile_git_blob_sha", "expected_package_rows", "expected_flagged_rows"):
         if register.get(key) != observed[key]:
             raise ValueError("Stale/changed lockfile or license review list: " + key)
+    def index(records: object) -> dict:
+        if not isinstance(records, list):
+            raise ValueError("Invalid reviewed dependency list")
+        items = {}
+        for entry in records:
+            if not isinstance(entry, dict):
+                raise ValueError("Invalid dependency review record")
+            identity = (entry.get("lockfile"), entry.get("package_path"))
+            if identity in items:
+                raise ValueError("Duplicate dependency review record")
+            items[identity] = entry
+        return items
+    if index(register.get("flagged_dependencies")) != index(observed["flagged_dependencies"]):
+        raise ValueError("Stale/changed lockfile or license review list: flagged_dependencies")
     if observed["missing_declared_license"]:
         raise ValueError("Lockfile dependencies have missing license metadata")
     # Even all metadata present and zero flag rows would NOT be rights clearance.
