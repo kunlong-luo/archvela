@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BENCH = ROOT / "benchmarks"
-PIN = "b" * 40
+PIN = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
 def run(script: str, *args: str):
