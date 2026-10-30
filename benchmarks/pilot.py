@@ -89,7 +89,7 @@ def prepare_pilot(*, output: Path, agent: str, model: str, skill_sha: str,
     (destination / "operator").mkdir()
     key_file = destination / "operator" / "manifest.key"
     with key_file.open("x", encoding="ascii") as handle:
-        handle.write(key.hex() + "\\n")
+        handle.write(key.hex() + "\n")
     key_file.chmod(0o600)
     (destination / "workspace").mkdir()
     (destination / "reviewer").mkdir()
