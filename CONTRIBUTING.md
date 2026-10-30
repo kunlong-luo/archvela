@@ -51,6 +51,8 @@ For browser E2E or generated projects, check the respective workflows and [test 
 - If changing `package.json` in any of the three examples or `tests/browser`, update the matching `package-lock.json` with Node 24/npm and verify `npm ci`.
 - For Skill compatibility, distinguish **L0/L1 file and installer tests** from **L2/L3 real-model discovery and task outcomes**. Synthetic grading fixtures are never published model benchmarks.
 - Use licensed/original media and document copyright provenance; do not introduce API keys, real customer data, private source, misleading metrics or production credentials.
+- If you add a committed image, 3D model, font, audio, video, SVG or PDF, first add a reviewed record to `docs/ASSET-PROVENANCE.json` and run `python3 scripts/check_asset_provenance.py`. The manifest checks metadata, not legal ownership; source code and bundled reference text also require manual attribution review.
+- For real-agent research, use `docs/REAL-AGENT-PILOT.md`: protect the operator-only arm mapping and client metadata, supply genuine redacted logs and never treat fixture tests or SHA-256 checks as proof of model performance.
 
 ## Pull request quality bar
 
