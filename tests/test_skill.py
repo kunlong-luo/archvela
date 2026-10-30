@@ -28,6 +28,46 @@ class ArchvelaTests(unittest.TestCase):
         self.assertLessEqual(len(description.group(1)), 1024)
         self.assertLess(len(text.splitlines()), 500)
 
+    def test_english_discovery_is_explicit_and_stack_selection_is_neutral(self):
+        skill = (SKILL / "SKILL.md").read_text(encoding="utf-8")
+        header, rest = skill.split("---", 2)[1:]
+        description = re.search(r"(?m)^description: (.+)$", header).group(1)
+        # This is an offline metadata check, NOT proof of native agent discovery.
+        self.assertTrue(description.startswith("Plan and audit scenario-first"))
+        for phrase in ("frontend architecture", "Vue", "React", "digital twins", "read-only"):
+            self.assertIn(phrase, description)
+        for phrase in ("Vue/Nuxt", "Astro", "Package", "Feature", "JS Chunk",
+                       "Asset Pack", "ENGLISH-DECISION-GUIDE.md",
+                       "No framework or component library is categorically excluded"):
+            self.assertIn(phrase, rest)
+        self.assertNotIn("默认不推荐 Vue", skill)
+        self.assertIn("中文使用提示", skill)
+        self.assertIn("only V3-02, V3-14 and V3-26", skill)
+
+    def test_english_guide_has_six_domains_and_warns_of_untranslated_source(self):
+        guide = (SKILL / "references" / "ENGLISH-DECISION-GUIDE.md")
+        text = guide.read_text(encoding="utf-8")
+        for code, name in (
+            ("01", "Websites and commercial presentation"),
+            ("02", "Business apps and productivity"),
+            ("03", "Digital twins and built environments"),
+            ("04", "Education and professional visualization"),
+            ("05", "Games and immersive experiences"),
+            ("06", "Geographic data and public information"),
+        ):
+            self.assertIn(f"{code} · {name}", text)
+        self.assertIn("not", text.lower())
+        self.assertIn("62", text)
+        self.assertIn("59", text)
+        self.assertIn("Vue 3", text)
+        self.assertIn("Package", text)
+        self.assertIn("Feature", text)
+        self.assertIn("JS Chunk", text)
+        self.assertIn("Asset Pack", text)
+        # Relative links must resolve; English guide cannot refer to imaginary sources.
+        for target in re.findall(r"(?<!!)\\[[^]\\n]+\\]\\((\\./[^)]+)\\)", text):
+            self.assertTrue((guide.parent / target).resolve().is_file(), target)
+
     def test_62_scenarios_and_domain_counts(self):
         items = json.loads(CATALOG.read_text(encoding="utf-8"))
         self.assertEqual(len(items), 62)
