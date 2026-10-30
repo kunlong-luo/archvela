@@ -1,4 +1,4 @@
-"""Protect the one-time cleanup gate against accidental expansion of privileges."""
+"""Protect the repository after the audited one-time cleanup."""
 import unittest
 from pathlib import Path
 
@@ -6,19 +6,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class HardeningWorkflowTests(unittest.TestCase):
-    def test_main_push_only_one_time_cleanup(self):
-        path = ROOT / ".github/workflows/cleanup-merged-branches.yml"
-        text = path.read_text(encoding="utf-8")
-        self.assertIn("branches: [main]", text)
-        self.assertIn('".github/workflows/cleanup-merged-branches.yml"', text)
-        self.assertNotIn("pull_request:", text)
-        self.assertNotIn("pull_request_target:", text)
-        self.assertIn("github.repository == 'kunlong-luo/archvela'", text)
-        self.assertIn("github.ref == 'refs/heads/main'", text)
-        self.assertIn("contents: write", text)
-        self.assertIn("persist-credentials: false", text)
-        self.assertIn("--expect-sha", text)
-        self.assertIn("--execute", text)
+    def test_privileged_one_time_workflow_was_removed(self):
+        self.assertFalse((ROOT / ".github/workflows/cleanup-merged-branches.yml").exists(),
+                         "One-time contents:write workflow must not remain on main")
+        self.assertTrue((ROOT / "scripts/prune_merged_branches.py").is_file())
 
     def test_release_readiness_is_explicit_not_fabricated(self):
         readme = (ROOT / "docs/RELEASE-READINESS.md").read_text(encoding="utf-8")

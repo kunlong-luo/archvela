@@ -11,11 +11,11 @@ repository development, not official release dates.
 ## [Unreleased]
 
 ### Changed
-- 2026-10-30: Hardened repository maintenance with a preflight-only-by-default,
-  one-time merged-branch cleanup that validates PR merge state, pinned commit
-  SHA, ancestry, branch protection and repository identity before any deletion.
-  **Execution outcome must be verified in the corresponding Actions run**;
-  merging a PR alone is not evidence that branches were removed.
+- 2026-10-30: Safely deleted **11 merged PR branches** (10 existing plus
+  the hardening PR branch). [Cleanup run #40990833067](https://github.com/kunlong-luo/archvela/actions/runs/40990833067)
+  succeeded and a fresh GitHub branch query confirmed **only `main`**.
+  The one-time `contents:write` workflow was removed immediately afterward.
+  The audit script and fail-closed preflight tests remain available.
 - 2026-10-30: Reconciled release gates and issue descriptions against merged
   PRs and current CI evidence; kept unverified configuration and real-agent
   evaluation explicitly pending.

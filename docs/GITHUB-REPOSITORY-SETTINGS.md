@@ -14,7 +14,7 @@ even if CI is green.
 | Main baseline | `c2ba1ace` | Seven CI workflow groups passed |
 | Open PRs | 0 | Pull request API |
 | Published GitHub Releases | 0 observed | Releases API |
-| Non-main remote branches | 10, all unprotected and linked to merged PRs | Branch + PR APIs |
+| Non-main remote branches | **0 after verified cleanup** (10 existed at preflight) | [Cleanup #40990833067](https://github.com/kunlong-luo/archvela/actions/runs/40990833067) + fresh branch API |
 | Rulesets returned by public API | `[]` | Repository rulesets API |
 | Detailed branch protection | **Unknown**; integration received HTTP 403 | Requires owner Settings check |
 | Auto-delete merged PR branches | **disabled** | Repository API (`delete_branch_on_merge=false`) |
@@ -42,46 +42,32 @@ even if CI is green.
    `pull_request`-only dependency reviews before marking checks mandatory.
 5. **Settings → Actions → General**: review default `GITHUB_TOKEN`
    permissions; prefer read-only by default and narrow explicit job-level
-   write permissions. The temporary one-time cleanup job is the sole
-   exception in this hardening PR.
+   write permissions. The one-time cleanup exception was removed after success.
 6. **Settings → Security & analysis / Advanced Security**: verify
    Dependabot alerts, secret scanning, push protection and private
    vulnerability reporting if offered for this repository and plan.
    Existing CodeQL, npm audits and PR dependency review are separate checks.
 
-## One-time deletion of verified merged branches
+## Verified one-time cleanup — completed on 2026-10-30
 
-An audited [one-time workflow](../.github/workflows/cleanup-merged-branches.yml)
-and [safe preflight script](../scripts/prune_merged_branches.py)
-are proposed in the V0.3 hardening PR. They run automatically **only when
-that specific workflow file is added/changed by a trusted push to `main`**.
-They never execute on `pull_request`; the only write permission is
-`contents: write` on the cleanup job. Every deletion is preceded by a
-GitHub PR merge check, fixed SHA check, branch-protection check and ancestry
-check. The current maintenance PR branch itself is also audited after merge,
-so the cleanup does not leave a new stale branch.
+The audited [cleanup run](https://github.com/kunlong-luo/archvela/actions/runs/40990833067)
+completed with **success**. GitHub's branch API was queried afterward and
+listed **only `main`**: ten existing merged PR branches plus the hardening
+PR's branch were deleted. Validation included expected SHA, merged PR,
+branch protection, ancestry and repo identity. The code remains in
+[the audit script](../scripts/prune_merged_branches.py).
 
-**Required follow-up:**
-- [ ] The cleanup workflow has completed **successfully**, with deletion logs.
-- [ ] A fresh GitHub branch API query confirms only `main` remains.
-- [ ] Remove the privileged one-off cleanup workflow using a new reviewed PR
-  once successful; preserve the read-only/auditable script if useful.
-- [ ] Enable automatic merged-branch deletion in Settings.
+- [x] Verified the workflow run succeeded.
+- [x] Verified that no non-main branches remain.
+- [x] Removed the temporary privileged workflow from the default branch;
+  there is **no standing `contents:write` cleanup job**.
+- [ ] **Owner setting still needed:** enable automatic deletion of merged PR
+  branches. The installed GitHub connector cannot change this repository
+  setting.
 
-If GitHub refuses the write operation, **do not mark cleanup complete**.
-A repository maintainer may instead run:
-
-```bash
-git fetch --prune origin
-git branch -r --merged origin/main
-# Verify every named branch is merged and contains no unique commits
-# before issuing explicit commands:
-git push origin --delete <verified-merged-branch>
-git fetch --prune origin
-```
-
-Never delete `main`, protected branches, unmerged PR work or arbitrary refs
-from a wildcard list. PR closure alone does not mean a branch was merged.
+For future work, use pull requests and review actual branch merge status
+before cleanup. A closed PR is not necessarily merged. Do not delete
+unmerged work, protected branches, or `main`.
 
 ## Release and trust claims
 

@@ -41,13 +41,13 @@
   mapped to individual **merged** PRs, all targeting main. The inventory,
   original SHA and PR number are pinned in
   [scripts/prune_merged_branches.py](../scripts/prune_merged_branches.py).
-- [ ] **Verify the actual cleanup run** in
-  [GitHub Actions](https://github.com/kunlong-luo/archvela/actions/workflows/cleanup-merged-branches.yml)
-  after this PR is merged. The one-time workflow has `contents:write`
-  only on a trusted main push and rechecks GitHub's PR, branch and ancestry
-  records before deleting any refs. **A successful preflight or PR merge is
-  not evidence that remote branches were deleted.** Remove the privileged
-  one-off workflow after successful cleanup.
+- [x] **Verified the actual cleanup run:** [Actions #40990833067](https://github.com/kunlong-luo/archvela/actions/runs/40990833067)
+  completed with success, and a fresh branch API query returned **only `main`**.
+  All ten old merged branches and the PR #26 work branch were removed. The
+  job compared each pinned SHA, merged PR, branch protection and ancestry.
+- [x] **Removed the temporary `contents:write` cleanup workflow** after
+  successful deletion, keeping the audit script and safety tests in history.
+  No recurring privileged cleanup job remains.
 - [ ] GitHub About **Description** currently has an accidental trailing
   `复制` suffix. Edit it out in the repo settings.
 - [ ] Change the misleading `architecture-srv` Topic to
@@ -95,10 +95,10 @@ L1 installer workflow as L3 evidence.
 
 The repository does **not** automatically create releases, tags or deploy
 the examples. Hardening is distinct from release approval. The one-time
-merged-branch cleanup requires only a trusted `main` workflow and has no
-`pull_request` trigger, preventing execution of untrusted PR code with
-write privileges. If cleanup cannot be verified, retain the unchecked status
-and use the [manual audit instructions](./GITHUB-REPOSITORY-SETTINGS.md).
+cleanup ran from trusted `main`, had no `pull_request` trigger, and was
+removed immediately after its successful, API-verified deletion.
+Future branch hygiene depends on owner-enabled automatic deletion; see the
+[maintainer runbook](./GITHUB-REPOSITORY-SETTINGS.md).
 
 The examples are reference demonstrations, not production SaaS, real-time IoT
 systems or construction-ready engineering designs.
