@@ -53,7 +53,7 @@ class PilotSummaryTests(unittest.TestCase):
             score = 2 if item["arm"] == "baseline" else 3
             rows.append({
                 "blind_id": blind,
-                "response_sha256": hashlib.sha256("TEST FIXTURE ONLY — not an AI response.\\n".encode()).hexdigest(),
+                "response_sha256": hashlib.sha256("TEST FIXTURE ONLY — not an AI response.\n".encode()).hexdigest(),
                 "grades": {key: score for key in RUBRIC},
                 "reviewer": "FICTIONAL-TEST-FIXTURE",
                 "notes": None,
