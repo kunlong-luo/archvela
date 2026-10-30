@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Audit *operator-supplied* pilot evidence without running or scoring models.
+"""Audit operator-supplied evidence WITHOUT running or scoring AI agents.
 
-Only verifies files, self-reported metadata, and hashes. The operator-only
-report reveals study arms and must never be given to blind reviewers.
+Valid negative observations (failed calls, missing Skill discovery) MUST survive.
+The report includes arm assignments: it is OPERATOR ONLY, never blind review.
 """
 from __future__ import annotations
 
@@ -14,14 +14,21 @@ import re
 import sys
 from pathlib import Path
 
-from evaluate import DATA, load_cases
+from evaluate import DATA, load_cases, make_manifest
 
 ID = re.compile(r"^[0-9a-f]{16}$")
+SHA = re.compile(r"^[0-9a-f]{40}$")
 MAX_BYTES = 8_000_000
+OUTCOMES = {"completed", "failed", "blocked"}
+FAILURES = {
+    "client_error", "model_error", "installation_error",
+    "skill_discovery_failure", "budget_exceeded", "safety_refusal",
+    "environment_error", "other",
+}
 
 
 def safe_file(study: Path, relative: Path) -> Path:
-    if relative.is_absolute() or ".." in relative.parts:
+    if relative.is_absolute() or not relative.parts or ".." in relative.parts:
         raise ValueError("Unsafe relative evidence path: " + str(relative))
     path = study
     for part in relative.parts:
@@ -48,10 +55,56 @@ def evidence_digest(path: Path) -> str:
 def utc_timestamp(value: str) -> dt.datetime:
     if not isinstance(value, str):
         raise ValueError("Timestamp must be an ISO8601 UTC string")
-    timestamp = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    try:
+        timestamp = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError("Invalid UTC timestamp") from exc
     if timestamp.tzinfo is None or timestamp.utcoffset() != dt.timedelta():
         raise ValueError("Timestamp must specify UTC timezone")
     return timestamp
+
+
+def validate_manifest(manifest: dict) -> list[dict]:
+    if manifest.get("schema_version") != 1 or manifest.get("kind") != "operator_only_unexecuted_pilot":
+        raise ValueError("Unexpected operator manifest")
+    if manifest.get("agent") not in ("codex", "claude-code", "opencode"):
+        raise ValueError("Unexpected client in pilot manifest")
+    if not SHA.fullmatch(str(manifest.get("skill_commit", ""))):
+        raise ValueError("Study must pin a full Git commit")
+    if manifest.get("executed_runs") != 0:
+        raise ValueError("Pilot generator must not claim execution")
+    if hashlib.sha256(DATA.read_bytes()).hexdigest() != manifest.get("cases_sha256"):
+        raise ValueError("Benchmark cases changed after pilot preparation")
+    model = manifest.get("model")
+    task_ids = manifest.get("task_ids")
+    if (not isinstance(model, str) or not model.strip()
+            or not isinstance(task_ids, list) or not task_ids
+            or len(set(task_ids)) != len(task_ids)
+            or any(not isinstance(t, str) for t in task_ids)):
+        raise ValueError("Invalid model or task list")
+    known = {case["id"]: case for case in load_cases()}
+    if any(t not in known for t in task_ids):
+        raise ValueError("Unknown task in pilot")
+    runs = manifest.get("runs")
+    if not isinstance(runs, list) or len(runs) != 2 * len(task_ids):
+        raise ValueError("Pilot run count must equal selected tasks x two arms")
+    ids = [r.get("blind_id") for r in runs if isinstance(r, dict)]
+    if (len(ids) != len(runs) or len(set(ids)) != len(ids)
+            or any(not isinstance(i, str) or not ID.fullmatch(i) for i in ids)):
+        raise ValueError("Invalid or duplicate blind ID")
+    # Reconstruct the exact randomized assignment instead of accepting
+    # modified arm labels or forged blind IDs in operator-manifest.json.
+    regenerated = make_manifest(manifest["seed"], model, manifest["trial"])
+    expected = {
+        row["blind_id"]: row for row in regenerated["runs"]
+        if row["task_id"] in task_ids
+    }
+    if set(expected) != set(ids):
+        raise ValueError("Pilot blind IDs changed since preparation")
+    for row in runs:
+        if row != expected[row["blind_id"]]:
+            raise ValueError("Pilot task, arm, prompt or metadata was modified")
+    return runs
 
 
 def audit(study_dir: Path) -> dict:
@@ -62,39 +115,21 @@ def audit(study_dir: Path) -> dict:
         raise ValueError("Study must be a directory")
     manifest_file = safe_file(study, Path("operator-manifest.json"))
     manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
-    if manifest.get("schema_version") != 1 or manifest.get("kind") != "operator_only_unexecuted_pilot":
-        raise ValueError("Unexpected operator manifest")
-    if manifest.get("agent") not in ("codex", "claude-code", "opencode"):
-        raise ValueError("Unexpected client in pilot manifest")
-    if not re.fullmatch("[0-9a-f]{40}", str(manifest.get("skill_commit", ""))):
-        raise ValueError("Study must pin a full Git commit")
-    if manifest.get("executed_runs") != 0:
-        raise ValueError("Pilot generator must not claim execution")
-    if hashlib.sha256(DATA.read_bytes()).hexdigest() != manifest.get("cases_sha256"):
-        raise ValueError("Benchmark cases changed after pilot preparation")
-    known = {case["id"]: case for case in load_cases()}
-    runs = manifest.get("runs")
-    if not isinstance(runs, list) or not runs or len(runs) != 2 * len(manifest.get("task_ids", [])):
-        raise ValueError("Pilot run count must equal selected tasks x two arms")
-    ids = [r.get("blind_id") for r in runs]
-    if any(not isinstance(i, str) or not ID.fullmatch(i) for i in ids) or len(set(ids)) != len(ids):
-        raise ValueError("Invalid or duplicate blind ID")
-    tasks = {}
-    complete = []
+    runs = validate_manifest(manifest)
+    present = []
     missing = []
-    for r in runs:
-        task = r.get("task_id")
-        arm = r.get("arm")
-        if task not in known or r.get("prompt") != known[task]["prompt"] or arm not in ("baseline", "archvela"):
-            raise ValueError("Pilot task or prompt has changed")
-        tasks.setdefault(task, set()).add(arm)
-        blind = r["blind_id"]
+    deviations = []
+    status_counts = {name: 0 for name in sorted(OUTCOMES)}
+    for run in runs:
+        blind = run["blind_id"]
+        arm = run["arm"]
         response = Path("reviewer/artifacts") / (blind + ".response.md")
         logfile = Path("reviewer/artifacts") / (blind + ".run.log")
         metadata = Path("operator") / blind / "session.json"
         files = (response, logfile, metadata)
-        if any(not (study / f).exists() for f in files):
-            missing.append({"blind_id": blind, "missing": [str(f) for f in files if not (study / f).exists()]})
+        absent = [str(f) for f in files if not (study / f).exists()]
+        if absent:
+            missing.append({"blind_id": blind, "missing": absent})
             continue
         paths = [safe_file(study, f) for f in files]
         data = json.loads(paths[2].read_text(encoding="utf-8"))
@@ -103,10 +138,6 @@ def audit(study_dir: Path) -> dict:
             raise ValueError("Actual session identity mismatch: " + blind)
         if data.get("skill_commit") != manifest["skill_commit"]:
             raise ValueError("Session pinned Skill version mismatch: " + blind)
-        if data.get("skill_discovered") is not (arm == "archvela"):
-            raise ValueError("Skill discovery does not match expected pilot condition: " + blind)
-        if data.get("execution_status") != "completed":
-            raise ValueError("Run was not completed: " + blind)
         client_version = data.get("client_version")
         if not isinstance(client_version, str) or not client_version.strip():
             raise ValueError("Missing actual client version: " + blind)
@@ -114,26 +145,60 @@ def audit(study_dir: Path) -> dict:
         end = utc_timestamp(data.get("finished_at_utc"))
         if end <= start:
             raise ValueError("Invalid session time order: " + blind)
+        status = data.get("execution_status")
+        if status not in OUTCOMES:
+            raise ValueError("Invalid execution status: " + blind)
+        discovery = data.get("skill_discovered")
+        if discovery is not None and type(discovery) is not bool:
+            raise ValueError("Invalid Skill discovery observation: " + blind)
+        if status == "completed" and discovery is None:
+            raise ValueError("Completed session needs an observed discovery flag: " + blind)
+        category = data.get("failure_category")
+        reason = data.get("failure_detail")
+        if status != "completed":
+            if category not in FAILURES or not isinstance(reason, str) or not reason.strip():
+                raise ValueError("Failed/blocked run needs failure category and detail: " + blind)
+        elif category is not None or (reason is not None and reason != ""):
+            raise ValueError("Completed run cannot claim a failure category: " + blind)
         prompt_file = safe_file(study, Path("operator") / blind / "PROMPT.txt")
-        if prompt_file.read_text(encoding="utf-8") != r["prompt"] + "\n":
+        if prompt_file.read_text(encoding="utf-8") != run["prompt"] + "\n":
             raise ValueError("Operator prompt was modified: " + blind)
-        complete.append({
+        status_counts[status] += 1
+        # A client failing to discover the Skill is a NEGATIVE observation,
+        # not a reason to delete that arm from evidence coverage.
+        if arm == "archvela" and discovery is not True:
+            deviations.append({"blind_id": blind, "type": "treatment_skill_not_discovered",
+                               "status": status})
+        # Baseline with inherited Skill is contaminated and cannot be used
+        # in a valid baseline/treatment comparison, but keep the raw evidence.
+        if arm == "baseline" and discovery is True:
+            deviations.append({"blind_id": blind, "type": "baseline_skill_contamination",
+                               "status": status})
+        present.append({
             "blind_id": blind,
+            "execution_status": status,
+            "skill_discovered": discovery,
+            "failure_category": category if status != "completed" else None,
             "response_sha256": evidence_digest(paths[0]),
             "run_log_sha256": evidence_digest(paths[1]),
             "metadata_sha256": evidence_digest(paths[2]),
         })
-    if set(tasks) != set(manifest["task_ids"]) or any(arms != {"baseline", "archvela"} for arms in tasks.values()):
-        raise ValueError("Incomplete or duplicated task assignment")
+    contamination = any(x["type"] == "baseline_skill_contamination" for x in deviations)
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "audit_type": "operator_only_self_reported_evidence",
         "expected_runs": len(runs),
-        "evidence_complete_runs": len(complete),
-        "all_evidence_present": len(missing) == 0,
-        "evidence": complete,
+        "evidence_complete_runs": len(present),
+        "all_evidence_present": not missing,
+        "protocol_valid": not contamination,
+        "execution_status_counts": status_counts,
+        "discovery_deviations": deviations,
+        "evidence": present,
         "missing": missing,
-        "caveat": "Files, metadata fields and SHA256 were checked only. No AI client was invoked, no grades were assigned, and model execution claims cannot be independently verified.",
+        "caveat": (
+            "Complete evidence can include failed/blocked runs and Skill discovery failures. "
+            "Fields and SHA256 only: neither client execution, redaction, scores nor model benefit is verified."
+        ),
     }
 
 
@@ -144,7 +209,9 @@ def main() -> int:
     try:
         result = audit(args.study)
         print(json.dumps(result, ensure_ascii=False, indent=2))
-        return 0 if result["all_evidence_present"] else 2
+        # Failed/blocked treatment attempts are valid negative outcomes.
+        # Baseline contamination is a reproducibility defect.
+        return 0 if result["all_evidence_present"] and result["protocol_valid"] else 2
     except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError) as exc:
         print("FAIL: " + str(exc), file=sys.stderr)
         return 2
