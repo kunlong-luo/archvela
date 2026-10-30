@@ -30,6 +30,13 @@ repository development, not official release dates.
   documentation integrity tests.
 - 2026-10-29: Corrected out-of-date GitHub-source install instructions.
 
+### V0.6 English-first Skill and stack neutrality (unreleased)
+
+- Reworked the portable Skill entrypoint into English-first metadata and architecture workflow, with concise Chinese guidance for existing users.
+- Added English descriptions of all six domains, explicit source routing and a context-based comparison matrix for React, Vue/Nuxt, Next.js, Astro, Svelte and rendering engines.
+- Removed the unconditional discouragement of Vue 3/Ant Design; preserve functioning existing stacks unless evidence supports change.
+- Added offline tests for entrypoint text and guide links. The underlying 62 V3 scenario documents remain predominantly Chinese; no native L2/L3 client tests or releases were performed.
+
 ### V0.5 pilot reproducibility and blind integrity (unreleased)
 
 - Removed predictable reviewer IDs from pilot/full study cards and signed
