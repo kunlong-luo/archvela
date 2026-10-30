@@ -1,4 +1,5 @@
 """Offline fixture-only tests for the pilot summary gate. NO MODEL RUNS."""
+import hashlib
 import json
 import subprocess
 import sys
@@ -8,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BENCH = ROOT / "benchmarks"
-SKILL_SHA = "c" * 40
+SKILL_SHA = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 CLIENTS = ("codex", "claude-code", "opencode")
 RUBRIC = ("scenario_fit", "architecture_reasoning", "four_layer_split",
           "fallback_safety", "verification_plan")
@@ -52,6 +53,7 @@ class PilotSummaryTests(unittest.TestCase):
             score = 2 if item["arm"] == "baseline" else 3
             rows.append({
                 "blind_id": blind,
+                "response_sha256": hashlib.sha256("TEST FIXTURE ONLY — not an AI response.\\n".encode()).hexdigest(),
                 "grades": {key: score for key in RUBRIC},
                 "reviewer": "FICTIONAL-TEST-FIXTURE",
                 "notes": None,
