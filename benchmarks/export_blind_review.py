@@ -8,6 +8,7 @@ No AI clients, paid requests, scoring or network access are involved.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import sys
@@ -74,6 +75,7 @@ def export(study_dir: Path, output: Path, *, redaction_confirmed: bool) -> dict:
                     "records": [
                         {
                             "blind_id": blind,
+                            "response_sha256": hashlib.sha256(sources[blind][0].read_bytes()).hexdigest(),
                             "grades": {
                                 "scenario_fit": None, "architecture_reasoning": None,
                                 "four_layer_split": None, "fallback_safety": None,
