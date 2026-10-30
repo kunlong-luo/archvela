@@ -21,7 +21,12 @@ class BenchmarkTests(unittest.TestCase):
     def test_balanced_and_reproducible_blind_assignment(self):
         one = mod.make_manifest(24, "demo-agent-model", 1)
         two = mod.make_manifest(24, "demo-agent-model", 1)
-        self.assertEqual(one, two)
+        # Order remains seeded, but opaque reviewer IDs MUST vary on every run.
+        self.assertEqual([(r["task_id"], r["arm"]) for r in one["runs"]],
+                         [(r["task_id"], r["arm"]) for r in two["runs"]])
+        self.assertNotEqual([r["blind_id"] for r in one["runs"]],
+                            [r["blind_id"] for r in two["runs"]])
+        self.assertTrue(all(len(r["blind_id"]) == 32 for r in one["runs"]))
         self.assertEqual(len(one["runs"]), 24)
         for task in mod.load_cases():
             self.assertEqual({r["arm"] for r in one["runs"] if r["task_id"] == task["id"]},

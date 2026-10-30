@@ -17,6 +17,32 @@ The *pilot* consists of 2 tasks × 2 arms × 3 clients = **12 actual sessions**.
 The planned full study consists of 12 tasks × 2 arms × 3 clients = **72 sessions**.
 Pilot results are not a statistical claim that Archvela improves performance.
 
+## V0.5 pilot preflight integrity (before any live client session)
+
+Prepare from a **clean, detached Git checkout of the exact experiment SHA**.
+`pilot.py` rejects a mismatched HEAD or locally modified Skill/benchmark
+source files. Fresh V2 operator-manifest IDs use secure randomness; the
+private `operator/manifest.key` holds an integrity signing key and must
+be protected alongside the arm mapping. It is not a client credential,
+not a model credential, and must never be given to reviewers.
+
+Use `npx --yes skills@1.7.4` only in authorized **Treatment** workspaces,
+and record actual installer/client versions and pinned source commit.
+The baseline must not inherit any global Archvela Skill. The scripts
+cannot inspect login states or independently certify native discovery.
+
+Before collecting human scores, manually redact and export responses.
+The exported blank-review sheet includes each response's SHA-256; a
+reviewer must grade the exact file. If you edit or re-redact a response
+after grading, the operator summary rejects the changed fingerprint.
+
+Report `intention_to_treat_human_delta` as a *descriptive randomized
+assignment comparison* only when complete; it includes all assigned
+conditions and **does not prove the Skill was used**. The separate
+`full_study_human_delta` is suppressed unless all Treatment runs
+actually discovered the Skill. Neither implies causality, and failures
+or missing human reviews never disappear from denominators.
+
 ## Before beginning any run
 
 1. Use genuine, authorized, logged-in **Codex**, **Claude Code** and

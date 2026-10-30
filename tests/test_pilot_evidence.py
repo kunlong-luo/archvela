@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PILOT = ROOT / "benchmarks/pilot.py"
 AUDIT = ROOT / "benchmarks/audit_pilot.py"
-SHA = "a" * 40
+SHA = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
 class PilotEvidenceTests(unittest.TestCase):

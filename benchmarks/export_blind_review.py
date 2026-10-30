@@ -8,6 +8,7 @@ No AI clients, paid requests, scoring or network access are involved.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import shutil
 import sys
@@ -35,7 +36,7 @@ def export(study_dir: Path, output: Path, *, redaction_confirmed: bool) -> dict:
     if destination.is_relative_to(Path(__file__).resolve().parents[1]):
         raise ValueError("Review output must not be placed inside the source repository")
     manifest = json.loads(safe_file(study, Path("operator-manifest.json")).read_text(encoding="utf-8"))
-    runs = validate_manifest(manifest)
+    runs = validate_manifest(manifest, study)
     # Source is a pre-redacted reviewer area. Revalidate each file and prompt.
     sources = {}
     for run in runs:
@@ -74,6 +75,7 @@ def export(study_dir: Path, output: Path, *, redaction_confirmed: bool) -> dict:
                     "records": [
                         {
                             "blind_id": blind,
+                            "response_sha256": hashlib.sha256(sources[blind][0].read_bytes()).hexdigest(),
                             "grades": {
                                 "scenario_fit": None, "architecture_reasoning": None,
                                 "four_layer_split": None, "fallback_safety": None,

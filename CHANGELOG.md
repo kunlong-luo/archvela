@@ -30,6 +30,17 @@ repository development, not official release dates.
   documentation integrity tests.
 - 2026-10-29: Corrected out-of-date GitHub-source install instructions.
 
+### V0.5 pilot reproducibility and blind integrity (unreleased)
+
+- Removed predictable reviewer IDs from pilot/full study cards and signed
+  fresh V2 pilot assignment manifests with private operator-only HMAC keys.
+- Refuse preparing a pilot from dirty/mismatched source checkout; pin
+  Skills installer commands to the CI-tested version.
+- Bound reviewer grades to actual redacted response SHA-256 and split
+  assigned-condition human deltas from successfully discovered Skill
+  comparisons. No actual model or independent human grading was executed.
+- Added offline fixture-only tampering, attribution, pin and hash tests.
+
 ### V0.4.1 real-client pilot reporting (unreleased)
 
 - Added a read-only, failure-aware pilot summary tool for one or three
