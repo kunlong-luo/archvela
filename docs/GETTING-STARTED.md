@@ -17,6 +17,10 @@ Archvela is a *pre-release toolkit*: installing its Skill is not proof that an A
 | Browse scenarios / generate documents | Python 3.10+; the core helper scripts use the standard library |
 | Build standalone examples | Node.js 24, npm and the committed `package-lock.json` files |
 
+### English-language architecture references
+
+The [Skill's English-first entrypoint](../.agents/skills/archvela-architect/SKILL.md) provides framework-neutral review steps and a [six-domain English guide](../.agents/skills/archvela-architect/references/ENGLISH-DECISION-GUIDE.md). An English query can resolve a V3 scenario ID, but detailed scenario titles/descriptions and long-form source volumes remain largely Chinese. Do not imply the full catalog is translated. Preserve the user's existing stack unless an audited constraint justifies migration.
+
 ## Option A — Install in your project
 
 Open a terminal **inside the target project**, then use the interactive installer:
