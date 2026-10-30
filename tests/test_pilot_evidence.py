@@ -75,7 +75,7 @@ class PilotEvidenceTests(unittest.TestCase):
             root = Path(folder) / "pilot"
             manifest = self.prepare(root)
             self.complete_fixture(root, manifest)
-            target = manifest["runs"][0]
+            target = next(r for r in manifest["runs"] if r["arm"] == "archvela")
             filename = root / "operator" / target["blind_id"] / "session.json"
             metadata = json.loads(filename.read_text())
             metadata["client_version"] = ""
@@ -87,8 +87,11 @@ class PilotEvidenceTests(unittest.TestCase):
             metadata["skill_discovered"] = target["arm"] != "archvela"
             filename.write_text(json.dumps(metadata))
             result = self.audit(root)
-            self.assertEqual(result.returncode, 2)
-            self.assertIn("Skill discovery", result.stderr)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report = json.loads(result.stdout)
+            self.assertTrue(report["all_evidence_present"])
+            self.assertIn("treatment_skill_not_discovered",
+                          [r["type"] for r in report["discovery_deviations"]])
 
     def test_reject_symlinked_response_and_modified_prompt(self):
         with tempfile.TemporaryDirectory() as folder:
