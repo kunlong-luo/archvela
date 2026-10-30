@@ -97,6 +97,30 @@ def prepare_pilot(*, output: Path, agent: str, model: str, skill_sha: str,
             "7. Only a separate reviewer should score results; this script "
             "creates neither answers nor grades.\n"
         )
+        setup += (
+            "8. For evidence audit, save the raw response at "
+            "reviewer/artifacts/" + blind_id + ".response.md, the real tool "
+            "log at reviewer/artifacts/" + blind_id + ".run.log, and fill "
+            "operator/" + blind_id + "/session.json from session.template.json. "
+            "The metadata and arm assignment remain OPERATOR ONLY.\n"
+            "9. Run python3 benchmarks/audit_pilot.py --study <external-pilot-dir> "
+            "from the Archvela source checkout. It validates files and claims, "
+            "NOT that an LLM executed or that grades are accurate.\n"
+        )
+        (folder / "session.template.json").write_text(
+            json.dumps({
+                "blind_id": blind_id,
+                "agent": agent,
+                "model": model,
+                "client_version": None,
+                "skill_commit": skill_sha.lower(),
+                "started_at_utc": None,
+                "finished_at_utc": None,
+                "execution_status": None,
+                "skill_discovered": None,
+                "note": "Fill only after a genuine client run; do not share operator metadata with reviewers.",
+            }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
         (folder / "RUN.md").write_text(setup, encoding="utf-8")
     (destination / "reviewer" / "README.md").write_text(
         "# Blind review area\n\n"

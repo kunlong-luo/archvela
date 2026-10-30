@@ -63,7 +63,20 @@
   access not available through the current connector. Existing CodeQL and npm
   audits **do not prove** these GitHub settings are enabled.
 
-## Release blockers independent of branch cleanup
+## Release blockers independent of branch cleanup## Evidence and provenance tooling (not release approvals)
+
+- [x] A read-only pilot evidence audit checks self-reported client metadata,
+  paired prompt integrity, sanitized response/log file presence and SHA-256
+  digests. It **does not** execute or verify an LLM run.
+  [Operator procedure](./REAL-AGENT-PILOT.md).
+- [x] The checked-in Git source tree currently contains no separate raster,
+  SVG, 3D, font, video, audio or PDF assets; a strict
+  [media inventory gate](./ASSET-PROVENANCE.md) checks any future additions.
+  This is **not a legal copyright or text provenance audit**.
+- [ ] Human review of all V3 reference text, example source, inline graphics,
+  trademarks, package licenses and rights provenance remains mandatory.
+
+
 
 - [ ] Review source/copyright provenance of bundled V3 references, copied
   design examples, images, trademarks, icons and any third-party media; obtain

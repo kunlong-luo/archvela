@@ -139,6 +139,7 @@ npm ci && npm run build
 - **L1**：Skills CLI 本地来源 20 目标安装检查、六个全局目标测试，以及 Codex / Claude Code / OpenCode 的 GitHub 来源安装和固定提交安装测试。
 - **L2/L3**：实际客户端发现、模型调用、架构/代码质量对照——**尚未取得真实试验结果**。[评测协议](./docs/AGENT-EVAL-PROTOCOL.md) · [试点跟踪 #21](https://github.com/kunlong-luo/archvela/issues/21)
 - **CI**：锁文件、示例/生成项目构建、Chromium E2E、CodeQL、四组 npm 审计与 PR Dependency Review。通过检查不保证零漏洞，也不代表所有设备通过。
+- **证据与版权来源**：[真实 Agent 试点证据核验](./docs/REAL-AGENT-PILOT.md)只检查日志/文件和摘要；[素材来源登记](./docs/ASSET-PROVENANCE.md)阻止未登记的独立媒体文件进入仓库。两者都不代表模型效果验证或完整版权审核。
 
 ## 仓库导航
 

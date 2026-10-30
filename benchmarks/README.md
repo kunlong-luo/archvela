@@ -46,7 +46,40 @@ existing `evaluate.py prepare` command and score only after collecting 24 real
 outputs/logs and independent human grades. Do not present a missing or
 synthetic output as measured effectiveness.
 
-See [full human evaluation protocol](../docs/AGENT-EVAL-PROTOCOL.md).
+### Evidence audit for the operator-run pilot
+
+Each generated `operator/<blind-id>/session.template.json` is deliberately
+**incomplete**. After genuinely running an agent client, the operator must
+fill `operator/<blind-id>/session.json` with real client/model version,
+UTC start/end times, observed native Skill discovery and `completed` status.
+Redact actual tool logs and response artifacts before depositing them at:
+
+```text
+<pilot>/
+  operator-manifest.json                    # PRIVATE operator arm mapping
+  operator/<blind-id>/PROMPT.txt            # immutable paired prompt
+  operator/<blind-id>/session.json          # PRIVATE observed client evidence
+  reviewer/artifacts/<blind-id>.response.md # blinded response
+  reviewer/artifacts/<blind-id>.run.log     # sanitized tool / session logs
+```
+
+Then run the **read-only** audit against the external pilot directory:
+
+```bash
+python3 benchmarks/audit_pilot.py --study /tmp/archvela-codex-pilot
+```
+
+The command exits with an error for missing evidence, changed prompts,
+symlinks, invalid metadata, inconsistent discovery reports and unpinned
+model versions. With a complete bundle it reports SHA-256 checksums and the
+number of recorded runs. **It does not invoke any AI client, assign human
+grades, measure model quality or independently verify the operator's claims.**
+Do not publish `operator-manifest.json`, `RUN.md`, or `session.json`
+to blind reviewers or commit private session data to the repository.
+
+Read the [pilot procedure](../docs/REAL-AGENT-PILOT.md) and
+[full human evaluation protocol](../docs/AGENT-EVAL-PROTOCOL.md).
+
 
 ## Start an evaluation study
 
