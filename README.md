@@ -21,6 +21,10 @@ A **scenario-first frontend architecture Skill and toolkit** for independent dev
 > [!IMPORTANT]
 > **Pre-release software.** The 62 scenarios are architecture references, **not** 62 complete applications. Only V3-02, V3-14, and V3-26 currently generate runnable source projects. CI validates metadata and installer behavior (L0/L1); real-agent discovery and improved coding outcomes (L2/L3) have **not** been demonstrated. No official GitHub Release exists.
 
+## First Alpha candidate — not published
+
+The proposed **`v0.1.0-alpha.1`** is a **release candidate draft, not a GitHub Release or tag**. Review the [English release notes](./docs/releases/v0.1.0-alpha.1.md), [中文首发说明](./docs/releases/v0.1.0-alpha.1.zh.md), [owner sign-off checklist](./docs/ALPHA-RELEASE-CHECKLIST.md) and [third-party rights register](./docs/RIGHTS-REVIEW-REGISTER.md). Rights clearance, `main` protection, genuine Codex L2/L3 smoke evidence and owner approval remain outstanding. Run `python3 scripts/check_release_candidate.py` for a **structural draft check only**, never a publication authorization.
+
 ## English-first Skill discovery; Chinese source catalog
 
 The installed [Skill entrypoint](./.agents/skills/archvela-architect/SKILL.md) now uses English-first discovery metadata and decision rules, backed by a [six-domain English architecture guide](./.agents/skills/archvela-architect/references/ENGLISH-DECISION-GUIDE.md). It evaluates existing React, Vue, Astro, Next.js and other stacks **by project constraints**, not framework preference. The detailed 62-scenario V3 catalog remains primarily in Chinese; the guide is **not** a complete translation. Installation checks do not establish native L2 discovery or model-quality improvement.
