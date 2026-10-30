@@ -35,7 +35,7 @@ def export(study_dir: Path, output: Path, *, redaction_confirmed: bool) -> dict:
     if destination.is_relative_to(Path(__file__).resolve().parents[1]):
         raise ValueError("Review output must not be placed inside the source repository")
     manifest = json.loads(safe_file(study, Path("operator-manifest.json")).read_text(encoding="utf-8"))
-    runs = validate_manifest(manifest)
+    runs = validate_manifest(manifest, study)
     # Source is a pre-redacted reviewer area. Revalidate each file and prompt.
     sources = {}
     for run in runs:
