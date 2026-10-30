@@ -30,6 +30,18 @@ repository development, not official release dates.
   documentation integrity tests.
 - 2026-10-29: Corrected out-of-date GitHub-source install instructions.
 
+### V0.4 pilot integrity (unreleased)
+
+- Made evidence auditing **failure-aware**: treatment Skill discovery failures,
+  blocked sessions and actual model errors remain negative observations rather
+  than silently excluded trials; inherited Skill in baseline is a protocol
+  contamination flag.
+- Added a read-only static workspace preflight and a response-only, human-
+  redaction-attested blind-review packet exporter (no arm mapping, operator
+  metadata, scores or tool logs). These tools **do not invoke real models**.
+- Added regression tests for negative attempts, manifest tampering, baseline
+  contamination, workspace isolation and reviewer packet boundaries.
+
 ### Evidence and provenance gates (2026-10-30)
 - Added offline, read-only operator evidence auditing for real-client pilot logs, version/timestamp metadata, prompt integrity, SHA-256 hashes and isolation. No model sessions or grades are generated.
 - Added a fail-closed asset provenance inventory for committed media with explicit owner-reviewed manifest records. Current source tree contains no standalone media assets; human copyright and text-source review remains open.

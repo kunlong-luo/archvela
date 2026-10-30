@@ -118,6 +118,8 @@ def prepare_pilot(*, output: Path, agent: str, model: str, skill_sha: str,
                 "finished_at_utc": None,
                 "execution_status": None,
                 "skill_discovered": None,
+                "failure_category": None,
+                "failure_detail": None,
                 "note": "Fill only after a genuine client run; do not share operator metadata with reviewers.",
             }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
         )

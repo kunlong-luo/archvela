@@ -81,6 +81,59 @@ Read the [pilot procedure](../docs/REAL-AGENT-PILOT.md) and
 [full human evaluation protocol](../docs/AGENT-EVAL-PROTOCOL.md).
 
 
+## V0.4: failure-aware pilot and response-only blind review
+
+A **Skill-discovery failure in the Treatment arm is a negative finding**,
+not missing/invalid data. A failed or blocked client run can be recorded with
+\`execution_status: "failed"\` or \`"blocked"\`, \`skill_discovered: false\`
+(or \`null\` when no discovery observation was possible), and a truthful
+\`failure_category\` / \`failure_detail\`. Keep the sanitized failed response
+and actual error log. A completed run with no discovered Skill is reported
+as a treatment discovery deviation. **Baseline discovery of Archvela is
+contamination**: the audit retains evidence but marks the pairing invalid.
+
+Before starting authorized model sessions, run an offline workspace check:
+
+\`\`\`bash
+python3 benchmarks/preflight.py --study /tmp/archvela-codex-pilot
+\`\`\`
+
+This verifies the manifest, clean isolated workspaces and unchanged prompts;
+it cannot detect your logged-in client, global Skills or account permissions.
+You must check those manually.
+
+After the operator collects **real** evidence, use the existing auditor:
+
+\`\`\`bash
+python3 benchmarks/audit_pilot.py --study /tmp/archvela-codex-pilot
+\`\`\`
+
+The audit reports successful, failed and blocked attempts separately. A
+failed Treatment attempt may produce a **passing evidence check** without
+being a successful L2/L3 outcome; keep both observations in final reports.
+It never invokes agents or scores quality.
+
+Once **every response has been manually checked for secrets and signs that
+reveal the arm**, export only prompts and redacted response texts to a
+new external directory:
+
+\`\`\`bash
+python3 benchmarks/export_blind_review.py \
+  --study /tmp/archvela-codex-pilot \
+  --output /tmp/archvela-codex-review \
+  --redaction-confirmed
+\`\`\`
+
+The exporter requires an operator attestation, never overwrites the output,
+and **does not include** the operator manifest, arm assignments, session
+metadata or tool logs. It includes a blank five-dimension review sheet.
+Manual inspection is still required: generated text may reveal the Skill.
+Baseline contamination prevents a clean paired export. Failed/blocked
+attempts are **not dropped** to inflate results. Neither this command nor
+the pilot runs an AI client.
+
+See [real-client operator SOP](../docs/REAL-AGENT-PILOT.md).
+
 ## Start an evaluation study
 
 ```bash

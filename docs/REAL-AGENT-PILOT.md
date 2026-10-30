@@ -51,6 +51,34 @@ study-arm assignment and **0 executed runs**. For each blind ID it generates:
 `operator/<id>/RUN.md`, `PROMPT.txt`, `session.template.json` and an empty
 `workspace/<id>`. Do not send operator metadata to reviewers.
 
+## V0.4: preflight and failure-aware reporting
+
+Before any real model call, check the unmodified, isolated operator workspaces:
+
+\`\`\`bash
+python3 benchmarks/preflight.py --study /tmp/archvela-codex-pilot
+\`\`\`
+
+The check detects local parent-directory Archvela Skills and changed prompts,
+but **does not check global/user Skills, installed client versions, accounts,
+or model permissions**. Those remain manual checks. Do not run preflight
+after installing the Treatment Skill: nonempty workspaces are then expected.
+
+Do **not** discard failed model calls or cases in which Treatment fails to
+discover Archvela. Record the observed \`execution_status\` as \`completed\`,
+\`failed\` or \`blocked\`. On a failure/blocked attempt, include a
+\`failure_category\` (\`skill_discovery_failure\`, \`installation_error\`,
+\`client_error\`, \`model_error\`, \`budget_exceeded\`, \`safety_refusal\`,
+\`environment_error\` or \`other\`) and a truthful \`failure_detail\`.
+\`skill_discovered\` is an observed boolean, or \`null\` when no check was
+possible. Preserve real sanitized error artifacts.
+
+The audit keeps treatment discovery failures as **negative observations**,
+and reports baseline Skill discovery as **protocol contamination** while
+retaining its evidence. Evidence completeness and client success are
+separate outcomes. Never change a failure into \`completed\` just to obtain
+a passing audit.
+
 ## Execute only after explicit model-access authorization
 
 For each `RUN.md`, manually confirm the native client uses that **isolated**
