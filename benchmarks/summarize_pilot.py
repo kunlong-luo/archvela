@@ -72,7 +72,7 @@ def summarize_study(study_dir: Path, review_path: Path | None = None) -> dict:
         raise ValueError("Pilot evidence is incomplete; do not silently drop missing sessions")
     study = study_dir.expanduser().resolve(strict=True)
     manifest = json.loads(safe_file(study, Path("operator-manifest.json")).read_text(encoding="utf-8"))
-    runs = validate_manifest(manifest)
+    runs = validate_manifest(manifest, study)
     by_id = {row["blind_id"]: row for row in evidence["evidence"]}
     if set(by_id) != {run["blind_id"] for run in runs}:
         raise ValueError("Audit and manifest have different recorded sessions")
