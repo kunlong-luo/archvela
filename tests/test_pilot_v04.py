@@ -140,7 +140,7 @@ class PilotV04Tests(unittest.TestCase):
             self.assertEqual(exported.returncode, 0, exported.stderr)
             self.assertEqual(len(list((review / "submissions").iterdir())), 4)
             paths = {str(f.relative_to(review)) for f in review.rglob("*") if f.is_file()}
-            self.assertEqual(len(paths), 11)  # README, blank review sheet and 4 x (response,prompt)
+            self.assertEqual(len(paths), 10)  # README, blank review sheet and 4 x (response,prompt)
             self.assertFalse(any(x.endswith("run.log") or "operator" in x
                                  or "manifest" in x or "session" in x for x in paths))
             self.assertEqual(json.loads((review / "blank-review.json").read_text())
