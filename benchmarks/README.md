@@ -10,6 +10,41 @@ This repo contains a **reproducible study scaffold**, not evidence that Archvela
 - No external API calls, credentials, paid token consumption, CLI execution of models, or simulated wins are included.
 - Output score reflects **human-entered labels and artifacts only**; it does *not* run or verify code, and cannot establish agent superiority on its own.
 
+## V0.5 candidate · Blind evaluation and version pinning hardening
+
+**New pilot studies use V2 manifests, not the old deterministic V1 IDs.**
+The 16-byte random blind identifiers do not encode the study arm. Pilot
+manifests have an operator-only HMAC signed with the randomly generated
+`operator/manifest.key` (0600 on POSIX). This integrity key must **never**
+be included in reviewer exports, committed to git, or shared publicly.
+The signature detects an altered mapping but does not prove that the
+operator ran any model. The seed reproduces task order only — **not** IDs.
+
+`pilot.py` now requires a real, clean Git checkout whose `HEAD` exactly
+matches `--skill-sha`. Do not prepare experimental cards from a different
+checkout, a dirty dataset, a moving branch, or an arbitrary 40-digit SHA.
+The Treatment instruction uses the same pinned Skills CLI used in CI:
+`npx --yes skills@1.7.4 add ...` (client login and live discovery are still
+manual). The session metadata records the installer version.
+
+The reviewer-only grade template now records a **SHA-256 of the exact
+redacted response**. Do not change the response after exporting; if the
+response must be re-redacted, discard and re-export the review packet,
+then re-review. `summarize_pilot.py` fails on a mismatch.
+
+The report separates a descriptive assigned-condition / intention-to-treat
+score from any discovery-gated display: `full_study_human_delta` is
+**null** unless every Treatment session actually reported Skill discovery.
+`intention_to_treat_human_delta` remains separately labeled when every
+assigned pair completed and received grades, including non-discovery
+observations. Neither number is a causal claim or independently verified
+model result. Failed/blocked sessions remain counted and prevent complete
+graded effect estimates.
+
+**Migration:** Do not silently reuse legacy V1 pilot directories or
+their old reversible blind IDs. Reprepare with the pinned new source and
+preserve any actual earlier sessions as separately versioned evidence.
+
 ## V0.3 · Real-client pilot (operator-run, no invented model results)
 
 Before scaling to the full 12-task study, smoke-test **2 tasks x 2 conditions per client**
