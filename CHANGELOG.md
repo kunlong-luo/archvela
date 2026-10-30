@@ -30,6 +30,16 @@ repository development, not official release dates.
   documentation integrity tests.
 - 2026-10-29: Corrected out-of-date GitHub-source install instructions.
 
+### V0.4.1 real-client pilot reporting (unreleased)
+
+- Added a read-only, failure-aware pilot summary tool for one or three
+  clients, validating genuine operator evidence structure and independently
+  supplied human review sheets without making model calls.
+- Counts all attempts, blocks cherry-picked paired deltas, refuses partial
+  rubric grades and does not pool across model/client identities.
+- Added fixture-only regression tests and an operator/reviewer workflow;
+  **no real model observations, tags or releases were created**.
+
 ### V0.4 pilot integrity (unreleased)
 
 - Made evidence auditing **failure-aware**: treatment Skill discovery failures,
