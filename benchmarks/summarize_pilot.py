@@ -13,7 +13,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from collections import Counter, defaultdict
+from collections import defaultdict
 from pathlib import Path
 
 from audit_pilot import audit, safe_file, validate_manifest
@@ -23,7 +23,7 @@ ARMS = ("baseline", "archvela")
 STATUS = ("completed", "failed", "blocked")
 
 
-def load_review(path: Path, ids: set[str], outcomes: dict[str, str]) -> dict[str, float | None]:
+def load_review(path: Path, ids: set[str], outcomes: dict[str, str], response_hashes: dict[str, str]) -> dict[str, float | None]:
     if path.is_symlink() or not path.is_file() or not 0 < path.stat().st_size <= 8_000_000:
         raise ValueError("Review must be a bounded regular non-symlinked file")
     sheet = json.loads(path.read_text(encoding="utf-8"))
@@ -37,6 +37,8 @@ def load_review(path: Path, ids: set[str], outcomes: dict[str, str]) -> dict[str
         if not isinstance(row, dict) or not isinstance(row.get("blind_id"), str):
             raise ValueError("Invalid review record")
         blind = row["blind_id"]
+        if blind not in ids or row.get("response_sha256") != response_hashes[blind]:
+            raise ValueError("Reviewed response fingerprint is missing or differs from evidence")
         if blind in observed or blind not in ids:
             raise ValueError("Review contains duplicated or unknown blind ID")
         grades = row.get("grades")
@@ -77,7 +79,8 @@ def summarize_study(study_dir: Path, review_path: Path | None = None) -> dict:
     if set(by_id) != {run["blind_id"] for run in runs}:
         raise ValueError("Audit and manifest have different recorded sessions")
     outcomes = {blind: data["execution_status"] for blind, data in by_id.items()}
-    grades = load_review(review_path, set(by_id), outcomes) if review_path is not None else {
+    grades = load_review(review_path, set(by_id), outcomes,
+                         {blind: row["response_sha256"] for blind, row in by_id.items()}) if review_path is not None else {
         blind: None for blind in by_id
     }
 
@@ -121,10 +124,19 @@ def summarize_study(study_dir: Path, review_path: Path | None = None) -> dict:
         and len(full_pairs) == len(per_task)
         and len(per_task) > 0
     )
-    paired_mean_delta = (
+    # ITT: all originally assigned arms, no censoring of discovery failures.
+    itt_delta = (
         round(sum(row["paired_delta"] for row in full_pairs) / len(full_pairs), 4)
         if full_study_scored else None
     )
+    # An observed discovery failure is not evidence of a Skill-use effect.
+    # This strict descriptive gate refuses to present such a score as a
+    # successfully discovered Skill comparison (not a causal estimator).
+    every_skill_discovered = all(
+        row["skill_discovered"] is True for row in
+        (item for item in [arms["archvela"][1] for arms in per_task.values()])
+    )
+    paired_mean_delta = itt_delta if every_skill_discovered else None
     return {
         "agent": manifest["agent"],
         "model": manifest["model"],
@@ -145,7 +157,10 @@ def summarize_study(study_dir: Path, review_path: Path | None = None) -> dict:
         "human_graded_completed_sessions": sum(v is not None for v in grades.values()),
         "human_graded_pairs": len(full_pairs),
         "full_study_human_delta": paired_mean_delta,
+        "intention_to_treat_human_delta": itt_delta,
+        "all_treatments_discovered_skill": every_skill_discovered,
         "human_score_coverage": "complete" if full_study_scored else "incomplete_or_contaminated",
+        "attribution_caveat": "ITT is a descriptive assigned-condition comparison; a discovery-gated delta is not causal proof. Neither measures verified model performance.",
         "negative_or_missing_grade_policy": "No imputation, no silent exclusion, no partial-pair treatment effect",
     }
 
