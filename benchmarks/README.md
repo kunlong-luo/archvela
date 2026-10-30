@@ -85,18 +85,18 @@ Read the [pilot procedure](../docs/REAL-AGENT-PILOT.md) and
 
 A **Skill-discovery failure in the Treatment arm is a negative finding**,
 not missing/invalid data. A failed or blocked client run can be recorded with
-\`execution_status: "failed"\` or \`"blocked"\`, \`skill_discovered: false\`
-(or \`null\` when no discovery observation was possible), and a truthful
-\`failure_category\` / \`failure_detail\`. Keep the sanitized failed response
+`execution_status: "failed"` or `"blocked"`, `skill_discovered: false`
+(or `null` when no discovery observation was possible), and a truthful
+`failure_category` / `failure_detail`. Keep the sanitized failed response
 and actual error log. A completed run with no discovered Skill is reported
 as a treatment discovery deviation. **Baseline discovery of Archvela is
 contamination**: the audit retains evidence but marks the pairing invalid.
 
 Before starting authorized model sessions, run an offline workspace check:
 
-\`\`\`bash
+```bash
 python3 benchmarks/preflight.py --study /tmp/archvela-codex-pilot
-\`\`\`
+```
 
 This verifies the manifest, clean isolated workspaces and unchanged prompts;
 it cannot detect your logged-in client, global Skills or account permissions.
@@ -104,9 +104,9 @@ You must check those manually.
 
 After the operator collects **real** evidence, use the existing auditor:
 
-\`\`\`bash
+```bash
 python3 benchmarks/audit_pilot.py --study /tmp/archvela-codex-pilot
-\`\`\`
+```
 
 The audit reports successful, failed and blocked attempts separately. A
 failed Treatment attempt may produce a **passing evidence check** without
@@ -117,12 +117,12 @@ Once **every response has been manually checked for secrets and signs that
 reveal the arm**, export only prompts and redacted response texts to a
 new external directory:
 
-\`\`\`bash
+```bash
 python3 benchmarks/export_blind_review.py \
   --study /tmp/archvela-codex-pilot \
   --output /tmp/archvela-codex-review \
   --redaction-confirmed
-\`\`\`
+```
 
 The exporter requires an operator attestation, never overwrites the output,
 and **does not include** the operator manifest, arm assignments, session
@@ -133,6 +133,57 @@ attempts are **not dropped** to inflate results. Neither this command nor
 the pilot runs an AI client.
 
 See [real-client operator SOP](../docs/REAL-AGENT-PILOT.md).
+
+## V0.4.1 · Evidence-gated pilot summary across three clients
+
+The blind reviewer fills a **separate copy** of each exported
+`blank-review.json` after reading and grading authentic, manually redacted
+responses. Record an independent reviewer identifier, and enter all five
+rubric scores (integers from 0 through 4) for a completed session. Leave
+all grades null for failed or blocked attempts; do not fabricate answers
+or score failures as completed model work.
+
+After the operator receives the reviewed files, use the **private operator
+workspaces** together with reviewer scores:
+
+```bash
+python3 benchmarks/summarize_pilot.py \
+  --study /tmp/archvela-codex-pilot \
+  --review /tmp/archvela-codex-review/blank-review.json \
+  --study /tmp/archvela-claude-pilot \
+  --review /tmp/archvela-claude-review/blank-review.json \
+  --study /tmp/archvela-opencode-pilot \
+  --review /tmp/archvela-opencode-review/blank-review.json
+```
+
+The script requires all three clients to use the same two tasks, pinned
+Skill commit, task dataset, seed and trial, while allowing each client
+to specify its own actual model ID. It also supports one client for
+exploratory diagnosis. Without `--review`, it reports evidence and
+outcome counts **without any scores**.
+
+**Interpretation rules:**
+
+- All 12 scheduled attempts remain in the denominators, including
+  failed, blocked and Treatment Skill-not-discovered sessions.
+- Human score comparisons are **per client** and only emitted when
+  *all* its task pairs were completed and fully graded. Partial
+  positive-only scores never produce a study-level delta.
+- Baseline Skill contamination invalidates the paired comparison; the
+  tool still produces an operator-only diagnostic JSON report but exits
+  with a failure code.
+- The script **does not pool scores across different clients/models**,
+  calculate statistical significance, execute any model or prove
+  the uploaded evidence was produced by a model. Human rubric scores
+  are exploratory, not verified code acceptance or causal impact.
+- Keep the JSON output **operator-only** until the reviewer has finished
+  and privacy plus arm-leakage checks have been performed. It includes
+  treatment/discovery information and is not a blinded review input.
+- The CI tests use explicitly synthetic fixtures only. Never publish
+  their numbers as experimental outcomes.
+
+See [real-agent pilot protocol](../docs/REAL-AGENT-PILOT.md)
+and [tracking issue #21](https://github.com/kunlong-luo/archvela/issues/21).
 
 ## Start an evaluation study
 
