@@ -110,6 +110,22 @@
 - [ ] Obtain independent human grades and reproducible code/test evidence,
   including failed trials, before publishing model-effectiveness claims.
 
+## V0.5 pilot integrity gates (still no model trials)
+
+- [x] CSPRNG-generated opaque blind IDs and signed, operator-only pilot
+  assignment manifests replace derivable reviewer IDs in fresh V2 studies;
+  integrity checks cannot certify a truthful operator.
+- [x] Strict clean local checkout vs pinned SHA checks and
+  `skills@1.7.4` installer version pinning in Treatment instructions.
+- [x] Independent review response SHA-256 binding, and explicit separation
+  of assigned-condition / intention-to-treat descriptive differences
+  from Skill discovery-gated observations.
+- [ ] Real-agent sessions remain 0/12. Future published claims require
+  actual recorded sessions, independently inspected outputs, original
+  failure rates, third-party rights clearance and explicit owner sign-off.
+- [ ] GitHub `main` branch protection and other owner-admin controls
+  remain incomplete; see [#27](https://github.com/kunlong-luo/archvela/issues/27).
+
 ## V0.4.1 pilot reporting gate (no live model data)
 
 - [x] Added per-client offline evidence and human-grade summary tooling
