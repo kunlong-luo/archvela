@@ -1,52 +1,73 @@
 # Changelog
 
+All notable changes to Archvela are documented here. This project follows the
+principles of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-### English-first documentation convention (2026-10-29)
-
-- Made `README.md` the default English GitHub homepage and migrated the full Chinese project overview to `README.zh.md`; removed the obsolete `README.en.md` name.
-- Kept an English-first `docs/GETTING-STARTED.md` and a complete `docs/GETTING-STARTED.zh.md` translation, with correct bidirectional language navigation.
-- Updated contribution rules, maintainer guidance and offline documentation regression tests to enforce English/Chinese filenames and avoid broken links.
+**Release status:** No GitHub Release has been published as of 2026-10-30.
+The version in `.agents/skills/archvela-architect/SKILL.md` is **candidate
+metadata**, not proof of a published Git tag or release. Dates below describe
+repository development, not official release dates.
 
 ## [Unreleased]
 
-### Documentation and community quality (2026-10-29)
+### Changed
+- 2026-10-30: Hardened repository maintenance with a preflight-only-by-default,
+  one-time merged-branch cleanup that validates PR merge state, pinned commit
+  SHA, ancestry, branch protection and repository identity before any deletion.
+  **Execution outcome must be verified in the corresponding Actions run**;
+  merging a PR alone is not evidence that branches were removed.
+- 2026-10-30: Reconciled release gates and issue descriptions against merged
+  PRs and current CI evidence; kept unverified configuration and real-agent
+  evaluation explicitly pending.
 
-- Rebuilt Chinese and English README landing pages with aligned install instructions, an architecture flowchart, coverage tables, runnable-starter boundaries and explicit L0/L1 vs L2/L3 evidence limits.
-- Added a practical getting-started guide for Agent Skills installs and offline Python scaffolding, plus public repository metadata suggestions and maintainer security settings checklist.
-- Added GitHub issue and pull request templates, expanded evidence-first contributor guidance, and offline documentation regression tests for local links and honest capability claims.
-- Corrected a stale compatibility note that inaccurately implied public GitHub-source Skill installation was unavailable.
+### Documentation
+- 2026-10-29: Made English the GitHub default in `README.md`, moved the full
+  Chinese translation to `README.zh.md`, and maintained English/Chinese
+  `docs/GETTING-STARTED.md` / `docs/GETTING-STARTED.zh.md`.
+- 2026-10-29: Redesigned the README landing with an architecture workflow,
+  install instructions, starter boundaries, badges and evidence disclaimers;
+  introduced issue/PR templates, expanded contributing guidance and offline
+  documentation integrity tests.
+- 2026-10-29: Corrected out-of-date GitHub-source install instructions.
 
+### Agent Skill and tooling
+- Added a scenario-first Skill with **62 stable V3 references** in six domains,
+  deterministic bilingual search and six domain-specific architecture profiles.
+- Added safe, dry-run-first architecture document generation, optional
+  `archvela-plan.json` handoff, and structural draft/reviewed/delivered checks.
+  Structural checks **do not** verify actual test or performance claims.
+- Added the independent `archvela_create.py` generator for **three** runnable
+  starters. The other 59 scenarios have architecture references/docs only.
+- Added an offline 12-task paired agent evaluation harness and a pinned
+  Codex/Claude Code/OpenCode pilot preparation tool. **No model-backed
+  evaluation results have been collected.**
 
-- Added a safe scenario-to-project CLI with three verified runnable templates, renamed locked npm metadata, generated ADR/performance/Agent plans, collision/symlink checks, and actual generated-project CI builds.
+### Testing and security
+- Added 20 Skills CLI project-target checks and six global installation
+  targets, plus public GitHub-source and pinned-commit installation smoke
+  checks for Codex, Claude Code and OpenCode (**L1, not L2/L3**).
+- Added three isolated reference applications: a Next.js cinematic site,
+  Next.js SaaS workspace and Vite/React Three Fiber home concept viewer,
+  with separate lockfiles and builds.
+- Added Chromium desktop/mobile-*viewport* E2E tests, generated-project
+  smoke builds, lockfile verification, Python regression tests,
+  CodeQL (Python/JS-TS), four npm audits and pull-request dependency review.
+- Updated supported GitHub Actions and fixed TypeScript 7 compatibility
+  regressions; prevented `@types/node` major upgrades while CI uses Node 24.
 
+## Repository baseline: 2026-10-27 (unreleased 0.1.0 candidate)
 
-- Added staged release-readiness checklist, GitHub CodeQL/security dependency review and Dependabot update configuration.
-- Added balanced 12-task Agent evaluation data and safe reviewer-grading scaffolding (no live models or fabricated performance scores).
+- Established the `archvela-architect` Skill identity, V3 architecture
+  references, 62 scenario catalog, initial helpers, tests and MIT license for
+  original materials within the rights of the copyright holder.
+- Archived six domain guidelines and the architecture templates.
+- The `0.1.0` label is **not a published version**. No official tag, package,
+  live demo or model benchmark is implied.
 
+## Before publishing
 
-- Added committed npm lockfiles for the three standalone runnable examples and the browser test runner; CI now uses `npm ci` and checks lockfile drift.
-- Added Playwright 1.64.1 desktop/mobile Chromium tests for real website, SaaS and digital-twin user interactions with WebGL-unavailable fallback and failure traces.
-
-- Added three independent runnable architecture demos: V3-02 cinematic Next.js + lazy Three.js, V3-14 interactive Next.js SaaS workspace, and V3-26 accessible Vite + React Three Fiber house-scale viewer.
-- Added examples' ADR documentation and cross-project CI for npm tests, typecheck, production build and HTTP smoke; each app isolated without a forced monorepo.
-
-- Added optional structured cross-agent architecture handoff and offline draft/reviewed/delivered evidence gates. Existing three Markdown files remain the default.
-
-- Modernized GitHub Actions to Node 24/ESM-compatible official action majors and pinned the tested Skills CLI to 1.7.4 for repeatable installer checks.
-
-- Added deterministic bilingual scenario aliases and domain filtering for all 62 scenes; installed copies now execute both offline CLIs in CI.
-
-- Hardened architecture generator: six domain profiles, actual scenario-specific ADR/performance/Agent plan drafts, JSON preview, symlink protection, failure rollback, and regression tests.
-
-- Initial Archvela repository bootstrap and owner-approved MIT license for original materials; third-party rights remain subject to review.
-- Verified real installer destinations can be shared `~/.agents/skills` aliases for OpenCode, Cursor, Gemini CLI and Copilot; installation checker accepts only documented aliases.
-- Added mainstream agent compatibility manifest (20 targets), Skills CLI project/global install smoke tests, CI artifact report and native-client acceptance prompts.
-
-## [0.1.0] - 2026-10-27 (candidate)
-
-- Rebranded the portable OpenCode Skill to `archvela-architect`.
-- Imported the original six V3 domain guides, universal engineering guide and all 62 scenario blueprints.
-- Added a structured catalog, read-only scenario search, safe architecture-doc generation, unit tests and GitHub CI.
-- Added Chinese and English project documentation.
-
-Version `0.1.0` remains a **candidate** until the owner creates and verifies an actual tag and GitHub Release. No release tag has been created.
+Complete third-party intellectual-property and asset provenance review,
+GitHub security/governance settings, an actual client discovery acceptance,
+a reproducible end-to-end example, and [Release Readiness](./docs/RELEASE-READINESS.md).
+A tag, release, package publication or deployment requires separate owner
+approval.

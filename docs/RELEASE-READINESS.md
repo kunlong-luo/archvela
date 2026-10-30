@@ -1,43 +1,104 @@
-# Archvela v0.1 · Release readiness gate
+# Release Readiness — Archvela V0.3
 
-**Not approved for publication by default.** PR #1, #6, #7 and #8 were merged into `main` in order on 2026-10-29, and the post-merge commit `9b237e5` passed all seven CI workflows. No release tag, deployment or package publication has been authorized. The owner approved MIT licensing of original materials; third-party rights and other release-specific gates remain open.
+> **Status: PRE-RELEASE / NOT APPROVED FOR PUBLICATION.**
+> Snapshot: **2026-10-30**. Last verified `main` commit before this
+> hardening PR: `c2ba1ace2fc0c587c353b390f435818c5afff4ea`.
+> Its seven GitHub Actions workflows passed. **No GitHub Release was found.**
+> A PR merge does not publish a release or authorize a new tag, package or
+> deployment.
 
-## Required before v0.1 release
+## What is already supported by evidence
 
-- [x] Repository owner approved MIT licensing for original Archvela code and documentation within their publishing rights (recorded in PR #1, 2026-10-28).
-- [ ] Complete attribution, copyright provenance and bundled V3 reference rights review; owner MIT approval does not grant rights to third-party materials.
-- [x] PR #1 and PR #6 were merged to `main` in order using merge commits (2026-10-29).
-- [x] PR #7 and PR #8 passed PR security gates (including GitHub Dependency Review) and were merged to `main` in order on 2026-10-29.
-- [x] All seven CI workflows passed on merged `main` at commit `9b237e5`: Python/Skill validation, 26 Skills CLI installation checks, three app builds, generated-project builds, browser E2E, lockfile integrity and security scanning.
-- [x] [Post-merge Security scanning](https://github.com/kunlong-luo/archvela/actions/runs/40797578807) passed CodeQL Python and JavaScript/TypeScript jobs; monitor new findings continuously.
-- [x] All four npm lockfiles passed the post-merge CI `npm audit --package-lock-only --include=dev --audit-level=high` (registry-side scan; vulnerabilities may change over time).
-- [x] **GitHub Dependency Graph is available:** the public [Dependencies page](https://github.com/kunlong-luo/archvela/network/dependencies) displayed 216 indexed dependencies from `main` lockfiles on 2026-10-29, after merging PR #6. Public repositories normally have the graph enabled by default. Earlier SBOM API 404 did not by itself prove the setting was off; see Issue #9. Dependency Graph availability is not proof that the PR Dependency Review job succeeded.
-- [x] GitHub Dependency Review executed and **passed (not skipped)** in [PR #7](https://github.com/kunlong-luo/archvela/actions/runs/40797317029) and [PR #8](https://github.com/kunlong-luo/archvela/actions/runs/40797318957). On ordinary `main` push events this PR-only job is expected to be skipped.
-- [ ] Review GitHub repository settings: branch protection/ruleset, Dependabot alerts, private vulnerability reporting, secret scanning if available, Actions token permissions.
-- [ ] Install Skill by cloning public `main` into a clean project. Confirm it is discoverable in at least one real Agent client, not merely via installation paths.
-- [ ] Reproducibly run one V3 architecture generation end-to-end; archive input request, output documents, safe write evidence and test result.
-- [ ] Check all images/media/icons/data are original or licensed for redistribution.
-- [ ] Update README installation instructions and create GitHub Release notes with a **verified** tag and short migration warning; owner must authorize the actual release.
+- [x] Original Archvela code and documentation have owner-approved MIT
+  licensing **within the rights held by the owner** (PR #1). No rights to
+  third-party materials are implied.
+- [x] The 62-scenario, six-domain V3 Skill and three runnable example starters
+  were merged through PRs [#1](https://github.com/kunlong-luo/archvela/pull/1),
+  [#6](https://github.com/kunlong-luo/archvela/pull/6),
+  [#7](https://github.com/kunlong-luo/archvela/pull/7),
+  and [#8](https://github.com/kunlong-luo/archvela/pull/8).
+- [x] `main` at `c2ba1ace` passed **7/7 workflow groups**: Skill/Python
+  validation, Skills CLI compatibility, example builds, generated project
+  builds, browser E2E, lockfile integrity, security scanning.
+  [Actions](https://github.com/kunlong-luo/archvela/actions).
+- [x] PR Dependency Review actually executed and succeeded on PRs #7/#8 and
+  subsequent PRs; it is expected to be **skipped on ordinary main pushes**
+  because the review examines dependency changes between PR commits.
+  Repository Dependency Graph was available; [Issue #9](https://github.com/kunlong-luo/archvela/issues/9)
+  is closed. The separate npm audit and CodeQL run on main.
+- [x] The installer ran against **20 local agent targets + six global
+  installations**. PR [#23](https://github.com/kunlong-luo/archvela/pull/23)
+  also verified public GitHub-source and pinned-commit install paths for
+  Codex, Claude Code and OpenCode (**L1 only**).
+- [x] English `README.md`, Chinese `README.zh.md` and corresponding
+  bilingual getting-started guides exist. PRs
+  [#24](https://github.com/kunlong-luo/archvela/pull/24) and
+  [#25](https://github.com/kunlong-luo/archvela/pull/25) passed CI and merged.
 
-## Still separate from release
+## V0.3 repository hardening
 
-- The model-backed paired evaluation has **not yet run**; it should not block publishing a clearly described experimental v0.1 Skill if all release criteria are met. Do not describe it as proven to improve AI coding.
-- External security scanning and code coverage are not guarantees of vulnerability-free production.
-- The examples are reference demos, not live business applications or approved construction plans.
+- [x] Audit as of 2026-10-30: 10 **unprotected** non-main branches were
+  mapped to individual **merged** PRs, all targeting main. The inventory,
+  original SHA and PR number are pinned in
+  [scripts/prune_merged_branches.py](../scripts/prune_merged_branches.py).
+- [ ] **Verify the actual cleanup run** in
+  [GitHub Actions](https://github.com/kunlong-luo/archvela/actions/workflows/cleanup-merged-branches.yml)
+  after this PR is merged. The one-time workflow has `contents:write`
+  only on a trusted main push and rechecks GitHub's PR, branch and ancestry
+  records before deleting any refs. **A successful preflight or PR merge is
+  not evidence that remote branches were deleted.** Remove the privileged
+  one-off workflow after successful cleanup.
+- [ ] GitHub About **Description** currently has an accidental trailing
+  `复制` suffix. Edit it out in the repo settings.
+- [ ] Change the misleading `architecture-srv` Topic to
+  `software-architecture` or `software-design`; verify the public About panel.
+- [ ] Enable `Automatically delete head branches`; it was disabled on
+  2026-10-30. This requires repository Settings access.
+- [ ] Add an appropriate **main branch ruleset / branch protection**.
+  Public ruleset API returned an empty list at audit time. Detailed branch
+  protection returned 403 for the installed GitHub integration; its complete
+  configuration could **not** be verified. Check it in repository Settings.
+- [ ] Inspect Dependabot alerts, secret scanning, private vulnerability
+  reporting and Actions token defaults in Settings; these require settings
+  access not available through the current connector. Existing CodeQL and npm
+  audits **do not prove** these GitHub settings are enabled.
 
-## No automatic release
+## Release blockers independent of branch cleanup
 
-No workflow in this repository merges PRs, creates tags, publishes NPM packages, or deploys the examples. Only the owner should approve and initiate a release.
+- [ ] Review source/copyright provenance of bundled V3 references, copied
+  design examples, images, trademarks, icons and any third-party media; obtain
+  attribution or remove content that cannot be redistributed.
+  [Issue #5](https://github.com/kunlong-luo/archvela/issues/5).
+- [ ] In at least one **real** logged-in client, demonstrate Skill discovery
+  (L2) and an end-to-end scenario-to-ADR task; preserve a sanitized transcript.
+  Installation alone does not meet this gate.
+  [Issues #2](https://github.com/kunlong-luo/archvela/issues/2) and
+  [#21](https://github.com/kunlong-luo/archvela/issues/21).
+- [ ] Archive a reproducible V3 scenario output, dry-run, authorized write,
+  built app (where applicable), browser/user-journey validation and its
+  actual limitations; separate fixture data from production data.
+- [ ] Verify security alerts, README install instructions, release notes and
+  third-party license compliance against the *release candidate commit*.
+- [ ] Obtain **explicit owner approval** before creating a Git tag,
+  GitHub Release, distribution package or public deployment.
 
-## V0.3 maturity gate (independent of v0.1 release)
+## Separate research goal (does not block an honest experimental release)
 
-- [x] Previous Dependency Graph issue #9 was closed after PR Dependency Review ran successfully. Do **not** reopen it because an earlier note was stale.
-- [x] On 2026-10-29, maintenance PRs #12, #17 and #20 were merged; main at `fcdb925` passed seven workflows. Retest this new V0.3 branch and final main after merging, rather than reusing old statuses.
-- [ ] Confirm zero unnecessary remote branches. Six branches corresponding to merged PRs remained at the time of planning; deletion is an independent operational action and is **not** implied by PR merge.
-- [x] GitHub Actions public-source Skills CLI installation smoke for Codex, Claude Code and OpenCode, plus pinned Git-commit install, executed successfully in PR #23. This is installer-level L1 only; real-agent model discovery remains unverified.
-- [ ] Run 12 real, authorized pilot sessions (2 tasks x baseline/treatment x 3 clients), with fixed commit and model IDs; archive **redacted** responses and actual tool logs separately from operator assignments.
-- [ ] Run complete first-pass 72 sessions (12 tasks x 2 arms x 3 clients) if results support expansion; obtain independent blinded grades and reproducible code execution records.
-- [ ] Verify project-site performance, basic accessibility, asset/license provenance, and a real-agent end-to-end example.
-- [ ] Obtain separate owner authorization before creating any tag, GitHub Release, package publication or deployment.
+A paired study of Archvela versus baseline agents has **not run**. The V0.3
+pilot is 2 tasks × 2 arms × 3 clients = **12 live sessions**; the full
+first-pass design is 12 tasks × 2 arms × 3 clients = **72 sessions**.
+The existing harness prepares blank slots and validates artifact structure,
+not model behavior. Never present a synthetic score, unrun command or green
+L1 installer workflow as L3 evidence.
 
-**Current evidence limit:** CI, template construction and local Skills installation tests do not establish L2 client discovery or L3 real-agent improvement. The new pilot preparation tool does not execute clients or spend API tokens.
+## Release authority and operational safety
+
+The repository does **not** automatically create releases, tags or deploy
+the examples. Hardening is distinct from release approval. The one-time
+merged-branch cleanup requires only a trusted `main` workflow and has no
+`pull_request` trigger, preventing execution of untrusted PR code with
+write privileges. If cleanup cannot be verified, retain the unchecked status
+and use the [manual audit instructions](./GITHUB-REPOSITORY-SETTINGS.md).
+
+The examples are reference demonstrations, not production SaaS, real-time IoT
+systems or construction-ready engineering designs.
