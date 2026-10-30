@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "benchmarks/pilot.py"
-REVISION = "a" * 40
+REVISION = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
 class PilotPreparationTests(unittest.TestCase):
@@ -42,7 +42,7 @@ class PilotPreparationTests(unittest.TestCase):
                     self.assertIn("--skill archvela-architect", instructions)
                     self.assertIn(REVISION, instructions)
                 else:
-                    self.assertNotIn("npx skills add", instructions)
+                    self.assertNotIn("skills@1.7.4 add", instructions)
             for pair in grouped.values():
                 self.assertEqual(set(pair), {"baseline", "archvela"})
                 self.assertEqual(pair["baseline"], pair["archvela"])
