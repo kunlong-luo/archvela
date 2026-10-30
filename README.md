@@ -136,7 +136,7 @@ The optional `archvela-plan.json` lets one Agent hand off decisions to another; 
 
 - **L0:** Skill metadata, scripts, catalog invariants and regression tests.
 - **L1:** 20 Skills CLI local installation targets; six global-target checks; Codex / Claude Code / OpenCode public GitHub installation and pinned-commit installation.
-- **L2/L3:** Real client discovery, model calls, and paired architecture/coding outcomes remain **unverified**. [Evaluation protocol](./docs/AGENT-EVAL-PROTOCOL.md) · [Tracking issue #21](https://github.com/kunlong-luo/archvela/issues/21).
+- **L2/L3:** Real client discovery, model calls, and paired architecture/coding outcomes remain **unverified**. The [offline pilot summary tool](./benchmarks/summarize_pilot.py) can reconcile 12 operator-supplied sessions and human grades without dropping failed attempts or pooling different models; **no real sessions have been run**. [Evaluation protocol](./docs/AGENT-EVAL-PROTOCOL.md) · [Tracking issue #21](https://github.com/kunlong-luo/archvela/issues/21).
 - **CI:** Lockfiles, independent example builds, generated-project builds, Chromium E2E, CodeQL, four npm audits and PR dependency review. Passing CI cannot guarantee security or physical-device compatibility.
 - **Evidence & provenance:** [Operator-run pilot audit](./docs/REAL-AGENT-PILOT.md) checks real-session evidence *files* and hashes without model calls; [media provenance register](./docs/ASSET-PROVENANCE.md) blocks unrecorded standalone assets. Neither proves model benefit nor clears all third-party copyrights.
 

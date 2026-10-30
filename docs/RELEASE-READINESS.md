@@ -63,7 +63,7 @@
   access not available through the current connector. Existing CodeQL and npm
   audits **do not prove** these GitHub settings are enabled.
 
-## Release blockers independent of branch cleanup## Evidence and provenance tooling (not release approvals)
+## Evidence and provenance tooling (not release approvals)
 
 - [x] A read-only pilot evidence audit checks self-reported client metadata,
   paired prompt integrity, sanitized response/log file presence and SHA-256
@@ -76,7 +76,7 @@
 - [ ] Human review of all V3 reference text, example source, inline graphics,
   trademarks, package licenses and rights provenance remains mandatory.
 
-
+## Release blockers independent of branch cleanup
 
 - [ ] Review source/copyright provenance of bundled V3 references, copied
   design examples, images, trademarks, icons and any third-party media; obtain
@@ -109,6 +109,18 @@
   across Codex, Claude Code and OpenCode; no model run is asserted here.
 - [ ] Obtain independent human grades and reproducible code/test evidence,
   including failed trials, before publishing model-effectiveness claims.
+
+## V0.4.1 pilot reporting gate (no live model data)
+
+- [x] Added per-client offline evidence and human-grade summary tooling
+  that enforces all planned attempts and preserves failed/blocked
+  sessions in denominators.
+- [x] Strict review-sheet validation, no scoring for failed sessions,
+  no incomplete-pair delta, no cross-model pooled score, and regression
+  tests using **fixtures only**.
+- [ ] Capture 12 actually authorized client runs, independent blinded
+  human scores, real build results and permission-checked transcripts
+  before making *any* model-effectiveness statement.
 
 ## Separate research goal (does not block an honest experimental release)
 

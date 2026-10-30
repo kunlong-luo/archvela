@@ -130,6 +130,34 @@ baseline/treatment conditions. Pilot evidence does **not** feed
 `evaluate.py score`, which requires the complete 24-run single-client
 study and independently entered human grades.
 
+## V0.4.1: close the loop with human review and a failure-aware summary
+
+The observer must preserve failed and blocked attempts (including
+Treatment's inability to discover the Skill). First obtain a complete
+audit for each client. Then, and only after **manual privacy and
+arm-leakage inspection**, export the blank reviewer packet using
+`benchmarks/export_blind_review.py --redaction-confirmed`.
+
+A **separate reviewer** reads the files in `submissions/<blind-id>`
+and enters a reviewer identifier and five rubric scores in a copy of
+`blank-review.json`. Incomplete scores, non-integer values, duplicate
+IDs and attempts graded despite failure will be rejected. A reviewer
+must never receive the operator-only manifest, run metadata or raw logs.
+
+After review, the operator runs `benchmarks/summarize_pilot.py`
+with one `--study` and one `--review` pair per client. See the
+[exact three-client CLI command](../benchmarks/README.md).
+The summary accounts for **all 12 planned sessions** when the full
+two-task, three-client pilot is supplied, even if some sessions failed.
+It never outputs a study-level human score if any task pair is missing,
+failed, blocked or ungraded. It calculates within-client scores only,
+and deliberately does not pool across different models.
+
+Because all inputs are self-reported, a complete packet is **not proof**
+that an Agent executed, that evidence is free of private data, or that
+Archvela had a causal benefit. Publish only independently inspected,
+sanitized, consented results and clearly include negative outcomes.
+
 ## Stop conditions and publication rules
 
 Stop when a model/client version changes, a global Skill contaminates baseline,
