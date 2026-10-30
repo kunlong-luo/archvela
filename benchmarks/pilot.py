@@ -8,8 +8,11 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import hmac
 import json
 import re
+import secrets
+import subprocess
 import sys
 from pathlib import Path
 
@@ -18,6 +21,34 @@ from evaluate import DATA, HERE, load_cases, make_manifest
 ROOT = HERE.parent.resolve()
 AGENTS = ("codex", "claude-code", "opencode")
 DEFAULT_TASKS = ("AV-01", "AV-03")
+SKILLS_CLI_VERSION = "1.7.4"  # Cross-Agent installer CI pinned release
+
+
+def verify_checkout(skill_sha: str) -> None:
+    """Fail closed unless the local checked-out Git revision really matches the pin."""
+    try:
+        head = subprocess.run(
+            ["git", "rev-parse", "--verify", "HEAD"], cwd=ROOT, capture_output=True,
+            text=True, check=True, timeout=10,
+        ).stdout.strip().lower()
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "--", "benchmarks",
+             ".agents/skills/archvela-architect"],
+            cwd=ROOT, capture_output=True, text=True, check=True, timeout=10,
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+        raise ValueError("A real, accessible Git checkout is required for a pinned pilot") from exc
+    if head != skill_sha.lower():
+        raise ValueError(f"Skill revision mismatch: checked-out HEAD={head}, requested={skill_sha.lower()}")
+    if dirty:
+        raise ValueError("Benchmark/Skill source is locally modified; use a clean pinned checkout")
+
+
+def manifest_signature(manifest: dict, key: bytes) -> str:
+    payload = dict(manifest)
+    payload.pop("integrity_hmac_sha256", None)
+    raw = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()
+    return hmac.new(key, raw, hashlib.sha256).hexdigest()
 
 
 def prepare_pilot(*, output: Path, agent: str, model: str, skill_sha: str,
@@ -31,6 +62,7 @@ def prepare_pilot(*, output: Path, agent: str, model: str, skill_sha: str,
     available = {case["id"] for case in load_cases()}
     if any(task not in available for task in tasks):
         raise ValueError("Unknown benchmark task ID")
+    verify_checkout(skill_sha)
     manifest = make_manifest(seed, model, trial)
     selected = [run for run in manifest["runs"] if run["task_id"] in tasks]
     destination = output.expanduser().resolve()
@@ -42,16 +74,23 @@ def prepare_pilot(*, output: Path, agent: str, model: str, skill_sha: str,
         raise ValueError("Pilot output already exists; refusing to overwrite")
     digest = hashlib.sha256(DATA.read_bytes()).hexdigest()
     study = {
-        "schema_version": 1,
+        "schema_version": 2,
         "kind": "operator_only_unexecuted_pilot",
         "agent": agent, "model": model, "skill_commit": skill_sha.lower(),
         "cases_sha256": digest, "seed": seed, "trial": trial,
         "task_ids": tasks, "executed_runs": 0,
+        "skills_cli_version": SKILLS_CLI_VERSION,
         "warning": "Operator-only: reveals study arm. Never send to blind reviewers.",
         "runs": selected,
     }
+    key = secrets.token_bytes(32)
+    study["integrity_hmac_sha256"] = manifest_signature(study, key)
     destination.mkdir(parents=True, exist_ok=False)
     (destination / "operator").mkdir()
+    key_file = destination / "operator" / "manifest.key"
+    with key_file.open("x", encoding="ascii") as handle:
+        handle.write(key.hex() + "\\n")
+    key_file.chmod(0o600)
     (destination / "workspace").mkdir()
     (destination / "reviewer").mkdir()
     (destination / "operator-manifest.json").write_text(
@@ -79,7 +118,7 @@ def prepare_pilot(*, output: Path, agent: str, model: str, skill_sha: str,
             setup += (
                 "4. Install the pinned Skill **inside that isolated workspace** "
                 "and verify native discovery before prompting:\n\n"
-                f"   npx skills add {source} --skill archvela-architect "
+                f"   npx --yes skills@{SKILLS_CLI_VERSION} add {source} --skill archvela-architect "
                 f"--agent {agent} --copy --yes\n\n"
                 "   If pinned-source installation is unsupported by the installed "
                 "CLI, stop and document the error; do not silently use latest.\n"
@@ -113,6 +152,7 @@ def prepare_pilot(*, output: Path, agent: str, model: str, skill_sha: str,
                 "agent": agent,
                 "model": model,
                 "client_version": None,
+                "skills_cli_version": SKILLS_CLI_VERSION,
                 "skill_commit": skill_sha.lower(),
                 "started_at_utc": None,
                 "finished_at_utc": None,
