@@ -28,3 +28,4 @@ jobs:
           python -m compileall -q .agents/skills/archvela-architect/scripts
           python scripts/check_asset_provenance.py
           python scripts/check_release_candidate.py
+          python scripts/audit_dependency_licenses.py
