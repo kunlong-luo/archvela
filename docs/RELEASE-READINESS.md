@@ -95,6 +95,21 @@
 - [ ] Obtain **explicit owner approval** before creating a Git tag,
   GitHub Release, distribution package or public deployment.
 
+## V0.4 evaluation-integrity improvements (no live trials)
+
+- [x] Pilot evidence validation retains failed/blocked client attempts and
+  treatment Skill non-discovery as **negative observations**. A clean evidence
+  bundle is not a successful agent outcome; baseline Skill contamination
+  remains an invalid paired experimental setup.
+- [x] Added a no-model workspace preflight and operator-attested, response-only
+  blind-review export that deliberately excludes arm mappings, metadata and
+  raw tool logs. Manual redaction and native client isolation checks remain
+  mandatory.
+- [ ] Actually execute **12 authorized, model-backed pilot sessions**
+  across Codex, Claude Code and OpenCode; no model run is asserted here.
+- [ ] Obtain independent human grades and reproducible code/test evidence,
+  including failed trials, before publishing model-effectiveness claims.
+
 ## Separate research goal (does not block an honest experimental release)
 
 A paired study of Archvela versus baseline agents has **not run**. The V0.3
