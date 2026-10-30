@@ -23,6 +23,13 @@
 | Docs and truthful promises | **DRAFTED** — verify English/Chinese notes, README, Skill frontmatter, `CHANGELOG.md`, installed paths, known 62/3/20 limitations, and no claimed L2/L3 win. | Owner review: pending |
 | Secret/privacy and security | **PENDING** — check security alerts/secret scanning, source files, no credentials/private study logs in published assets, release artifact manifest and dependency license obligations. | Owner settings and review: pending |
 
+## Dependency license inventory progress — metadata checked, rights pending
+
+- [x] All **4 npm v3 lockfiles / 283 installed-package entries** inventoried from the checked-in files on 2026-10-30. No missing license *metadata* strings observed.
+- [x] Flagged **42 installation entries** (28 LGPL-family/mixed license expressions, 12 MPL, 2 CC-BY) in the [machine-readable triage register](./DEPENDENCY-LICENSE-REVIEW.json) and [review guide](./DEPENDENCY-LICENSE-AUDIT.md). Regression tests and CI fail if the recorded lockfiles or flagged items change unexpectedly.
+- [ ] **Human permission/redistribution review remains OPEN for these AND the other 241 entries.** Verify actual upstream texts, required notices, what binaries/code ship, source copyright and branding. Metadata must never be used to mark the release legally approved.
+- [ ] Record the *final release SHA* and owner/reviewer decisions in [rights register](./RIGHTS-REVIEW-REGISTER.md) before public release; no approval is present.
+
 ## Important distinction: Alpha versus stable
 
 - A **public Alpha** may disclose limited coverage, unoptimized graphics, partial translations and **missing statistically significant comparative benchmarks**. Do **not** claim improved coding results without a real study.

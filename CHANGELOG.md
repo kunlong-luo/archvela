@@ -10,6 +10,11 @@ repository development, not official release dates.
 
 ## [Unreleased]
 
+### Alpha dependency license review evidence (pre-release)
+
+- Inventoried license *metadata* from four npm v3 lockfiles: 283 installed-package rows; none missing a declared license string. 42 rows with LGPL-family, MPL or CC-BY expressions were flagged for manual review.
+- Added a versioned, source-linked package review register and offline drift checker with regression tests. Human copyright clearance, real redistributed package notices and official release authorization remain **PENDING**.
+
 ### v0.1.0-alpha.1 release preparation — DRAFT ONLY (not a released version)
 
 - Aligned the portable Skill's candidate metadata to `0.1.0-alpha.1` without creating a Git tag or public release.

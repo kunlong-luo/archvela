@@ -14,6 +14,11 @@
 > [Rights review register](./RIGHTS-REVIEW-REGISTER.md) ·
 > [Machine-checked candidate contract](./RELEASE-CANDIDATE.json).
 
+## Preliminary npm dependency license review — automated metadata only
+
+- [x] Added an offline, reproducible audit of **4 lockfiles / 283 package installation rows**, with zero missing reported license metadata and **42 flagged rows** (LGPL-family / MPL / CC-BY). CI checks lockfile Git blob IDs and the full flagged review register. [Details](./DEPENDENCY-LICENSE-AUDIT.md).
+- [ ] Actual third-party **license texts, NOTICE obligations, distributed binary contents and owner rights** remain unreviewed. The triage report intentionally says `rights_cleared=false`; a successful automated check is not legal sign-off.
+
 ## Alpha candidate release gates (2026-10-30)
 
 - [x] First-Alpha bilingual release notes and a no-publication candidate contract prepared.

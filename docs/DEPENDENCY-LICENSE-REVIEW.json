@@ -1,0 +1,437 @@
+{
+  "schema_version": 1,
+  "kind": "archvela_dependency_license_metadata_review",
+  "status": "pending_human_review",
+  "rights_cleared": false,
+  "source": "npm lockfileVersion 3 packages[].license; third-party rights NOT audited",
+  "lockfile_git_blob_sha": {
+    "examples/cinematic-site/package-lock.json": "04b28a83599ec1e6869bec6f2d81850497fa10fc",
+    "examples/home-digital-twin/package-lock.json": "f35a10b7a4dfbee7f0f675e49aa62a5546dbc6e7",
+    "examples/saas-workspace/package-lock.json": "53391394c93c8fd8d9647045ae9b94962fe38ff9",
+    "tests/browser/package-lock.json": "c787671172e8a4196f4de0feddead02a2f3fcd77"
+  },
+  "expected_package_rows": 283,
+  "expected_flagged_rows": 42,
+  "flagged_dependencies": [
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-darwin-arm64",
+      "name": "@img/sharp-libvips-darwin-arm64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-darwin-x64",
+      "name": "@img/sharp-libvips-darwin-x64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-arm",
+      "name": "@img/sharp-libvips-linux-arm",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-arm64",
+      "name": "@img/sharp-libvips-linux-arm64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-ppc64",
+      "name": "@img/sharp-libvips-linux-ppc64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-riscv64",
+      "name": "@img/sharp-libvips-linux-riscv64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-s390x",
+      "name": "@img/sharp-libvips-linux-s390x",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-x64",
+      "name": "@img/sharp-libvips-linux-x64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linuxmusl-arm64",
+      "name": "@img/sharp-libvips-linuxmusl-arm64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linuxmusl-x64",
+      "name": "@img/sharp-libvips-linuxmusl-x64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-wasm32",
+      "name": "@img/sharp-wasm32",
+      "version": "0.35.5",
+      "license": "Apache-2.0 AND LGPL-3.0-or-later AND MIT",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-win32-arm64",
+      "name": "@img/sharp-win32-arm64",
+      "version": "0.35.5",
+      "license": "Apache-2.0 AND LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-win32-ia32",
+      "name": "@img/sharp-win32-ia32",
+      "version": "0.35.5",
+      "license": "Apache-2.0 AND LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-win32-x64",
+      "name": "@img/sharp-win32-x64",
+      "version": "0.35.5",
+      "license": "Apache-2.0 AND LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/caniuse-lite",
+      "name": "caniuse-lite",
+      "version": "1.0.30001819",
+      "license": "CC-BY-4.0",
+      "development": false,
+      "optional": false,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss",
+      "name": "lightningcss",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": false,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-android-arm64",
+      "name": "lightningcss-android-arm64",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-darwin-arm64",
+      "name": "lightningcss-darwin-arm64",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-darwin-x64",
+      "name": "lightningcss-darwin-x64",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-freebsd-x64",
+      "name": "lightningcss-freebsd-x64",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-linux-arm-gnueabihf",
+      "name": "lightningcss-linux-arm-gnueabihf",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-linux-arm64-gnu",
+      "name": "lightningcss-linux-arm64-gnu",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-linux-arm64-musl",
+      "name": "lightningcss-linux-arm64-musl",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-linux-x64-gnu",
+      "name": "lightningcss-linux-x64-gnu",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-linux-x64-musl",
+      "name": "lightningcss-linux-x64-musl",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-win32-arm64-msvc",
+      "name": "lightningcss-win32-arm64-msvc",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/lightningcss-win32-x64-msvc",
+      "name": "lightningcss-win32-x64-msvc",
+      "version": "1.33.0",
+      "license": "MPL-2.0",
+      "development": true,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-darwin-arm64",
+      "name": "@img/sharp-libvips-darwin-arm64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-darwin-x64",
+      "name": "@img/sharp-libvips-darwin-x64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-arm",
+      "name": "@img/sharp-libvips-linux-arm",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-arm64",
+      "name": "@img/sharp-libvips-linux-arm64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-ppc64",
+      "name": "@img/sharp-libvips-linux-ppc64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-riscv64",
+      "name": "@img/sharp-libvips-linux-riscv64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-s390x",
+      "name": "@img/sharp-libvips-linux-s390x",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-x64",
+      "name": "@img/sharp-libvips-linux-x64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linuxmusl-arm64",
+      "name": "@img/sharp-libvips-linuxmusl-arm64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linuxmusl-x64",
+      "name": "@img/sharp-libvips-linuxmusl-x64",
+      "version": "1.3.4",
+      "license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-wasm32",
+      "name": "@img/sharp-wasm32",
+      "version": "0.35.5",
+      "license": "Apache-2.0 AND LGPL-3.0-or-later AND MIT",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-win32-arm64",
+      "name": "@img/sharp-win32-arm64",
+      "version": "0.35.5",
+      "license": "Apache-2.0 AND LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-win32-ia32",
+      "name": "@img/sharp-win32-ia32",
+      "version": "0.35.5",
+      "license": "Apache-2.0 AND LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-win32-x64",
+      "name": "@img/sharp-win32-x64",
+      "version": "0.35.5",
+      "license": "Apache-2.0 AND LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "review_status": "pending_human_review"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/caniuse-lite",
+      "name": "caniuse-lite",
+      "version": "1.0.30001819",
+      "license": "CC-BY-4.0",
+      "development": false,
+      "optional": false,
+      "review_status": "pending_human_review"
+    }
+  ]
+}
