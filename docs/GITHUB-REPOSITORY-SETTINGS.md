@@ -22,6 +22,15 @@ even if CI is green.
 | GitHub Topics | Includes `architecture-srv` | Repository API |
 | Secret scanning, alerts, repository Actions defaults | **Not independently verified** | Requires owner Settings check |
 
+## Latest pre-Alpha candidate check (2026-10-30)
+
+This section supersedes historical values in the 2026-10-30 cleanup snapshot **below**:
+- `main` at `4b4c20d93084db1c326afbc561b60184dd69e379`; 7/7 main CI workflows passed.
+- `main.protected=false` (branch API) and public Rulesets API returned `[]`. Owner must configure mandatory checks and prevent force-push/delete.
+- Auto-delete on merge remains **false**; five post-cleanup merged feature branches remained as of the last audit.
+- Description no longer contains the accidental `复制` suffix, but still has trailing spaces; topic `architecture-srv` remains.
+- Zero GitHub Releases; no Alpha tag, no approval yet. See [Alpha sign-off](./ALPHA-RELEASE-CHECKLIST.md).
+
 ## Owner actions in GitHub Settings
 
 1. **About → Edit**: remove the trailing `复制` from Description.

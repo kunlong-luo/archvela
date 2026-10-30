@@ -5,7 +5,7 @@ license: MIT
 compatibility: Agent Skills-capable coding agents; optional Python 3.10+ CLI helpers.
 metadata:
   author: kunlong-luo
-  version: "0.1.0"
+  version: "0.1.0-alpha.1"
 ---
 
 # Archvela Architect — Scenario-first frontend architecture
