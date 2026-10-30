@@ -76,7 +76,7 @@
 - [ ] Human review of all V3 reference text, example source, inline graphics,
   trademarks, package licenses and rights provenance remains mandatory.
 
-
+## Release blockers independent of branch cleanup
 
 - [ ] Review source/copyright provenance of bundled V3 references, copied
   design examples, images, trademarks, icons and any third-party media; obtain
