@@ -65,7 +65,7 @@ class ArchvelaTests(unittest.TestCase):
         self.assertIn("JS Chunk", text)
         self.assertIn("Asset Pack", text)
         # Relative links must resolve; English guide cannot refer to imaginary sources.
-        for target in re.findall(r"(?<!!)\\[[^]\\n]+\\]\\((\\./[^)]+)\\)", text):
+        for target in re.findall(r"(?<!!)\[[^\]\n]+\]\((\./[^)]+)\)", text):
             self.assertTrue((guide.parent / target).resolve().is_file(), target)
 
     def test_62_scenarios_and_domain_counts(self):
