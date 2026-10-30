@@ -27,7 +27,7 @@ def inspect(study_dir: Path) -> dict:
     if not study.is_dir():
         raise ValueError("Study must be a directory")
     manifest = json.loads(safe_file(study, Path("operator-manifest.json")).read_text(encoding="utf-8"))
-    runs = validate_manifest(manifest)
+    runs = validate_manifest(manifest, study)
     defects = []
     root = study / "workspace"
     if root.is_symlink() or not root.is_dir():
