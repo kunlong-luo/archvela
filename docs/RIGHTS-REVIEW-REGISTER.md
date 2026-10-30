@@ -1,5 +1,7 @@
 # Archvela first Alpha — third-party rights and source review register
 
+> Intended candidate: `v0.1.0-alpha.1` — **NOT PUBLISHED**; review must be tied to the final candidate SHA before any approval.
+
 > **Status: UNREVIEWED — NO REDISTRIBUTION APPROVAL INFERRED.** This human sign-off register supplements the [machine-checkable standalone media inventory](./ASSET-PROVENANCE.md), which reported zero separately committed media files at its earlier source-tree snapshot. Zero media files **does not** mean zero copyrighted material.
 
 Complete this register against the **actual proposed release commit**, not merely an older snapshot. Where ownership/redistribution cannot be established, obtain permission, rewrite/remove the material, or hold the release. Do not copy private identity documents or license keys into the repository.
