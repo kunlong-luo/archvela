@@ -12,6 +12,7 @@ import hashlib
 import json
 import random
 import re
+import secrets
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -56,8 +57,9 @@ def make_manifest(seed: int, model: str, trial: int) -> dict:
     cases = load_cases()
     for c in cases:
         for arm in ARMS:
-            raw = f"{seed}|{model}|{trial}|{c['id']}|{arm}"
-            blind_id = hashlib.sha256(raw.encode()).hexdigest()[:16]
+            # The shuffle seed only fixes task order, never the reviewer ID.
+            # A predictable hash of seed/model/arm would unblind a reviewer.
+            blind_id = secrets.token_hex(16)
             tasks.append({
                 "blind_id": blind_id, "task_id": c["id"], "scenario_id": c["scenario_id"],
                 "arm": arm, "prompt": c["prompt"], "acceptance_topics": c["acceptance_topics"],
