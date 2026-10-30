@@ -10,6 +10,15 @@ repository development, not official release dates.
 
 ## [Unreleased]
 
+### v0.1.0-alpha.1 release preparation — DRAFT ONLY (not a released version)
+
+- Aligned the portable Skill's candidate metadata to `0.1.0-alpha.1` without creating a Git tag or public release.
+- Prepared reviewed-in-future English and Chinese first-Alpha release notes; kept limits and L0/L1 vs L2/L3 evidence explicit.
+- Added an owner sign-off checklist and rights provenance register. Legal permission, `main` protection, real native Codex smoke proof and owner authorization are **pending**, not completed.
+- Added a no-network, nonpublishing release candidate contract checker with regression tests to prevent unverified approvals or a fabricated published SHA.
+
+
+
 ### Changed
 - 2026-10-30: Safely deleted **11 merged PR branches** (10 existing plus
   the hardening PR branch). [Cleanup run #40990833067](https://github.com/kunlong-luo/archvela/actions/runs/40990833067)
