@@ -2,6 +2,13 @@
 
 完整保留 2026-10-27 的六大领域技术选型文档与 62 场景蓝图。文档为历史决策基线，不保证实施时的包版本仍然最新。
 
+
+## English navigation / 英文速查
+
+- [English architecture decision guide](./ENGLISH-DECISION-GUIDE.md) is a six-domain English overview and framework-choice checklist, **not a full translation of all 62 original scenarios**.
+- English-speaking agents should start with the English-first `SKILL.md`, then use the English guide and the selected Chinese source volume. The structured `scenarios.json` is still primarily Chinese.
+- 原始 62 个 V3 场景及六大领域资料保持中文源文。英文速查是导读与取舍建议，不得声称已完成全部场景的人工英文翻译。
+
 ## 阅读顺序
 
 1. 先使用 `scripts/scenes.py` 查找编号，或阅读 [07 全场景索引](./07_V3_全场景蓝图与选型索引.md)。

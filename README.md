@@ -21,6 +21,10 @@ A **scenario-first frontend architecture Skill and toolkit** for independent dev
 > [!IMPORTANT]
 > **Pre-release software.** The 62 scenarios are architecture references, **not** 62 complete applications. Only V3-02, V3-14, and V3-26 currently generate runnable source projects. CI validates metadata and installer behavior (L0/L1); real-agent discovery and improved coding outcomes (L2/L3) have **not** been demonstrated. No official GitHub Release exists.
 
+## English-first Skill discovery; Chinese source catalog
+
+The installed [Skill entrypoint](./.agents/skills/archvela-architect/SKILL.md) now uses English-first discovery metadata and decision rules, backed by a [six-domain English architecture guide](./.agents/skills/archvela-architect/references/ENGLISH-DECISION-GUIDE.md). It evaluates existing React, Vue, Astro, Next.js and other stacks **by project constraints**, not framework preference. The detailed 62-scenario V3 catalog remains primarily in Chinese; the guide is **not** a complete translation. Installation checks do not establish native L2 discovery or model-quality improvement.
+
 ## What problem does Archvela solve?
 
 AI assistants can write code quickly but still overengineer a simple website, select an unsuitable framework, blur module boundaries, or present unverified performance claims. Archvela gives an auditable path from product intent to acceptance criteria:

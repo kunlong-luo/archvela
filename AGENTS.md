@@ -8,6 +8,13 @@ Maintain Archvela as a **portable scenario-first Agent Skill** for frontend arch
 - Keep English and Chinese entrypoints in sync whenever commands, scenario scope, install coverage or warnings change. Never reintroduce `README.en.md`.
 - Validate localized links via `tests/test_documentation.py` and link the corresponding language versions in both directions.
 
+## Portable Skill entrypoint language and technology neutrality
+
+- The installed `.agents/skills/archvela-architect/SKILL.md` is **English-first** for cross-client discovery and retains concise Chinese assistance.
+- `references/ENGLISH-DECISION-GUIDE.md` is a **six-domain summary**, not a verified translation of all 62 Chinese V3 scenarios. Preserve original source content and cite actual scenario IDs.
+- Do not hard-ban maintained frontend frameworks or component libraries. Inspect the incumbent repo, its license/versions, migration costs and product constraints before recommending React, Vue, Astro, Next.js, etc.
+- Tests may check static metadata/wording; they do **not** prove a real agent natively discovered the Skill. Continue to distinguish L0/L1 and L2/L3.
+
 ## Before edits
 1. Read this file, `README.md`, `.agents/skills/archvela-architect/SKILL.md`, and relevant reference files only.
 2. Inspect existing changes and tests. Do not wipe authored V3 content or collapse 62 scenarios into a shorter list.

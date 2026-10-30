@@ -17,6 +17,10 @@
 | Python 场景/文档工具 | Python 3.10+，核心脚本不需要额外 pip 包 |
 | 运行 React/Next/Vite 示例 | Node.js 24 / npm，以提交的 `package-lock.json` 为准 |
 
+### 多语言入口与技术栈中立性
+
+[英文优先的 Skill 入口](../.agents/skills/archvela-architect/SKILL.md) 与 [六大领域英文速查](../.agents/skills/archvela-architect/references/ENGLISH-DECISION-GUIDE.md) 可以帮助英语 Agent 定位场景，但完整 62 场景源资料仍主要是中文。对已有 Vue、React、Next.js 等项目先审计后选择，不能为了追逐技术趋势强制迁移。
+
 ## A · 在自己的项目中安装 Agent Skill
 
 **1. 打开你的目标项目目录。** 在终端执行：

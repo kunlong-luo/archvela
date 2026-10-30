@@ -138,6 +138,15 @@
   human scores, real build results and permission-checked transcripts
   before making *any* model-effectiveness statement.
 
+## V0.6 English-first Skill usability (does NOT establish L2/L3)
+
+- [x] English discovery metadata and native entrypoint guidance without blanket exclusions of Vue or any frontend/component framework.
+- [x] Six-domain English decision guide and explicit disclosure that most long-form V3 sources and scenario descriptions remain Chinese.
+- [x] Offline tests for bilingual entrypoint, guide references and neutral technology selection.
+- [ ] Independent English-speaking human review of all 62 source scenarios remains incomplete; this is not a full translation.
+- [ ] Real Codex/Claude Code/OpenCode Skill discovery and outcomes remain unverified; see [#21](https://github.com/kunlong-luo/archvela/issues/21).
+- [ ] GitHub `main` branch protection, rights provenance and owner release approval remain outstanding.
+
 ## Separate research goal (does not block an honest experimental release)
 
 A paired study of Archvela versus baseline agents has **not run**. The V0.3
