@@ -197,7 +197,7 @@ def audit(study_dir: Path) -> dict:
         "missing": missing,
         "caveat": (
             "Complete evidence can include failed/blocked runs and Skill discovery failures. "
-            "Fields and SHA256 only: neither client execution, redaction, scores nor model benefit is verified."
+            "Fields and SHA256 only: client execution cannot be independently verified; nor can redaction, scores or model benefit."
         ),
     }
 
