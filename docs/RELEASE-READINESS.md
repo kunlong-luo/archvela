@@ -1,11 +1,30 @@
-# Release Readiness — Archvela V0.3
+# Release Readiness — Archvela first Alpha candidate
 
 > **Status: PRE-RELEASE / NOT APPROVED FOR PUBLICATION.**
-> Snapshot: **2026-10-30**. Last verified `main` commit before this
-> hardening PR: `c2ba1ace2fc0c587c353b390f435818c5afff4ea`.
-> Its seven GitHub Actions workflows passed. **No GitHub Release was found.**
-> A PR merge does not publish a release or authorize a new tag, package or
-> deployment.
+> **2026-10-30 pre-candidate baseline:** `main` commit
+> `4b4c20d93084db1c326afbc561b60184dd69e379`, with seven GitHub Actions
+> workflow groups passing. **That earlier commit is NOT the Alpha release SHA.**
+> GitHub Releases observed: **0**. Actual candidate CI and final release SHA
+> must be rechecked after candidate PR merge. A PR merge is not publication.
+>
+> **Proposed tag:** `v0.1.0-alpha.1` (**not created**).
+> [English draft](./releases/v0.1.0-alpha.1.md) ·
+> [中文草案](./releases/v0.1.0-alpha.1.zh.md) ·
+> [Alpha sign-off checklist](./ALPHA-RELEASE-CHECKLIST.md) ·
+> [Rights review register](./RIGHTS-REVIEW-REGISTER.md) ·
+> [Machine-checked candidate contract](./RELEASE-CANDIDATE.json).
+
+## Alpha candidate release gates (2026-10-30)
+
+- [x] First-Alpha bilingual release notes and a no-publication candidate contract prepared.
+- [x] V0.1.0-alpha.1 candidate Skill metadata aligned; **not an official release**.
+- [ ] **Third-party content/source/notice rights sign-off** by the authorized owner, including V3 text and npm packages; see [Issue #5](https://github.com/kunlong-luo/archvela/issues/5).
+- [ ] **GitHub admin protection:** public branch API currently returns `main.protected=false`; public Rulesets API `[]`. Owner must enable and confirm. Auto-delete branches is also off.
+- [ ] **Authentic Codex L2/L3 smoke:** see [Issue #31](https://github.com/kunlong-luo/archvela/issues/31); no fake scores, timestamps or model logs.
+- [ ] Freeze the final Alpha SHA, check 7/7 CI against that commit, verify package/license notices and scan for secrets.
+- [ ] Obtain **explicit owner approval for the exact version, final SHA and wording** before creating a tag or Release.
+
+
 
 ## What is already supported by evidence
 
@@ -48,16 +67,16 @@
 - [x] **Removed the temporary `contents:write` cleanup workflow** after
   successful deletion, keeping the audit script and safety tests in history.
   No recurring privileged cleanup job remains.
-- [ ] GitHub About **Description** currently has an accidental trailing
-  `复制` suffix. Edit it out in the repo settings.
+- [ ] GitHub About **Description** no longer has the former `复制` suffix
+  (2026-10-30 API), but still contains trailing whitespace. Tidy in Settings.
 - [ ] Change the misleading `architecture-srv` Topic to
   `software-architecture` or `software-design`; verify the public About panel.
 - [ ] Enable `Automatically delete head branches`; it was disabled on
   2026-10-30. This requires repository Settings access.
 - [ ] Add an appropriate **main branch ruleset / branch protection**.
-  Public ruleset API returned an empty list at audit time. Detailed branch
-  protection returned 403 for the installed GitHub integration; its complete
-  configuration could **not** be verified. Check it in repository Settings.
+  Fresh GitHub branch API returned `main.protected=false` and public rulesets
+  API returned `[]` (2026-10-30). Detailed branch protection returned 403 for
+  the integration, and owner-only settings remain unverified.
 - [ ] Inspect Dependabot alerts, secret scanning, private vulnerability
   reporting and Actions token defaults in Settings; these require settings
   access not available through the current connector. Existing CodeQL and npm
