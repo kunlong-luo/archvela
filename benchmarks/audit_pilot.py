@@ -9,12 +9,14 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import hmac
 import json
 import re
 import sys
 from pathlib import Path
 
-from evaluate import DATA, load_cases, make_manifest
+from evaluate import DATA, load_cases
+from pilot import manifest_signature, SKILLS_CLI_VERSION
 
 ID = re.compile(r"^[0-9a-f]{16}$")
 SHA = re.compile(r"^[0-9a-f]{40}$")
@@ -64,46 +66,73 @@ def utc_timestamp(value: str) -> dt.datetime:
     return timestamp
 
 
-def validate_manifest(manifest: dict) -> list[dict]:
-    if manifest.get("schema_version") != 1 or manifest.get("kind") != "operator_only_unexecuted_pilot":
-        raise ValueError("Unexpected operator manifest")
+def validate_manifest(manifest: dict, study: Path) -> list[dict]:
+    """Verify operator-keyed manifest and dataset integrity, not a model run.
+
+    Key and manifest are both held by the operator. HMAC detects accidental
+    edits and blind-ID reassignment; it cannot authenticate the operator.
+    """
+    if manifest.get("schema_version") != 2 or manifest.get("kind") != "operator_only_unexecuted_pilot":
+        raise ValueError("Unsupported pilot manifest; reprepare V2 before live runs")
+    key_file = safe_file(study, Path("operator/manifest.key"))
+    raw_key = key_file.read_text(encoding="ascii").strip()
+    if not re.fullmatch(r"[0-9a-f]{64}", raw_key):
+        raise ValueError("Invalid operator-only integrity key")
+    signature = manifest.get("integrity_hmac_sha256")
+    expected_sig = manifest_signature(manifest, bytes.fromhex(raw_key))
+    if not isinstance(signature, str) or not hmac.compare_digest(signature, expected_sig):
+        raise ValueError("Pilot manifest modified or integrity key invalid")
     if manifest.get("agent") not in ("codex", "claude-code", "opencode"):
         raise ValueError("Unexpected client in pilot manifest")
     if not SHA.fullmatch(str(manifest.get("skill_commit", ""))):
         raise ValueError("Study must pin a full Git commit")
     if manifest.get("executed_runs") != 0:
         raise ValueError("Pilot generator must not claim execution")
+    if manifest.get("skills_cli_version") != SKILLS_CLI_VERSION:
+        raise ValueError("Pinned Skills CLI version mismatch")
     if hashlib.sha256(DATA.read_bytes()).hexdigest() != manifest.get("cases_sha256"):
         raise ValueError("Benchmark cases changed after pilot preparation")
-    model = manifest.get("model")
-    task_ids = manifest.get("task_ids")
+    model, task_ids = manifest.get("model"), manifest.get("task_ids")
     if (not isinstance(model, str) or not model.strip()
             or not isinstance(task_ids, list) or not task_ids
+            or any(not isinstance(t, str) for t in task_ids)
             or len(set(task_ids)) != len(task_ids)
-            or any(not isinstance(t, str) for t in task_ids)):
-        raise ValueError("Invalid model or task list")
+            or type(manifest.get("seed")) is not int
+            or type(manifest.get("trial")) is not int
+            or manifest["trial"] < 1):
+        raise ValueError("Invalid model, seed, trial or task list")
     known = {case["id"]: case for case in load_cases()}
     if any(t not in known for t in task_ids):
         raise ValueError("Unknown task in pilot")
     runs = manifest.get("runs")
     if not isinstance(runs, list) or len(runs) != 2 * len(task_ids):
         raise ValueError("Pilot run count must equal selected tasks x two arms")
-    ids = [r.get("blind_id") for r in runs if isinstance(r, dict)]
-    if (len(ids) != len(runs) or len(set(ids)) != len(ids)
-            or any(not isinstance(i, str) or not ID.fullmatch(i) for i in ids)):
-        raise ValueError("Invalid or duplicate blind ID")
-    # Reconstruct the exact randomized assignment instead of accepting
-    # modified arm labels or forged blind IDs in operator-manifest.json.
-    regenerated = make_manifest(manifest["seed"], model, manifest["trial"])
-    expected = {
-        row["blind_id"]: row for row in regenerated["runs"]
-        if row["task_id"] in task_ids
-    }
-    if set(expected) != set(ids):
-        raise ValueError("Pilot blind IDs changed since preparation")
+    ids, observed_pairs = set(), set()
     for row in runs:
-        if row != expected[row["blind_id"]]:
+        if not isinstance(row, dict):
+            raise ValueError("Invalid pilot run record")
+        blind, task, arm = row.get("blind_id"), row.get("task_id"), row.get("arm")
+        if (not isinstance(blind, str) or not re.fullmatch(r"[0-9a-f]{32}", blind)
+                or blind in ids):
+            raise ValueError("Invalid or duplicate opaque blind ID")
+        ids.add(blind)
+        if task not in known or task not in task_ids or arm not in ("baseline", "archvela"):
+            raise ValueError("Pilot task or arm not recognized")
+        if (task, arm) in observed_pairs:
+            raise ValueError("Duplicate task and arm assignment")
+        observed_pairs.add((task, arm))
+        reference = known[task]
+        expected = {
+            "blind_id": blind,
+            "task_id": task, "scenario_id": reference["scenario_id"],
+            "arm": arm, "prompt": reference["prompt"],
+            "acceptance_topics": reference["acceptance_topics"],
+            "model": model, "trial": manifest["trial"],
+        }
+        if row != expected:
             raise ValueError("Pilot task, arm, prompt or metadata was modified")
+    if observed_pairs != {(task, arm) for task in task_ids for arm in ("baseline", "archvela")}:
+        raise ValueError("Incomplete paired task assignment")
     return runs
 
 
@@ -115,7 +144,7 @@ def audit(study_dir: Path) -> dict:
         raise ValueError("Study must be a directory")
     manifest_file = safe_file(study, Path("operator-manifest.json"))
     manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
-    runs = validate_manifest(manifest)
+    runs = validate_manifest(manifest, study)
     present = []
     missing = []
     deviations = []
@@ -138,6 +167,8 @@ def audit(study_dir: Path) -> dict:
             raise ValueError("Actual session identity mismatch: " + blind)
         if data.get("skill_commit") != manifest["skill_commit"]:
             raise ValueError("Session pinned Skill version mismatch: " + blind)
+        if data.get("skills_cli_version") != manifest["skills_cli_version"]:
+            raise ValueError("Session Skills CLI version mismatch: " + blind)
         client_version = data.get("client_version")
         if not isinstance(client_version, str) or not client_version.strip():
             raise ValueError("Missing actual client version: " + blind)
