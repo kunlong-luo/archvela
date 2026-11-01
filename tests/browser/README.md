@@ -5,7 +5,7 @@ Playwright Test pinned to **1.64.1**, running bundled Chromium against **locally
 ## Run from repo root
 
 ```bash
-npm install --prefix tests/browser
+pnpm --dir tests/browser install --frozen-lockfile
 npm exec --prefix tests/browser -- playwright install chromium
 
 for app in cinematic-site saas-workspace home-digital-twin; do
