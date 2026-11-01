@@ -21,7 +21,7 @@ A **scenario-first frontend architecture Skill and toolkit** for independent dev
 > [!IMPORTANT]
 > **Pre-release software.** The 62 scenarios are architecture references, **not** 62 complete applications. Only V3-02, V3-14, and V3-26 currently generate runnable source projects. CI validates metadata and installer behavior (L0/L1); real-agent discovery and improved coding outcomes (L2/L3) have **not** been demonstrated. No official GitHub Release exists.
 
-**Release-candidate verification:** The [installed dependency license evidence guide](./docs/INSTALLED-LICENSE-EVIDENCE.md) explains the real `npm ci` license/NOTICE artifact checks; the [pinned Skill install guide](./docs/PINNED-SKILL-INSTALL.md) documents byte-for-byte L1 installation checks. Neither is third-party license approval or native Agent L2/L3 evidence.
+**Release-candidate verification:** The [installed dependency license evidence guide](./docs/INSTALLED-LICENSE-EVIDENCE.md) separates archived npm-era LICENSE/NOTICE evidence from current pnpm virtual-store scans; the [pinned Skill install guide](./docs/PINNED-SKILL-INSTALL.md) documents byte-for-byte L1 installation checks. Neither is third-party license approval or native Agent L2/L3 evidence.
 
 **Owner-run Alpha gates:** [GitHub branch protection and live read-only governance](./docs/RELEASE-GOVERNANCE-QUICKSTART.md) · [real Codex native discovery smoke (not yet executed)](./docs/CODEX-NATIVE-SMOKE.md). Both remain unverified; no tag or Release exists.
 
