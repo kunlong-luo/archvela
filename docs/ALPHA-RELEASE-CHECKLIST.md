@@ -30,6 +30,13 @@
 - [ ] **Human permission/redistribution review remains OPEN for these AND the other 241 entries.** Verify actual upstream texts, required notices, what binaries/code ship, source copyright and branding. Metadata must never be used to mark the release legally approved.
 - [ ] Record the *final release SHA* and owner/reviewer decisions in [rights register](./RIGHTS-REVIEW-REGISTER.md) before public release; no approval is present.
 
+## Installed dependency evidence and source pinning (engineering progress)
+
+- [x] CI now uses `npm ci --ignore-scripts --include=dev` to inspect the **actual package files installed on Linux** for each of the four lockfiles. Each successful Security scanning job uploads package version, installed/skipped state, top-level LICENSE/NOTICE filename and SHA-256 evidence. [How to review the artifacts](./INSTALLED-LICENSE-EVIDENCE.md).
+- [x] Pinned GitHub-source Codex L1 install is checked against **five exact source files**, not just a file's presence. [Reproduce a pinned install](./PINNED-SKILL-INSTALL.md).
+- [ ] **Human rights review is still PENDING**: license text authenticity, applicable notices, platform-specific packages not installed on Linux, copyright ownership and what ships. CI evidence is not approval.
+- [ ] At least one genuine Codex native Skill discovery/ADR run remains required; byte equality does not establish L2/L3.
+
 ## Important distinction: Alpha versus stable
 
 - A **public Alpha** may disclose limited coverage, unoptimized graphics, partial translations and **missing statistically significant comparative benchmarks**. Do **not** claim improved coding results without a real study.
