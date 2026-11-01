@@ -42,7 +42,9 @@ def collect(root: Path = ROOT) -> dict:
     blobs = {}
     by_lock = {}
     for relative in LOCKFILES:
-        path = root / relative
+        # The original npm lock bytes are archived, not active pnpm inputs.
+        archived = root / "docs/historical/npm-lockfiles" / relative
+        path = archived if archived.is_file() or archived.is_symlink() else root / relative
         if path.is_symlink():
             raise ValueError("Refusing to read a symlink lockfile: " + relative)
         raw = path.read_bytes()
