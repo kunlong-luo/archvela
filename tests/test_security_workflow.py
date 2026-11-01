@@ -14,7 +14,7 @@ class SecurityWorkflowTests(unittest.TestCase):
         self.assertIn("python, javascript-typescript", workflow)
         self.assertIn("pnpm-audit:", workflow)
         self.assertIn("cinematic-site, saas-workspace, home-digital-twin, browser-tests", workflow)
-        self.assertIn("pnpm --dir "$directory" audit --audit-level high", workflow)
+        self.assertIn('pnpm --dir "$directory" audit --audit-level high', workflow)
         self.assertNotIn("\n          pnpm audit --fix", workflow)
 
     def test_dependency_review_is_not_claimed_without_capability(self):
