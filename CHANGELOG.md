@@ -8,6 +8,12 @@ The version in `.agents/skills/archvela-architect/SKILL.md` is **candidate
 metadata**, not proof of a published Git tag or release. Dates below describe
 repository development, not official release dates.
 
+## First Alpha governance preflight (still unreleased)
+
+- Added read-only, exact-main-SHA GitHub governance audit covering protection visibility, auto-delete settings, current SHA's 7 CI workflows, release existence and permanently unsigned owner/rights/native-client gates. No live API error becomes an approval.
+- Added manual-only reporting workflow and fixture regression tests; **no tag, public Release or repository Settings writes**.
+- Added exact owner branch protection/status-check instructions and a real Codex natural Skill-discovery smoke protocol. These are operator instructions; **no actual Codex sessions executed**.
+
 ## [Unreleased]
 
 ### Installed dependency and exact-source evidence (pre-release)
