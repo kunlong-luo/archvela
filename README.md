@@ -21,6 +21,8 @@ A **scenario-first frontend architecture Skill and toolkit** for independent dev
 > [!IMPORTANT]
 > **Pre-release software.** The 62 scenarios are architecture references, **not** 62 complete applications. Only V3-02, V3-14, and V3-26 currently generate runnable source projects. CI validates metadata and installer behavior (L0/L1); real-agent discovery and improved coding outcomes (L2/L3) have **not** been demonstrated. No official GitHub Release exists.
 
+**Release-candidate verification:** The [installed dependency license evidence guide](./docs/INSTALLED-LICENSE-EVIDENCE.md) explains the real `npm ci` license/NOTICE artifact checks; the [pinned Skill install guide](./docs/PINNED-SKILL-INSTALL.md) documents byte-for-byte L1 installation checks. Neither is third-party license approval or native Agent L2/L3 evidence.
+
 ## First Alpha candidate — not published
 
 The proposed **`v0.1.0-alpha.1`** is a **release candidate draft, not a GitHub Release or tag**. Review the [English release notes](./docs/releases/v0.1.0-alpha.1.md), [中文首发说明](./docs/releases/v0.1.0-alpha.1.zh.md), [owner sign-off checklist](./docs/ALPHA-RELEASE-CHECKLIST.md) and [third-party rights register](./docs/RIGHTS-REVIEW-REGISTER.md). Rights clearance, `main` protection, genuine Codex L2/L3 smoke evidence and owner approval remain outstanding. Run `python3 scripts/check_release_candidate.py` for a **structural draft check only**, never a publication authorization.

@@ -33,6 +33,10 @@ The first command verifies that the four lockfiles match the checked-in [machine
 
 When dependencies update, regenerate the register from actual new lockfile metadata, investigate newly flagged expressions, and obtain appropriate human review. Do **not** flip approval booleans just to pass CI. Genuine legal clearance requires review of actual installed code/binaries, upstream license texts, package notices, the distribution form and the owner's rights in original reference material.
 
+## Evidence from actual installed npm packages (new CI gate)
+
+The [installed-file evidence collector](./INSTALLED-LICENSE-EVIDENCE.md) uses four isolated Linux `npm ci --ignore-scripts` jobs to inspect **file presence and SHA-256 hashes** of package-root LICENSE/NOTICE files. It records skipped optional platform packages and installed packages with no top-level license/notice file. The workflow archives raw JSON evidence on each successful run; it does **not** automatically sign off or interpret third-party redistribution rights. Review those artifacts and the actual upstream license texts, notices and shipped binaries before owner approval.
+
 ## Owner's manual release tasks
 
 - [ ] Identify what ships to users: source-only Skill/Starter repository, npm-distributed package, website deployment, bundled binaries, or all of these. License obligations may differ.

@@ -10,6 +10,12 @@ repository development, not official release dates.
 
 ## [Unreleased]
 
+### Installed dependency and exact-source evidence (pre-release)
+
+- Added Linux CI capture of installed npm package-root LICENSE/NOTICE names, SHA-256 and missing/optional counts from four locked projects, after `npm ci --ignore-scripts`. JSON evidence is archived per security workflow run; no license text is automatically cleared.
+- Tightened pinned GitHub Skills CLI install validation to compare five files **byte-for-byte** with the actual CI checkout SHA. An installed file is not evidence of an Agent model run.
+- Added fixture-only tamper/missing-version/symlink tests, installation integrity regression checks and owner review instructions. Release, rights approval and live L2/L3 remain pending.
+
 ### Alpha dependency license review evidence (pre-release)
 
 - Inventoried license *metadata* from four npm v3 lockfiles: 283 installed-package rows; none missing a declared license string. 42 rows with LGPL-family, MPL or CC-BY expressions were flagged for manual review.

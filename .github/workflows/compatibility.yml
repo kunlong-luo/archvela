@@ -73,6 +73,26 @@ jobs:
             echo "::error::Pinned GitHub commit Skill install failed"
             exit 1
           }
+          # Verify bytes against the exact checked-out source, not merely file existence.
+          # A successful GitHub-source install at a pinned ref is not L2 native discovery.
+          test "$(git -C "$GITHUB_WORKSPACE" rev-parse HEAD)" = "$GITHUB_SHA" || {
+            echo "::error::Checked-out source does not match the pinned PR/main commit"
+            exit 1
+          }
+          for relative in \
+            SKILL.md \
+            references/scenarios.json \
+            references/architecture_profiles.json \
+            scripts/scenes.py \
+            scripts/new_project_docs.py; do
+            expected="$GITHUB_WORKSPACE/.agents/skills/archvela-architect/$relative"
+            installed=".agents/skills/archvela-architect/$relative"
+            test -s "$expected" && test -s "$installed" && cmp -s "$expected" "$installed" || {
+              echo "::error::Installed pinned Skill differs from exact source at $relative"
+              exit 1
+            }
+          done
+          echo "Pinned GitHub install matches five files byte-for-byte; no native agent invoked."
       - name: Upload detailed compatibility report
         if: always()
         uses: actions/upload-artifact@v7

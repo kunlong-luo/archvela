@@ -22,6 +22,8 @@
 > [!IMPORTANT]
 > **项目仍处于预发布阶段。** 62 个场景是架构参考，不是 62 套完整应用；当前仅 V3-02、V3-14、V3-26 能生成可运行代码。安装与 CI 验证属于 L0/L1；真实模型是否能正确调用 Skill、是否改善交付质量仍待 L2/L3 实测。尚未创建正式 GitHub Release。
 
+**首发验证补充：** 现已增加 [实际安装的依赖许可证文件证据](./docs/INSTALLED-LICENSE-EVIDENCE.md) 与 [固定提交的 Skill 安装验证](./docs/PINNED-SKILL-INSTALL.md)。前者只记录实际安装文件名和哈希，后者只证明 L1 文件一致，不代表版权获批或实际 Agent 模型运行成功。
+
 ## 首个 Alpha 发布候选（尚未发布）
 
 计划版本 **`v0.1.0-alpha.1`** 目前只是**候选草案**，没有创建 Git Tag 或 GitHub Release。请查看 [中文发布说明](./docs/releases/v0.1.0-alpha.1.zh.md)、[英文发布说明](./docs/releases/v0.1.0-alpha.1.md)、[发布验收与所有者签核](./docs/ALPHA-RELEASE-CHECKLIST.md) 和 [版权来源审核登记](./docs/RIGHTS-REVIEW-REGISTER.md)。目前版权许可、`main` 保护、真实 Codex L2/L3 冒烟验证及最终发布授权均未完成；`python3 scripts/check_release_candidate.py` 仅校验草案结构，不代表允许发布。
