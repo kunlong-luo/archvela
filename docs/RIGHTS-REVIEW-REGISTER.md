@@ -18,7 +18,8 @@ The [Linux CI evidence collector](./INSTALLED-LICENSE-EVIDENCE.md) now scans pac
 
 - [x] Four successful Linux installer evidence JSON artifacts from [Security workflow #41262733686](https://github.com/kunlong-luo/archvela/actions/runs/41262733686) were **actually downloaded and inspected** at source `f15a5bd394a5e32f509b6d61887a2493cdcb13fa`.
 - [x] Original 283 locked rows resulted in 118 installed entries, 165 optional platform entries absent from that Linux install and **10 installed rows without a recognized package-root LICENSE/NOTICE** covering **six distinct package versions**. [Exact case list](./LICENSE-EVIDENCE-EXCEPTIONS.md) and [artifact/hash manifest](./INSTALLED-LICENSE-EXCEPTIONS.json).
-- [ ] Check actual upstream license texts, native binaries and original package tarballs for the six cases. A missing root-level file is **not automatically a license violation**.
+- [x] Located version-tagged **upstream** license sources for the six cases, including the sharp-libvips bundled-library obligations and Rolldown third-party notices. The [upstream source triage](./UPSTREAM-LICENSE-SOURCE-TRIAGE.md) also records the unresolved `client-only` attribution and R3F package/tag version mismatch; this is **not tarball or redistribution clearance**.
+- [ ] Independently inspect the **six exact npm tarballs**, their nested/native notices and the intended build/deployment artifacts. A missing root-level file is **not automatically a license violation**.
 - [ ] Obtain authorized human redistribution/NOTICE approval for all applicable dependencies and the original V3 content. **Review remains pending.**
 
 ## Inventory and manual decisions
