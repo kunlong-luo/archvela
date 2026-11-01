@@ -27,23 +27,27 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "24"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10.22.0"
+          run_install: false
       - name: Install independent example dependencies
-        run: npm ci --no-audit --no-fund
+        run: pnpm install --frozen-lockfile
       - name: Offline business logic tests (if available)
-        run: npm run test --if-present
+        run: pnpm run --if-present test
       - name: Typecheck
-        run: npm run typecheck
+        run: pnpm run typecheck
       - name: Production build
-        run: npm run build
+        run: pnpm run build
       - name: Start production HTTP server and smoke test
         shell: bash
         run: |
           set -euo pipefail
           if [[ "${{ matrix.example }}" == "home-digital-twin" ]]; then
-            npm run preview -- --host 127.0.0.1 --port 4180 > /tmp/archvela-server.log 2>&1 &
+            pnpm run preview -- --host 127.0.0.1 --port 4180 > /tmp/archvela-server.log 2>&1 &
             match="Archvela"
           else
-            npm run start -- -p 4180 > /tmp/archvela-server.log 2>&1 &
+            pnpm run start -- -p 4180 > /tmp/archvela-server.log 2>&1 &
             if [[ "${{ matrix.example }}" == "cinematic-site" ]]; then
               match="Design that"
             else
