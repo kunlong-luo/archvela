@@ -13,11 +13,11 @@ The separate kitchen is deliberately *not* drawn in the yard because its require
 ## Run
 
 ```bash
-npm install
-npm run dev
-npm run test
-npm run typecheck
-npm run build
+pnpm install --frozen-lockfile
+pnpm run dev
+pnpm run test
+pnpm run typecheck
+pnpm run build
 ```
 
 Visit the Vite URL, usually `http://localhost:5173`. Node 24 recommended.
