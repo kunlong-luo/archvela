@@ -22,6 +22,23 @@ EXPECTED_ARTIFACTS = {
     "examples/home-digital-twin/package-lock.json": (89, 45, 44, 2),
     "tests/browser/package-lock.json": (26, 7, 19, 0),
 }
+
+# Original artifact IDs and SHA-256 of the extracted JSON bytes (downloaded
+# from the successful run, not independently legal/provenance approval).
+EXPECTED_REPORTS = {
+    "examples/cinematic-site/package-lock.json": (
+        13065628785, "installed-license-evidence-cinematic-site",
+        "7840f1cb1d123166ad023b1d59f39c9883a076da5cae2e45564cf58da0c2a826"),
+    "examples/saas-workspace/package-lock.json": (
+        13065519062, "installed-license-evidence-saas-workspace",
+        "08da4e763621ea57f0099b39cdd5e49fadef068a26352029432ee67c9f0749b3"),
+    "examples/home-digital-twin/package-lock.json": (
+        13065314851, "installed-license-evidence-home-digital-twin",
+        "f608d5c504678e4c40e29125daf38658e15090b2a0a384daba4ebc50bc68f9e6"),
+    "tests/browser/package-lock.json": (
+        13065549168, "installed-license-evidence-browser-tests",
+        "f21704710105884916c97d71429d852b9d5572b61553ec13ef8fa04535d68353"),
+}
 # Frozen observation from the downloaded CI reports, NOT an allowed-license list.
 EXPECTED_GAPS = {
     ("examples/cinematic-site/package-lock.json", "node_modules/@img/sharp-libvips-linux-x64"),
@@ -68,6 +85,8 @@ def validate(manifest: dict, root: Path = ROOT) -> dict:
             raise ValueError("Invalid/duplicate artifact name")
         if not isinstance(a.get("report_sha256"), str) or not re.fullmatch(r"[a-f0-9]{64}", a["report_sha256"]):
             raise ValueError("Missing original CI report digest")
+        if (a["id"], a["name"], a["report_sha256"]) != EXPECTED_REPORTS[path]:
+            raise ValueError("Historical artifact ID/name/report digest changed")
         f = root / path
         if f.is_symlink() or not f.is_file():
             raise ValueError("Missing/symlinked reviewed npm lockfile: " + path)
