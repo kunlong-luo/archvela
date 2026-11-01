@@ -17,7 +17,7 @@ pnpm run dev
 pnpm run build
 ```
 
-Run `ppnpm run --if-present test` and `pnpm run typecheck` in each folder. All three examples now include committed `pnpm-lock.yaml` files; prefer `pnpm install --frozen-lockfile` for reproducible local and CI installs. Use Node 24; the CI installs and builds **each project separately**, with no forced workspace or shared packages.
+Run `pnpm run --if-present test` and `pnpm run typecheck` in each folder. All three examples now include committed `pnpm-lock.yaml` files; prefer `pnpm install --frozen-lockfile` for reproducible local and CI installs. Use Node 24; the CI installs and builds **each project separately**, with no forced workspace or shared packages.
 
 ## What is deliberately not done
 
