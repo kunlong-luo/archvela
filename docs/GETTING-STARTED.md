@@ -51,7 +51,7 @@ Check the actual installer output and project files. Common project paths includ
 Actual destinations can vary with the Skills CLI version and shared-directory support. You can also inspect installed Skills with:
 
 ```bash
-npx skills list
+pnpm dlx skills@1.7.4 list
 ```
 
 **Test discovery in a real, fresh agent session.** Try this prompt:
@@ -63,10 +63,10 @@ For a valid L2 discovery claim, observe that the *actual client* loads the Skill
 To manage an installation, read the CLI prompts before confirming updates or removal:
 
 ```bash
-npx skills list
-npx skills check
-npx skills update archvela-architect
-npx skills remove archvela-architect
+pnpm dlx skills@1.7.4 list
+pnpm dlx skills@1.7.4 check
+pnpm dlx skills@1.7.4 update archvela-architect
+pnpm dlx skills@1.7.4 remove archvela-architect
 ```
 
 See [Skills CLI command reference](https://github.com/vercel-labs/skills/blob/main/docs/commands.md).
