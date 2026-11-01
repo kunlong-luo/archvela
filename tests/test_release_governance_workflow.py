@@ -27,7 +27,7 @@ class GovernanceWorkflowPolicyTests(unittest.TestCase):
                       "not_observed", "L1", "L2", "L3", "SHA"):
             self.assertIn(token, content)
         self.assertIn("without explicitly naming Archvela", content)
-        self.assertIn("four-session paired", content)
+        self.assertIn("4-session randomized paired", content)
 
     def test_user_owner_runbook_is_specific_and_keeps_false_status(self):
         content = (ROOT / "docs/RELEASE-GOVERNANCE-QUICKSTART.md").read_text(encoding="utf-8")
