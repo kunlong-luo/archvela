@@ -26,6 +26,8 @@
 
 **首发最后门禁：** [仓库管理员分支保护和只读治理核查](./docs/RELEASE-GOVERNANCE-QUICKSTART.md) · [真实 Codex Skill 发现冒烟测试](./docs/CODEX-NATIVE-SMOKE.md)。相关权限和真实测试尚未完成，没有发布 Tag 或 Release。
 
+**许可证审核进展：** 已从四份真实 CI 报告中定位 [6 个依赖包对应的 10 条根目录许可证文件证据缺口](./docs/LICENSE-EVIDENCE-EXCEPTIONS.md)，并保存 [产物哈希和包版本登记](./docs/INSTALLED-LICENSE-EXCEPTIONS.json)。缺少文件不等于侵权；实际授权文本与再分发义务仍须人工确认。
+
 ## 首个 Alpha 发布候选（尚未发布）
 
 计划版本 **`v0.1.0-alpha.1`** 目前只是**候选草案**，没有创建 Git Tag 或 GitHub Release。请查看 [中文发布说明](./docs/releases/v0.1.0-alpha.1.zh.md)、[英文发布说明](./docs/releases/v0.1.0-alpha.1.md)、[发布验收与所有者签核](./docs/ALPHA-RELEASE-CHECKLIST.md) 和 [版权来源审核登记](./docs/RIGHTS-REVIEW-REGISTER.md)。目前版权许可、`main` 保护、真实 Codex L2/L3 冒烟验证及最终发布授权均未完成；`python3 scripts/check_release_candidate.py` 仅校验草案结构，不代表允许发布。
