@@ -7,7 +7,7 @@
 
 The archived [CI evidence register](./INSTALLED-LICENSE-EXCEPTIONS.json) lists **10 missing package-root LICENSE/NOTICE observations, representing six distinct exact package versions** in two Next.js and one Vite starter. The original reports used Linux x64, Node 24, and `npm ci --ignore-scripts`; browser-tests had zero such exceptions. Those observations describe **absence of scanner-recognized filenames at an installed package root**, not a finding that the package has no license, that the original package archive lacks all notices, or that a shipped product is noncompliant.
 
-The primary sources below were read **at version-tagged upstream paths**, where available, and the npm package pages were checked for the published license declaration. No original npm `.tgz` bytes, `npm pack` manifest, server deployment image or Vite `dist/` has been independently downloaded/inspected during this source-triage step. No package copyright attribution should be guessed from an adjacent repository.
+The primary sources below were read **at version-tagged upstream paths**, where available, and the npm package pages were checked for the published license declaration. No original registry `.tgz` bytes or archive manifests, server deployment images or Vite `dist/` have been independently downloaded/inspected during this source-triage step. No package copyright attribution should be guessed from an adjacent repository.
 
 ## Verified upstream evidence and remaining questions
 
@@ -33,25 +33,38 @@ At this source SHA, `examples/cinematic-site` and `examples/saas-workspace` are 
 
 ## Reproducible manual tarball / notice checklist
 
-Use a **disposable, empty** workspace with Node 24, and one of the exact package specifiers listed above (not `latest`). Example:
+Use a **disposable, empty** workspace with Node 24 and **pnpm** (pin the pnpm version in the eventual project migration). Query the **exact version**, then download the registry artifact identified by its metadata. Do **not** use `pnpm pack` on a dependency specifier: that command packages a local project, and does not prove what the registry published. This step is reproducible and does not use the npm CLI:
 
 ```bash
 set -euo pipefail
 work="$(mktemp -d)"
-npm pack --ignore-scripts --json --pack-destination "$work" '@react-three/fiber@9.8.2' > "$work/pack.json"
-python3 - "$work/pack.json" <<'PY'
-import json, sys
-for entry in json.load(open(sys.argv[1], encoding="utf-8")):
-    print("name:", entry["name"], "version:", entry["version"])
-    print("integrity:", entry.get("integrity"), "filename:", entry["filename"])
-    for f in entry["files"]:
-        print(f["path"])
+pnpm view '@react-three/fiber@9.8.2' dist --json > "$work/registry-dist.json"
+python3 - "$work/registry-dist.json" "$work/package.tgz" <<'PY'
+import base64
+import hashlib
+import json
+from pathlib import Path
+import sys
+from urllib.request import urlopen
+
+metadata = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+tarball_url = metadata["tarball"]
+integrity = metadata["integrity"]
+algorithm, encoded_digest = integrity.split("-", 1)
+if algorithm != "sha512":
+    raise RuntimeError("Unexpected registry integrity algorithm: " + algorithm)
+with urlopen(tarball_url, timeout=30) as response:
+    archive = response.read()
+observed = base64.b64encode(hashlib.sha512(archive).digest()).decode("ascii")
+if observed != encoded_digest:
+    raise RuntimeError("Registry artifact does not match published integrity")
+Path(sys.argv[2]).write_bytes(archive)
+print("Verified registry SHA-512 integrity; SHA-256:", hashlib.sha256(archive).hexdigest())
 PY
-sha256sum "$work"/*.tgz
-tar -tzf "$work"/*.tgz
+tar -tzf "$work/package.tgz"
 ```
 
-Retain the tarball SHA-256, registry integrity, actual filename list, precise `LICENSE`/`NOTICE`/nested paths, package-specific copyright evidence, relevant native binary inventory and the output artifact manifest. Compare the npm integrity with the **committed lockfile** rather than substituting upstream HEAD. For `client-only`, record missing or uncertain copyright attribution as such; do **not** create an unverified copyright line. Never copy a different package's license text into a binary archive as an assumed cure.
+Retain the tarball SHA-256, published integrity, actual filename list, precise `LICENSE`/`NOTICE`/nested paths, package-specific copyright evidence, relevant native binary inventory and the output artifact manifest. Reconcile the exact published version with the **historically committed package-lock data** while the archival evidence remains frozen, and with `pnpm-lock.yaml` after pnpm migration. Historical data must not be re-labelled as a pnpm install or replaced by a different dependency graph. For `client-only`, record missing or uncertain copyright attribution as such; do **not** create an unverified copyright line. Never copy a different package's license text into a binary archive as an assumed cure.
 
 ## Explicit approval barrier
 
