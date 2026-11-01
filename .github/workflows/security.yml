@@ -67,6 +67,44 @@ jobs:
           # install scripts. This queries the configured npm registry.
           npm audit --prefix "$directory" --package-lock-only --include=dev --audit-level=high
 
+  installed-license-evidence:
+    name: Installed license-file evidence (${{ matrix.package }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [cinematic-site, saas-workspace, home-digital-twin, browser-tests]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Install locked packages without running third-party lifecycle scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ matrix.package }}" in
+            browser-tests) directory="tests/browser";;
+            *) directory="examples/${{ matrix.package }}";;
+          esac
+          npm ci --prefix "$directory" --include=dev --ignore-scripts --no-audit --no-fund
+          python3 scripts/collect_installed_license_evidence.py \
+            --directory "$directory" \
+            --output "$RUNNER_TEMP/installed-license-evidence-${{ matrix.package }}.json"
+      - name: Upload installed LICENSE/NOTICE hashes and unresolved findings
+        uses: actions/upload-artifact@v7
+        with:
+          name: installed-license-evidence-${{ matrix.package }}
+          path: ${{ runner.temp }}/installed-license-evidence-${{ matrix.package }}.json
+          if-no-files-found: error
+          retention-days: 14
+
   dependency-graph-capability:
     name: Dependency Graph availability (repository owner action if disabled)
     if: github.event_name == 'pull_request'
