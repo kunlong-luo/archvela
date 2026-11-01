@@ -32,6 +32,21 @@ class CompatibilityMatrixTests(unittest.TestCase):
         self.assertRegex(head, r"(?m)^description: .+")
         self.assertLess(len(body.splitlines()), 300)
 
+    def test_pinned_skill_install_compares_actual_source_bytes(self):
+        workflow = (ROOT / ".github/workflows/compatibility.yml").read_text(encoding="utf-8")
+        self.assertIn("skills@1.7.4", workflow)
+        self.assertIn("tree/$GITHUB_SHA/.agents/skills/archvela-architect", workflow)
+        self.assertIn('git -C "$GITHUB_WORKSPACE" rev-parse HEAD', workflow)
+        self.assertIn('cmp -s "$expected" "$installed"', workflow)
+        for relative in ("SKILL.md", "references/scenarios.json",
+                         "references/architecture_profiles.json",
+                         "scripts/scenes.py", "scripts/new_project_docs.py"):
+            self.assertIn(relative, workflow)
+        guide = (ROOT / "docs/PINNED-SKILL-INSTALL.md").read_text(encoding="utf-8")
+        self.assertIn("L1 only", guide)
+        self.assertIn("L2/L3", guide)
+        self.assertIn("REPLACE_WITH_VERIFIED_40_HEX_SHA", guide)
+
     def test_reference_paths_are_relative_and_all_present(self):
         references = (SKILL / "references")
         self.assertTrue((references / "scenarios.json").is_file())
