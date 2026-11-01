@@ -13,9 +13,9 @@ Archvela is a *pre-release toolkit*: installing its Skill is not proof that an A
 
 | Workflow | Requirements |
 |---|---|
-| Install the Skill | Node.js 22.20+, npm, GitHub access, and your own installed coding-agent client |
+| Install the Skill | Node.js 22.20+, pnpm 10.22.0, GitHub access, and your own installed coding-agent client |
 | Browse scenarios / generate documents | Python 3.10+; the core helper scripts use the standard library |
-| Build standalone examples | Node.js 24, npm and the committed `package-lock.json` files |
+| Build standalone examples | Node.js 24, pnpm 10.22.0 and the committed `pnpm-lock.yaml` files |
 
 ### English-language architecture references
 
@@ -26,13 +26,13 @@ The [Skill's English-first entrypoint](../.agents/skills/archvela-architect/SKIL
 Open a terminal **inside the target project**, then use the interactive installer:
 
 ```bash
-npx skills add kunlong-luo/archvela --skill archvela-architect
+pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect
 ```
 
 To select Codex, Claude Code and OpenCode explicitly:
 
 ```bash
-npx skills add kunlong-luo/archvela --skill archvela-architect \
+pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect \
   --agent codex --agent claude-code --agent opencode --copy --yes
 ```
 
@@ -121,9 +121,9 @@ python3 scripts/archvela_create.py create --scene V3-02 --project brand-demo --o
 # Inspect the dry-run output and intended directory, then:
 python3 scripts/archvela_create.py create --scene V3-02 --project brand-demo --output ./workspace --write
 cd workspace/brand-demo
-npm ci
-npm run build
-npm run dev
+pnpm install --frozen-lockfile
+pnpm run build
+pnpm run dev
 ```
 
 No deployment, model invocation, or package install happens from the dry-run itself.
@@ -132,7 +132,7 @@ No deployment, model invocation, or package install happens from the dry-run its
 
 | Symptom | What to check |
 |---|---|
-| `npx` or install fails | `node --version`, `npm --version`, access to GitHub and the npm registry, proxy settings, and installer diagnostics |
+| `pnpm dlx` or install fails | `node --version`, `pnpm --version`, access to GitHub and the npm registry, proxy settings, and installer diagnostics |
 | Agent cannot see the Skill | Reopen the client in the correct project, inspect the actual Skill directory and client-specific discovery rules |
 | Python script not found | Run from the Archvela repository root or the correct installed Skill directory |
 | The output path already exists | This is intentional overwrite protection. Choose a new destination rather than bypassing the guard |
