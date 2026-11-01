@@ -44,10 +44,10 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "${{ matrix.example }}" == "home-digital-twin" ]]; then
-            pnpm run preview -- --host 127.0.0.1 --port 4180 > /tmp/archvela-server.log 2>&1 &
+            pnpm exec vite preview --host 127.0.0.1 --port 4180 > /tmp/archvela-server.log 2>&1 &
             match="Archvela"
           else
-            pnpm run start -- -p 4180 > /tmp/archvela-server.log 2>&1 &
+            pnpm exec next start -p 4180 > /tmp/archvela-server.log 2>&1 &
             if [[ "${{ matrix.example }}" == "cinematic-site" ]]; then
               match="Design that"
             else
