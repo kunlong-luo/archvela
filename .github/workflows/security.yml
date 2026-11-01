@@ -34,8 +34,8 @@ jobs:
           queries: security-extended
       - uses: github/codeql-action/analyze@v4
 
-  npm-audit:
-    name: NPM vulnerability audit (${{ matrix.package }})
+  pnpm-audit:
+    name: pnpm vulnerability audit (${{ matrix.package }})
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
@@ -49,23 +49,24 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "24"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10.22.0"
+          run_install: false
       - name: Audit locked production and development dependencies
         shell: bash
-        env:
-          NPM_CONFIG_AUDIT: "true"
         run: |
           set -euo pipefail
           case "${{ matrix.package }}" in
             browser-tests) directory="tests/browser";;
             *) directory="examples/${{ matrix.package }}";;
           esac
-          test -s "$directory/package-lock.json" || {
+          test -s "$directory/pnpm-lock.yaml" || {
             echo "::error::Missing lockfile for $directory"
             exit 1
           }
-          # Read only the committed lockfile; do not run npm audit fix or
-          # install scripts. This queries the configured npm registry.
-          npm audit --prefix "$directory" --package-lock-only --include=dev --audit-level=high
+          # Audit production and development dependencies from the frozen pnpm graph.
+          pnpm --dir "$directory" audit --audit-level high
 
   installed-license-evidence:
     name: Installed license-file evidence (${{ matrix.package }})
@@ -82,6 +83,10 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: "24"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10.22.0"
+          run_install: false
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
@@ -93,8 +98,8 @@ jobs:
             browser-tests) directory="tests/browser";;
             *) directory="examples/${{ matrix.package }}";;
           esac
-          npm ci --prefix "$directory" --include=dev --ignore-scripts --no-audit --no-fund
-          python3 scripts/collect_installed_license_evidence.py \
+          pnpm --dir "$directory" install --frozen-lockfile --ignore-scripts
+          python3 scripts/collect_pnpm_license_evidence.py \
             --directory "$directory" \
             --output "$RUNNER_TEMP/installed-license-evidence-${{ matrix.package }}.json"
       - name: Upload installed LICENSE/NOTICE hashes and unresolved findings
@@ -132,7 +137,7 @@ jobs:
             echo "GitHub Dependency Graph is available; running PR dependency review."
           elif [[ "$code" == "404" ]]; then
             echo "enabled=false" >> "$GITHUB_OUTPUT"
-            echo "::warning::Dependency Graph is unavailable. Enable it in repository Settings > Security & analysis; PR dependency-review cannot run until then. npm audit and CodeQL still enforce security checks."
+            echo "::warning::Dependency Graph is unavailable. Enable it in repository Settings > Security & analysis; PR dependency-review cannot run until then. pnpm audit and CodeQL still enforce security checks."
             echo "DEPENDENCY REVIEW PENDING OWNER SETTING" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "::error::Cannot determine Dependency Graph availability (HTTP $code). Do not silently bypass dependency review."
