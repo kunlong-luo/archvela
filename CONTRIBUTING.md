@@ -19,7 +19,7 @@ Thank you for helping independent developers build maintainable frontend product
 
 ## Local development / 本地开发
 
-Requirements: **Python 3.10+** for stdlib-only scripts, **Node.js 24/npm** for tested examples. Create a focused branch off `main` and avoid mixing unrelated refactors.
+Requirements: **Python 3.10+** for stdlib-only scripts, **Node.js 24/pnpm 10.22.0** for tested examples. Create a focused branch off `main` and avoid mixing unrelated refactors.
 
 ```bash
 git clone https://github.com/kunlong-luo/archvela.git
@@ -33,10 +33,10 @@ For changes to a runnable starter, test the **specific** independent project:
 
 ```bash
 cd examples/saas-workspace  # or examples/cinematic-site or examples/home-digital-twin
-npm ci
-npm run test --if-present
-npm run typecheck
-npm run build
+ppnpm install --frozen-lockfile --frozen-lockfile
+ppnpm run --if-present test
+pnpm run typecheck
+pnpm run build
 ```
 
 For browser E2E or generated projects, check the respective workflows and [test guide](./tests/browser/README.md). Do not describe an unrun command as having passed.
@@ -48,7 +48,7 @@ For browser E2E or generated projects, check the respective workflows and [test 
 - Reuse the four independent architecture layers: **Package / Feature / JS Chunk / Asset Pack**.
 - Keep Python generators **dry-run by default**, refusing existing files and symlink traversal. Preserve failure rollback and add regression tests for unsafe inputs.
 - Only **V3-02 / V3-14 / V3-26** have runnable starter projects. Do not claim the other 59 provide code.
-- If changing `package.json` in any of the three examples or `tests/browser`, update the matching `package-lock.json` with Node 24/npm and verify `npm ci`.
+- If changing `package.json` in any of the three examples or `tests/browser`, update the matching `pnpm-lock.yaml` with Node 24/npm and verify `ppnpm install --frozen-lockfile --frozen-lockfile`.
 - For Skill compatibility, distinguish **L0/L1 file and installer tests** from **L2/L3 real-model discovery and task outcomes**. Synthetic grading fixtures are never published model benchmarks.
 - Use licensed/original media and document copyright provenance; do not introduce API keys, real customer data, private source, misleading metrics or production credentials.
 - If you add a committed image, 3D model, font, audio, video, SVG or PDF, first add a reviewed record to `docs/ASSET-PROVENANCE.json` and run `python3 scripts/check_asset_provenance.py`. The manifest checks metadata, not legal ownership; source code and bundled reference text also require manual attribution review.
