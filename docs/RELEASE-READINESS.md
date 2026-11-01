@@ -1,5 +1,6 @@
 # Release Readiness — Archvela first Alpha candidate
 
+> **Package-manager change (PR #43 / Issue #42):** New active examples and CI use pinned pnpm 10.22.0 and four independent `pnpm-lock.yaml` files. The earlier npm lockfiles and installed-license report remain byte-identically archived for historical verification, not represented as current pnpm findings. No third-party rights clearance, L2/L3 pilot or release approval follows from this migration.\n\n
 > **Status: PRE-RELEASE / NOT APPROVED FOR PUBLICATION.**
 > **2026-10-30 pre-candidate baseline:** `main` commit
 > `4b4c20d93084db1c326afbc561b60184dd69e379`, with seven GitHub Actions
@@ -28,7 +29,7 @@
 
 ## Installed dependency and exact-source evidence (Alpha candidate)
 
-- [x] Security CI collects real, installed npm LICENSE/NOTICE **file names, sizes and SHA-256 hashes** from all four package projects using `npm ci --ignore-scripts` and uploads JSON artifacts; source installer CI verifies five installed Skill files match the exact Git checkout byte-for-byte. See [installed-license evidence](./INSTALLED-LICENSE-EVIDENCE.md) and [pinned L1 install guide](./PINNED-SKILL-INSTALL.md).
+- [x] Earlier Security CI collected real, installed npm-era LICENSE/NOTICE **file names, sizes and SHA-256 hashes** from all four package projects using `npm ci --ignore-scripts` and uploads JSON artifacts; source installer CI verifies five installed Skill files match the exact Git checkout byte-for-byte. See [installed-license evidence](./INSTALLED-LICENSE-EVIDENCE.md) and [pinned L1 install guide](./PINNED-SKILL-INSTALL.md).
 - [ ] Human reviews of actual license **text**, notice requirements, deployment packaging, original V3 source materials and native L2/L3 remain OPEN. These tests only strengthen evidence capture, not clearance.
 
 ## Preliminary npm dependency license review — automated metadata only
@@ -66,7 +67,7 @@
   subsequent PRs; it is expected to be **skipped on ordinary main pushes**
   because the review examines dependency changes between PR commits.
   Repository Dependency Graph was available; [Issue #9](https://github.com/kunlong-luo/archvela/issues/9)
-  is closed. The separate npm audit and CodeQL run on main.
+  is closed. The current pnpm audit and CodeQL run on main; prior npm-era reports remain historical.
 - [x] The installer ran against **20 local agent targets + six global
   installations**. PR [#23](https://github.com/kunlong-luo/archvela/pull/23)
   also verified public GitHub-source and pinned-commit install paths for

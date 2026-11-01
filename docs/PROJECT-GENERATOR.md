@@ -16,8 +16,8 @@ python3 scripts/archvela_create.py create \
   --scene V3-26 --project village-house --output ./workspace --write
 
 cd ./workspace/village-house
-npm ci
-npm run dev
+pnpm install --frozen-lockfile
+pnpm run dev
 ```
 
 Currently supported projects: `V3-02` cinematic high-end site, `V3-14` SaaS operations workspace, and `V3-26` home digital-twin demonstration.
@@ -25,14 +25,14 @@ Currently supported projects: `V3-02` cinematic high-end site, `V3-14` SaaS oper
 Each generated project includes:
 
 1. The original **independently buildable** React/Next/Vite source with no server credentials.
-2. A copied and renamed `package.json`/`package-lock.json` pair for reproducible `npm ci`.
+2. A renamed `package.json` and byte-preserved `pnpm-lock.yaml` for reproducible `pnpm install --frozen-lockfile`.
 3. An ADR, performance budget, Agent delivery task card and structured **draft** `archvela-plan.json`.
 4. A README preserving the original starter ADR and explicit limitations, including fictional operational data and non-construction geometry.
 
 ## Safety properties
 
 - Default dry-run; `--write` required.
-- Validates npm-safe project slug; project is created under explicit `--output`.
+- Validates lowercase project slug; project is created under explicit `--output`.
 - Refuses destination collision and symlinked output paths.
 - Copies only allowlisted source paths and extensions; never copies `node_modules`, `.env`, build artifacts or arbitrary nested executable scripts.
 - Each generated file is created exclusively. On failure, removes only the invocation's own files and empty directories.
@@ -41,7 +41,7 @@ Each generated project includes:
 
 ## CI
 
-[generated-starters.yml](../.github/workflows/generated-starters.yml) invokes each supported scene in an isolated runner output directory, performs `npm ci`, typechecks and builds the generated project itself. It is separate from source-example tests.
+[generated-starters.yml](../.github/workflows/generated-starters.yml) invokes each supported scene in an isolated runner output directory, performs `pnpm install --frozen-lockfile`, typechecks and builds the generated project itself. It is separate from source-example tests.
 
 ## Next extension
 

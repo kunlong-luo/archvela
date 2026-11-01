@@ -9,5 +9,6 @@
     "@playwright/test": "1.64.1",
     "@types/node": "^24.0.0",
     "typescript": "7.0.2"
-  }
+  },
+  "packageManager": "pnpm@10.22.0"
 }

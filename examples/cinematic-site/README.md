@@ -5,13 +5,13 @@ A runnable high-end marketing homepage with editorial layout, SSR content, and a
 ## Run
 
 ```bash
-npm install
-npm run dev
-npm run build
-npm run typecheck
+pnpm install --frozen-lockfile
+pnpm run dev
+pnpm run build
+pnpm run typecheck
 ```
 
-Node 24 recommended. Browse `http://localhost:3000`. Production: `npm run start` after a build.
+Node 24 recommended. Browse `http://localhost:3000`. Production: `pnpm run start` after a build.
 
 ## ADR
 

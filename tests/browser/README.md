@@ -5,13 +5,13 @@ Playwright Test pinned to **1.64.1**, running bundled Chromium against **locally
 ## Run from repo root
 
 ```bash
-npm install --prefix tests/browser
-npm exec --prefix tests/browser -- playwright install chromium
+pnpm --dir tests/browser install --frozen-lockfile
+pnpm --dir tests/browser exec playwright install chromium
 
 for app in cinematic-site saas-workspace home-digital-twin; do
-  npm install --prefix "examples/$app"
-  npm run build --prefix "examples/$app"
-  ARCHVELA_EXAMPLE="$app" npm test --prefix tests/browser
+  pnpm --dir "examples/$app" install --frozen-lockfile
+  pnpm --dir "examples/$app" run build
+  ARCHVELA_EXAMPLE="$app" pnpm --dir tests/browser test
 done
 ```
 

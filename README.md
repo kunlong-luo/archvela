@@ -21,7 +21,7 @@ A **scenario-first frontend architecture Skill and toolkit** for independent dev
 > [!IMPORTANT]
 > **Pre-release software.** The 62 scenarios are architecture references, **not** 62 complete applications. Only V3-02, V3-14, and V3-26 currently generate runnable source projects. CI validates metadata and installer behavior (L0/L1); real-agent discovery and improved coding outcomes (L2/L3) have **not** been demonstrated. No official GitHub Release exists.
 
-**Release-candidate verification:** The [installed dependency license evidence guide](./docs/INSTALLED-LICENSE-EVIDENCE.md) explains the real `npm ci` license/NOTICE artifact checks; the [pinned Skill install guide](./docs/PINNED-SKILL-INSTALL.md) documents byte-for-byte L1 installation checks. Neither is third-party license approval or native Agent L2/L3 evidence.
+**Release-candidate verification:** The [installed dependency license evidence guide](./docs/INSTALLED-LICENSE-EVIDENCE.md) separates archived npm-era LICENSE/NOTICE evidence from current pnpm virtual-store scans; the [pinned Skill install guide](./docs/PINNED-SKILL-INSTALL.md) documents byte-for-byte L1 installation checks. Neither is third-party license approval or native Agent L2/L3 evidence.
 
 **Owner-run Alpha gates:** [GitHub branch protection and live read-only governance](./docs/RELEASE-GOVERNANCE-QUICKSTART.md) · [real Codex native discovery smoke (not yet executed)](./docs/CODEX-NATIVE-SMOKE.md). Both remain unverified; no tag or Release exists.
 
@@ -58,16 +58,16 @@ flowchart LR
 
 ## Install in one command
 
-From **your target project directory**, with Node.js 22.20+, npm and access to GitHub:
+From **your target project directory**, with Node.js 22.20+, pnpm 10.22.0 and access to GitHub:
 
 ```bash
-npx skills add kunlong-luo/archvela --skill archvela-architect
+pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect
 ```
 
 Choose an agent interactively, or install to several supported clients in one project:
 
 ```bash
-npx skills add kunlong-luo/archvela --skill archvela-architect \
+pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect \
   --agent codex --agent claude-code --agent opencode --copy --yes
 ```
 
@@ -130,7 +130,7 @@ python3 scripts/archvela_create.py list
 python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace
 python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace --write
 cd workspace/home-demo
-npm ci && npm run build
+pnpm install --frozen-lockfile && pnpm build
 ```
 
 The other **59 scenarios generate architecture documentation only**, not runnable application source. [Generator design and safety →](./docs/PROJECT-GENERATOR.md)
@@ -151,7 +151,7 @@ The optional `archvela-plan.json` lets one Agent hand off decisions to another; 
 - **L0:** Skill metadata, scripts, catalog invariants and regression tests.
 - **L1:** 20 Skills CLI local installation targets; six global-target checks; Codex / Claude Code / OpenCode public GitHub installation and pinned-commit installation.
 - **L2/L3:** Real client discovery, model calls, and paired architecture/coding outcomes remain **unverified**. The [offline pilot summary tool](./benchmarks/summarize_pilot.py) can reconcile 12 operator-supplied sessions and human grades without dropping failed attempts or pooling different models; **no real sessions have been run**. [Evaluation protocol](./docs/AGENT-EVAL-PROTOCOL.md) · [Tracking issue #21](https://github.com/kunlong-luo/archvela/issues/21).
-- **CI:** Lockfiles, independent example builds, generated-project builds, Chromium E2E, CodeQL, four npm audits and PR dependency review. Passing CI cannot guarantee security or physical-device compatibility.
+- **CI:** Lockfiles, independent example builds, generated-project builds, Chromium E2E, CodeQL, four pnpm audits and PR dependency review. Passing CI cannot guarantee security or physical-device compatibility.
 - **Evidence & provenance:** [Operator-run pilot audit](./docs/REAL-AGENT-PILOT.md) checks real-session evidence *files* and hashes without model calls; [media provenance register](./docs/ASSET-PROVENANCE.md) blocks unrecorded standalone assets. Neither proves model benefit nor clears all third-party copyrights.
 
 ## Repository map

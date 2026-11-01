@@ -39,7 +39,7 @@
 
 ## Installed dependency evidence and source pinning (engineering progress)
 
-- [x] CI now uses `npm ci --ignore-scripts --include=dev` to inspect the **actual package files installed on Linux** for each of the four lockfiles. Each successful Security scanning job uploads package version, installed/skipped state, top-level LICENSE/NOTICE filename and SHA-256 evidence. [How to review the artifacts](./INSTALLED-LICENSE-EVIDENCE.md).
+- [x] The archived 2026-11-01 CI run used `npm ci --ignore-scripts --include=dev` to inspect the **actual package files installed on Linux** for each of the four lockfiles. Each successful Security scanning job uploads package version, installed/skipped state, top-level LICENSE/NOTICE filename and SHA-256 evidence. [How to review the artifacts](./INSTALLED-LICENSE-EVIDENCE.md).
 - [x] Pinned GitHub-source Codex L1 install is checked against **five exact source files**, not just a file's presence. [Reproduce a pinned install](./PINNED-SKILL-INSTALL.md).
 - [ ] **Human rights review is still PENDING**: license text authenticity, applicable notices, platform-specific packages not installed on Linux, copyright ownership and what ships. CI evidence is not approval.
 - [ ] At least one genuine Codex native Skill discovery/ADR run remains required; byte equality does not establish L2/L3.
@@ -68,7 +68,7 @@ python3 scripts/check_asset_provenance.py
 python3 scripts/check_release_candidate.py
 ```
 
-Run `npm ci`, package builds, generated smoke and Playwright as documented in existing CI; compare GitHub workflow results for the **same commit**. Verify `SKILL.md` metadata and both release-note files refer to exactly the proposed tag.
+Run `pnpm install --frozen-lockfile`, package builds, generated smoke and Playwright as documented in existing CI; compare GitHub workflow results for the **same commit**. Verify `SKILL.md` metadata and both release-note files refer to exactly the proposed tag.
 
 **Only after each gate is true and separately documented**, the repository owner may approve creating a **GitHub pre-release** with tag `v0.1.0-alpha.1`, pointing to the reviewed SHA, with notes copied from the reviewed draft. A future stable `v1.0.0` is a different decision.
 

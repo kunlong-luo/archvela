@@ -12,12 +12,12 @@ Three independent, deliberately small front-end prototypes demonstrate how the *
 
 ```bash
 cd examples/cinematic-site       # or saas-workspace / home-digital-twin
-npm ci
-npm run dev
-npm run build
+pnpm install --frozen-lockfile
+pnpm run dev
+pnpm run build
 ```
 
-Run `npm run test --if-present` and `npm run typecheck` in each folder. All three examples now include committed `package-lock.json` files; prefer `npm ci` for reproducible local and CI installs. Use Node 24; the CI installs and builds **each project separately**, with no forced workspace or shared packages.
+Run `pnpm run --if-present test` and `pnpm run typecheck` in each folder. All three examples now include committed `pnpm-lock.yaml` files; prefer `pnpm install --frozen-lockfile` for reproducible local and CI installs. Use Node 24; the CI installs and builds **each project separately**, with no forced workspace or shared packages.
 
 ## What is deliberately not done
 
