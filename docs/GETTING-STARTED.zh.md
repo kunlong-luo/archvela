@@ -46,7 +46,7 @@ pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect \
 | Claude Code | `.claude/skills/archvela-architect/SKILL.md` |
 | 其他目标 | [兼容矩阵](./COMPATIBILITY.md) |
 
-Skills CLI 可能根据版本使用共享目录或专用目录，以**实际安装输出为准**。可以执行 `npx skills list` 查询安装结果。
+Skills CLI 可能根据版本使用共享目录或专用目录，以**实际安装输出为准**。可以执行 `pnpm dlx skills@1.7.4 list` 查询安装结果。
 
 **3. 在真正的 Agent 会话中测试。** 开一个全新会话，显式要求使用 `archvela-architect`：
 
@@ -57,10 +57,10 @@ Skills CLI 可能根据版本使用共享目录或专用目录，以**实际安�
 **4. 升级或卸载。** 请先阅读对应 Skills CLI 的确认提示：
 
 ```bash
-npx skills list
-npx skills check
-npx skills update archvela-architect
-npx skills remove archvela-architect
+pnpm dlx skills@1.7.4 list
+pnpm dlx skills@1.7.4 check
+pnpm dlx skills@1.7.4 update archvela-architect
+pnpm dlx skills@1.7.4 remove archvela-architect
 ```
 
 [Skills CLI 命令文档](https://github.com/vercel-labs/skills/blob/main/docs/commands.md)
