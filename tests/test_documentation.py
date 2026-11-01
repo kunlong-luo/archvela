@@ -18,6 +18,8 @@ DOCS = (
     "docs/RELEASE-READINESS.md",
     "docs/RELEASE-GOVERNANCE-QUICKSTART.md",
     "docs/CODEX-NATIVE-SMOKE.md",
+    "docs/LICENSE-EVIDENCE-EXCEPTIONS.md",
+    "docs/RIGHTS-REVIEW-REGISTER.md",
 )
 
 # Markdown links from edited entrypoint documents; image URLs, anchors and
