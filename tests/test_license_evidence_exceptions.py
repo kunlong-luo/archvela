@@ -83,6 +83,14 @@ class RealInstalledLicenseExceptionsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "digest"):
             mod.validate(changed)
         changed = copy.deepcopy(base)
+        changed["artifacts"][0]["id"] = 987654321
+        with self.assertRaisesRegex(ValueError, "Historical artifact"):
+            mod.validate(changed)
+        changed = copy.deepcopy(base)
+        changed["artifacts"][0]["report_sha256"] = "a" * 64
+        with self.assertRaisesRegex(ValueError, "Historical artifact"):
+            mod.validate(changed)
+        changed = copy.deepcopy(base)
         changed["artifacts"][0]["missing_root_notice"] = 0
         with self.assertRaisesRegex(ValueError, "counts"):
             mod.validate(changed)
