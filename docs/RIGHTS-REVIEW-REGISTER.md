@@ -10,6 +10,10 @@ Complete this register against the **actual proposed release commit**, not merel
 
 Automated inventory now covers the four committed `package-lock.json` files: **283 installation rows, zero absent license *metadata* strings, 42 rows flagged for human attention**. All 42 flagged entries remain `pending_human_review` in [DEPENDENCY-LICENSE-REVIEW.json](./DEPENDENCY-LICENSE-REVIEW.json), with source-lockfile Git blob IDs for change detection. The [summary and next-step guide](./DEPENDENCY-LICENSE-AUDIT.md) identifies the LGPL-family, MPL-2.0 and CC-BY-4.0 expressions. **This is NOT a dependency license-file audit, copyright clearance, notice list or owner approval.** The other 241 entries also require applicable notice review.
 
+## Installed LICENSE/NOTICE collection (not a sign-off)
+
+The [Linux CI evidence collector](./INSTALLED-LICENSE-EVIDENCE.md) now scans package-root LICENSE/NOTICE files **after actual `npm ci --ignore-scripts` installation** in four matrix jobs and uploads JSON artifacts with SHA-256 hashes, missing-file counts and optional packages not installed on that platform. These artifacts provide stronger **file-presence evidence** than the existing 283-entry lockfile metadata register; they **do not** prove that the texts are legally adequate, that notices are present in distribution artifacts, or that authors granted redistribution rights. Owner must review the actual texts and relevant binaries against the final candidate commit.
+
 ## Inventory and manual decisions
 
 | Content class | Sources to examine | Evidence required | Status |
