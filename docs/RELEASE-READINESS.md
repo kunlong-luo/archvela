@@ -14,6 +14,11 @@
 > [Rights review register](./RIGHTS-REVIEW-REGISTER.md) ·
 > [Machine-checked candidate contract](./RELEASE-CANDIDATE.json).
 
+## Installed dependency and exact-source evidence (Alpha candidate)
+
+- [x] Security CI collects real, installed npm LICENSE/NOTICE **file names, sizes and SHA-256 hashes** from all four package projects using `npm ci --ignore-scripts` and uploads JSON artifacts; source installer CI verifies five installed Skill files match the exact Git checkout byte-for-byte. See [installed-license evidence](./INSTALLED-LICENSE-EVIDENCE.md) and [pinned L1 install guide](./PINNED-SKILL-INSTALL.md).
+- [ ] Human reviews of actual license **text**, notice requirements, deployment packaging, original V3 source materials and native L2/L3 remain OPEN. These tests only strengthen evidence capture, not clearance.
+
 ## Preliminary npm dependency license review — automated metadata only
 
 - [x] Added an offline, reproducible audit of **4 lockfiles / 283 package installation rows**, with zero missing reported license metadata and **42 flagged rows** (LGPL-family / MPL / CC-BY). CI checks lockfile Git blob IDs and the full flagged review register. [Details](./DEPENDENCY-LICENSE-AUDIT.md).
