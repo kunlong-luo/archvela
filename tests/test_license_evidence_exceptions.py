@@ -59,7 +59,7 @@ class RealInstalledLicenseExceptionsTests(unittest.TestCase):
             for p in mod.EXPECTED_ARTIFACTS:
                 f = root / p
                 f.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(ROOT / p, f)
+                shutil.copyfile(ROOT / "docs/historical/npm-lockfiles" / p, f)
             self.assertEqual(mod.validate(self.register(), root)["root_notice_gaps"], 10)
             f = root / "examples/cinematic-site/package-lock.json"
             f.write_bytes(f.read_bytes() + b"\n")
