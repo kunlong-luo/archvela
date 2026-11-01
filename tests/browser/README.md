@@ -10,7 +10,7 @@ pnpm --dir tests/browser exec playwright install chromium
 
 for app in cinematic-site saas-workspace home-digital-twin; do
   pnpm --dir "examples/$app" install --frozen-lockfile
-  pnpm --dir "examples/$app"
+  pnpm --dir "examples/$app" run build
   ARCHVELA_EXAMPLE="$app" pnpm --dir tests/browser test
 done
 ```
