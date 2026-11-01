@@ -38,6 +38,9 @@ class PnpmInstalledEvidenceTests(unittest.TestCase):
         (store / "thing@2.0.0/node_modules/foreign-link").symlink_to(
             second, target_is_directory=True
         )
+        # pnpm's hoisted-link directory is not itself a package install.
+        (store / "node_modules").mkdir()
+        (store / "node_modules/thing").symlink_to(second, target_is_directory=True)
         return base
 
     def test_actual_virtual_store_roots_and_no_legal_clearance(self):
