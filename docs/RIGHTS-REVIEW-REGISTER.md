@@ -14,6 +14,13 @@ Automated inventory now covers the four committed `package-lock.json` files: **2
 
 The [Linux CI evidence collector](./INSTALLED-LICENSE-EVIDENCE.md) now scans package-root LICENSE/NOTICE files **after actual `npm ci --ignore-scripts` installation** in four matrix jobs and uploads JSON artifacts with SHA-256 hashes, missing-file counts and optional packages not installed on that platform. These artifacts provide stronger **file-presence evidence** than the existing 283-entry lockfile metadata register; they **do not** prove that the texts are legally adequate, that notices are present in distribution artifacts, or that authors granted redistribution rights. Owner must review the actual texts and relevant binaries against the final candidate commit.
 
+## Real installed package-root notice gaps (2026-11-01)
+
+- [x] Four successful Linux installer evidence JSON artifacts from [Security workflow #41262733686](https://github.com/kunlong-luo/archvela/actions/runs/41262733686) were **actually downloaded and inspected** at source `f15a5bd394a5e32f509b6d61887a2493cdcb13fa`.
+- [x] Original 283 locked rows resulted in 118 installed entries, 165 optional platform entries absent from that Linux install and **10 installed rows without a recognized package-root LICENSE/NOTICE** covering **six distinct package versions**. [Exact case list](./LICENSE-EVIDENCE-EXCEPTIONS.md) and [artifact/hash manifest](./INSTALLED-LICENSE-EXCEPTIONS.json).
+- [ ] Check actual upstream license texts, native binaries and original package tarballs for the six cases. A missing root-level file is **not automatically a license violation**.
+- [ ] Obtain authorized human redistribution/NOTICE approval for all applicable dependencies and the original V3 content. **Review remains pending.**
+
 ## Inventory and manual decisions
 
 | Content class | Sources to examine | Evidence required | Status |

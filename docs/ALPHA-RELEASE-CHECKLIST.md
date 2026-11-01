@@ -44,6 +44,12 @@
 - [ ] **Human rights review is still PENDING**: license text authenticity, applicable notices, platform-specific packages not installed on Linux, copyright ownership and what ships. CI evidence is not approval.
 - [ ] At least one genuine Codex native Skill discovery/ADR run remains required; byte equality does not establish L2/L3.
 
+## Evidence gap triage — actual historical artifact review
+
+- [x] Inspected four actual successful GitHub CI artifacts from source `f15a5bd394a5e32f509b6d61887a2493cdcb13fa` and identified **10 missing package-root notice observations for 6 unique package versions**: [case-by-case results](./LICENSE-EVIDENCE-EXCEPTIONS.md).
+- [x] Preserved per-artifact hashes, counts, package names and versions in a fail-closed [exception evidence register](./INSTALLED-LICENSE-EXCEPTIONS.json), with an offline drift checker and CI regression tests.
+- [ ] **Real legal clearance remains pending**. Investigate exact upstream texts and all native/platform-dependent redistribution obligations, as well as the unrelated original V3 text and design ownership.
+
 ## Important distinction: Alpha versus stable
 
 - A **public Alpha** may disclose limited coverage, unoptimized graphics, partial translations and **missing statistically significant comparative benchmarks**. Do **not** claim improved coding results without a real study.

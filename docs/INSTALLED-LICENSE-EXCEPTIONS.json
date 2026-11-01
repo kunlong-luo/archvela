@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "kind": "historical_installed_license_evidence_exceptions",
+  "source_commit": "f15a5bd394a5e32f509b6d61887a2493cdcb13fa",
+  "security_workflow_run_id": 41262733686,
+  "source_platform": "github-actions ubuntu-latest linux x64; npm ci --ignore-scripts",
+  "review_status": "pending_human",
+  "rights_cleared": false,
+  "scope": "absence of recognized package-root LICENSE/NOTICE-like file only; no copyright or legal conclusion",
+  "artifacts": [
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "name": "installed-license-evidence-cinematic-site",
+      "id": 13065628785,
+      "report_sha256": "7840f1cb1d123166ad023b1d59f39c9883a076da5cae2e45564cf58da0c2a826",
+      "lockfile_git_blob_sha": "04b28a83599ec1e6869bec6f2d81850497fa10fc",
+      "locked": 88,
+      "installed": 37,
+      "optional_skipped": 51,
+      "missing_root_notice": 4
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "name": "installed-license-evidence-saas-workspace",
+      "id": 13065519062,
+      "report_sha256": "08da4e763621ea57f0099b39cdd5e49fadef068a26352029432ee67c9f0749b3",
+      "lockfile_git_blob_sha": "53391394c93c8fd8d9647045ae9b94962fe38ff9",
+      "locked": 80,
+      "installed": 29,
+      "optional_skipped": 51,
+      "missing_root_notice": 4
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "name": "installed-license-evidence-home-digital-twin",
+      "id": 13065314851,
+      "report_sha256": "f608d5c504678e4c40e29125daf38658e15090b2a0a384daba4ebc50bc68f9e6",
+      "lockfile_git_blob_sha": "f35a10b7a4dfbee7f0f675e49aa62a5546dbc6e7",
+      "locked": 89,
+      "installed": 45,
+      "optional_skipped": 44,
+      "missing_root_notice": 2
+    },
+    {
+      "lockfile": "tests/browser/package-lock.json",
+      "name": "installed-license-evidence-browser-tests",
+      "id": 13065549168,
+      "report_sha256": "f21704710105884916c97d71429d852b9d5572b61553ec13ef8fa04535d68353",
+      "lockfile_git_blob_sha": "c787671172e8a4196f4de0feddead02a2f3fcd77",
+      "locked": 26,
+      "installed": 7,
+      "optional_skipped": 19,
+      "missing_root_notice": 0
+    }
+  ],
+  "exceptions": [
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-x64",
+      "version": "1.3.4",
+      "declared_license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@next/env",
+      "version": "16.4.3",
+      "declared_license": "MIT",
+      "development": false,
+      "optional": false,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/@next/swc-linux-x64-gnu",
+      "version": "16.4.3",
+      "declared_license": "MIT",
+      "development": false,
+      "optional": true,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/cinematic-site/package-lock.json",
+      "package_path": "node_modules/client-only",
+      "version": "0.0.1",
+      "declared_license": "MIT",
+      "development": false,
+      "optional": false,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/@react-three/fiber",
+      "version": "9.8.2",
+      "declared_license": "MIT",
+      "development": false,
+      "optional": false,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/home-digital-twin/package-lock.json",
+      "package_path": "node_modules/@rolldown/binding-linux-x64-gnu",
+      "version": "1.2.15",
+      "declared_license": "MIT",
+      "development": true,
+      "optional": true,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@img/sharp-libvips-linux-x64",
+      "version": "1.3.4",
+      "declared_license": "LGPL-3.0-or-later",
+      "development": false,
+      "optional": true,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@next/env",
+      "version": "16.4.3",
+      "declared_license": "MIT",
+      "development": false,
+      "optional": false,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/@next/swc-linux-x64-gnu",
+      "version": "16.4.3",
+      "declared_license": "MIT",
+      "development": false,
+      "optional": true,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    },
+    {
+      "lockfile": "examples/saas-workspace/package-lock.json",
+      "package_path": "node_modules/client-only",
+      "version": "0.0.1",
+      "declared_license": "MIT",
+      "development": false,
+      "optional": false,
+      "observation": "no recognized package-root LICENSE/NOTICE file in CI install",
+      "review_status": "pending_human"
+    }
+  ],
+  "required_human_actions": [
+    "Verify exact-version upstream LICENSE/NOTICE and copyright holder",
+    "Inspect package tarball and nested notices; account for native binaries and platform scope",
+    "Determine whether redistribution includes the dependency and required attribution",
+    "Record authorized reviewer/date/evidence before any source-rights clearance"
+  ],
+  "note": "Artifact ZIPs expire after 14 days. The original report SHA-256 values are stored for historical provenance; this snapshot is not a legal clearance nor an automatically re-fetched live report."
+}

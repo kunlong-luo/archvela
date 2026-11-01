@@ -14,6 +14,12 @@
 > [Rights review register](./RIGHTS-REVIEW-REGISTER.md) ·
 > [Machine-checked candidate contract](./RELEASE-CANDIDATE.json).
 
+## Historical installed license exceptions — human approval still required
+
+- [x] Downloaded and analyzed four real Security workflow artifacts from `f15a5bd394a5e32f509b6d61887a2493cdcb13fa`; **10 package-root notice gaps across six distinct package versions**. [Review cases](./LICENSE-EVIDENCE-EXCEPTIONS.md) · [CI-report digests](./INSTALLED-LICENSE-EXCEPTIONS.json).
+- [x] Added a drift-checking CI validator; it preserves historical facts while current lockfiles match their reviewed Git blobs.
+- [ ] This only identifies evidence gaps, **not infringement or redistribution approval**; owner must review actual 1.3.4 libvips binary notices, Next/Rolldown binaries, other packages, and all original V3 material.
+
 ## Live public governance and native Codex proof (2026-11-01)
 
 - [x] Added read-only GitHub branch/Actions/Release reporting with independent regression fixtures rejecting falsely approved release manifests and unrelated or outdated workflow results. [Manual owner procedure](./RELEASE-GOVERNANCE-QUICKSTART.md).
