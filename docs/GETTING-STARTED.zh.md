@@ -13,9 +13,9 @@
 
 | 场景 | 需要 |
 |---|---|
-| 安装到 Agent | Node.js 22.20+、npm、可访问 GitHub；对应 Agent 客户端由你自行安装并登录 |
+| 安装到 Agent | Node.js 22.20+、pnpm 10.22.0、可访问 GitHub；对应 Agent 客户端由你自行安装并登录 |
 | Python 场景/文档工具 | Python 3.10+，核心脚本不需要额外 pip 包 |
-| 运行 React/Next/Vite 示例 | Node.js 24 / npm，以提交的 `package-lock.json` 为准 |
+| 运行 React/Next/Vite 示例 | Node.js 24 / pnpm 10.22.0，以提交的 `pnpm-lock.yaml` 为准 |
 
 ### 多语言入口与技术栈中立性
 
@@ -26,13 +26,13 @@
 **1. 打开你的目标项目目录。** 在终端执行：
 
 ```bash
-npx skills add kunlong-luo/archvela --skill archvela-architect
+pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect
 ```
 
 按交互提示选择 Codex、Claude Code、OpenCode 或其他适配目标。想跳过交互并同时装到三个主流客户端：
 
 ```bash
-npx skills add kunlong-luo/archvela --skill archvela-architect \
+pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect \
   --agent codex --agent claude-code --agent opencode --copy --yes
 ```
 
@@ -107,9 +107,9 @@ python3 scripts/archvela_create.py list
 python3 scripts/archvela_create.py create --scene V3-02 --project brand-demo --output ./workspace
 python3 scripts/archvela_create.py create --scene V3-02 --project brand-demo --output ./workspace --write
 cd workspace/brand-demo
-npm ci
-npm run build
-npm run dev
+pnpm install --frozen-lockfile
+pnpm run build
+pnpm run dev
 ```
 
 `V3-02` 是电影化企业官网、`V3-14` 是 SaaS 工作台、`V3-26` 是住宅数字孪生；**其余场景还不能生成可运行代码**。独立构建后查看服务启动的本地地址，不需要部署。
@@ -118,7 +118,7 @@ npm run dev
 
 | 症状 | 先检查 |
 |---|---|
-| `npx` 或安装失败 | `node --version`、`npm --version`、网络访问、代理、npm registry；检查 Skills CLI 输出 |
+| `pnpm dlx` 或安装失败 | `node --version`、`pnpm --version`、网络访问、代理、npm registry；检查 Skills CLI 输出 |
 | Agent 看不到 Skill | 在正确项目根目录重新打开会话，检查实际目录与 `SKILL.md`；不要把文件存在当成模型发现 |
 | 找不到 Python 脚本 | 是否在 `archvela` 仓库根目录，或使用了不属于该 Agent 的安装路径 |
 | 提示目标文件已存在 | **预期的安全防护**；更换新输出目录，不要直接覆盖 |
