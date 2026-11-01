@@ -10,6 +10,13 @@
 - 62 architecture references, six domains, only 3 runnable generated starters and 20 agent **installer** targets.
 - Current CI green means tested source/scripts, not independent legal rights or any AI model performance.
 
+## Live governance / native-client operator procedure (not approvals)
+
+- [x] Added the **read-only** [live GitHub governance audit](../scripts/audit_release_governance.py) and manually runnable [governance workflow](../.github/workflows/alpha-governance.yml), both nonpublishing. [Owner settings checklist](./RELEASE-GOVERNANCE-QUICKSTART.md).
+- [x] Documented a **real authenticated Codex native-discovery smoke protocol**, with separate natural discovery versus explicit diagnostic invocation, negative outcomes and sanitized records. [Procedure](./CODEX-NATIVE-SMOKE.md).
+- [ ] **Owner must actually protect `main`, confirm required checks/bypasses and record evidence.** A successful read-only governance report is not an owner approval.
+- [ ] **Someone must actually run the Codex client.** A protocol cannot establish real L2/L3.
+
 ## Hard gates — all required before a public Alpha
 
 | Gate | Current evidence and work remaining | Verified by / link |
