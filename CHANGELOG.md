@@ -14,6 +14,12 @@ repository development, not official release dates.
 - Added manual-only reporting workflow and fixture regression tests; **no tag, public Release or repository Settings writes**.
 - Added exact owner branch protection/status-check instructions and a real Codex natural Skill-discovery smoke protocol. These are operator instructions; **no actual Codex sessions executed**.
 
+### Alpha installed-license evidence exceptions — still unreleased
+
+- Inspected four actual GitHub CI JSON artifacts from source `f15a5bd3`: 283 locked entries, 118 installed on Linux, 165 optional platform entries skipped, **10 installed dependency rows without package-root license/notice files for 6 distinct package versions**.
+- Preserved all four original report hashes, exact package/version/lockfile observations and upstream review leads; added a fail-closed offline checker and tamper tests to prevent silent approvals or stale lockfile evidence.
+- **No third-party license clearance, model run, branch protection setting or GitHub Release was granted.**
+
 ## [Unreleased]
 
 ### Installed dependency and exact-source evidence (pre-release)
