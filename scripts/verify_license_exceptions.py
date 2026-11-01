@@ -87,7 +87,9 @@ def validate(manifest: dict, root: Path = ROOT) -> dict:
             raise ValueError("Missing original CI report digest")
         if (a["id"], a["name"], a["report_sha256"]) != EXPECTED_REPORTS[path]:
             raise ValueError("Historical artifact ID/name/report digest changed")
-        f = root / path
+        # Prefer immutable npm-era archive; retain fixture fallback for tests.
+        archived = root / "docs/historical/npm-lockfiles" / path
+        f = archived if archived.is_file() or archived.is_symlink() else root / path
         if f.is_symlink() or not f.is_file():
             raise ValueError("Missing/symlinked reviewed npm lockfile: " + path)
         raw = f.read_bytes()
