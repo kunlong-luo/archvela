@@ -33,6 +33,10 @@ def real_packages(virtual_store: Path):
     if virtual_store.is_symlink() or not virtual_store.is_dir():
         raise ValueError("Missing or linked pnpm virtual store")
     for item in sorted(virtual_store.iterdir()):
+        # pnpm places legitimate hoisted dependency links in .pnpm/node_modules;
+        # it is not itself one versioned virtual-store package directory.
+        if item.name == "node_modules" and item.is_dir() and not item.is_symlink():
+            continue
         if item.is_symlink():
             raise ValueError("Unexpected pnpm virtual-store symlink")
         if not item.is_dir():
