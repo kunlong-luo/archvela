@@ -43,7 +43,7 @@ class Unverifiable(RuntimeError):
 def api_get(repo: str, suffix: str) -> object:
     if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo):
         raise ValueError("Expected a safe owner/repository name")
-    if not suffix.startswith("/") or "//" in suffix or "://" in suffix:
+    if suffix and (not suffix.startswith("/") or "//" in suffix or "://" in suffix):
         raise ValueError("Invalid GitHub API resource path")
     url = "https://api.github.com/repos/" + repo + suffix
     headers = {
