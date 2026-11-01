@@ -23,6 +23,8 @@ A **scenario-first frontend architecture Skill and toolkit** for independent dev
 
 **Release-candidate verification:** The [installed dependency license evidence guide](./docs/INSTALLED-LICENSE-EVIDENCE.md) explains the real `npm ci` license/NOTICE artifact checks; the [pinned Skill install guide](./docs/PINNED-SKILL-INSTALL.md) documents byte-for-byte L1 installation checks. Neither is third-party license approval or native Agent L2/L3 evidence.
 
+**Owner-run Alpha gates:** [GitHub branch protection and live read-only governance](./docs/RELEASE-GOVERNANCE-QUICKSTART.md) · [real Codex native discovery smoke (not yet executed)](./docs/CODEX-NATIVE-SMOKE.md). Both remain unverified; no tag or Release exists.
+
 ## First Alpha candidate — not published
 
 The proposed **`v0.1.0-alpha.1`** is a **release candidate draft, not a GitHub Release or tag**. Review the [English release notes](./docs/releases/v0.1.0-alpha.1.md), [中文首发说明](./docs/releases/v0.1.0-alpha.1.zh.md), [owner sign-off checklist](./docs/ALPHA-RELEASE-CHECKLIST.md) and [third-party rights register](./docs/RIGHTS-REVIEW-REGISTER.md). Rights clearance, `main` protection, genuine Codex L2/L3 smoke evidence and owner approval remain outstanding. Run `python3 scripts/check_release_candidate.py` for a **structural draft check only**, never a publication authorization.

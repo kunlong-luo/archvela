@@ -1,0 +1,44 @@
+name: Alpha release governance audit (read-only)
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  inspect:
+    name: governance snapshot (NOT release approval)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Read public main governance and exact-sha CI without publishing
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main" || {
+            echo "::error::Run manually on main, not on a tag or feature branch."
+            exit 1
+          }
+          python3 scripts/audit_release_governance.py \
+            --expected-sha "$GITHUB_SHA" --json > "$RUNNER_TEMP/alpha-governance.json"
+          python3 -c 'import json,os; x=json.load(open(os.environ["RUNNER_TEMP"]+"/alpha-governance.json")); assert x["release_ready"] is False; print("GOVERNANCE REPORT ONLY: release_ready=false; blockers:", ", ".join(x["blocked_reasons"]))'
+          {
+            echo "## Alpha governance snapshot — NOT RELEASE APPROVAL"
+            echo "Read-only audit. No tag, release, deployment, rights approval or Codex run."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Archive read-only audit evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: alpha-governance-snapshot-not-approved
+          path: ${{ runner.temp }}/alpha-governance.json
+          if-no-files-found: error
+          retention-days: 14

@@ -14,6 +14,12 @@
 > [Rights review register](./RIGHTS-REVIEW-REGISTER.md) ·
 > [Machine-checked candidate contract](./RELEASE-CANDIDATE.json).
 
+## Live public governance and native Codex proof (2026-11-01)
+
+- [x] Added read-only GitHub branch/Actions/Release reporting with independent regression fixtures rejecting falsely approved release manifests and unrelated or outdated workflow results. [Manual owner procedure](./RELEASE-GOVERNANCE-QUICKSTART.md).
+- [x] Added a manual-only snapshot workflow with no tag or release permissions and an explicit [real Codex native smoke playbook](./CODEX-NATIVE-SMOKE.md).
+- [ ] Branch protection remains publicly visible as `main.protected=false` and the actual owner configuration requires UI action; real Codex native L2/L3 execution remains 0; source/third-party rights approvals remain unsigned.
+
 ## Installed dependency and exact-source evidence (Alpha candidate)
 
 - [x] Security CI collects real, installed npm LICENSE/NOTICE **file names, sizes and SHA-256 hashes** from all four package projects using `npm ci --ignore-scripts` and uploads JSON artifacts; source installer CI verifies five installed Skill files match the exact Git checkout byte-for-byte. See [installed-license evidence](./INSTALLED-LICENSE-EVIDENCE.md) and [pinned L1 install guide](./PINNED-SKILL-INSTALL.md).

@@ -31,6 +31,10 @@ This section supersedes historical values in the 2026-10-30 cleanup snapshot **b
 - Description no longer contains the accidental `复制` suffix, but still has trailing spaces; topic `architecture-srv` remains.
 - Zero GitHub Releases; no Alpha tag, no approval yet. See [Alpha sign-off](./ALPHA-RELEASE-CHECKLIST.md).
 
+## Alpha one-page owner checklist (2026-11-01)
+
+For the exact owner UI clicks, observed **PR job check names**, expected protections and public read-only verification script, use [First Alpha GitHub protection & governance](./RELEASE-GOVERNANCE-QUICKSTART.md). This is an **operator action guide**, not evidence that protection was changed. Most recent independent check still found `main.protected=false`, rulesets `[]` and auto-delete disabled.
+
 ## Owner actions in GitHub Settings
 
 1. **About → Edit**: remove the trailing `复制` from Description.

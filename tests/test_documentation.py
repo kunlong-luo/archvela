@@ -16,6 +16,8 @@ DOCS = (
     "docs/GETTING-STARTED.zh.md",
     "docs/COMPATIBILITY.md",
     "docs/RELEASE-READINESS.md",
+    "docs/RELEASE-GOVERNANCE-QUICKSTART.md",
+    "docs/CODEX-NATIVE-SMOKE.md",
 )
 
 # Markdown links from edited entrypoint documents; image URLs, anchors and
