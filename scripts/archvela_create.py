@@ -25,7 +25,7 @@ STARTERS = {
     "V3-26": ("home-digital-twin", "Vite 8 + R3F 9 proportional concept viewer"),
 }
 ROOT_FILES = {
-    "package.json", "package-lock.json", "README.md",
+    "package.json", "pnpm-lock.yaml", "README.md",
     "tsconfig.json", "next.config.ts", "next-env.d.ts",
     "vite.config.ts", "index.html",
 }
@@ -74,8 +74,8 @@ def safe_sources(template: str) -> list[tuple[Path, bytes]]:
             files.append((rel, content))
     if not any(p == Path("package.json") for p, _ in files):
         raise ValueError("Starter lacks package.json")
-    if not any(p == Path("package-lock.json") for p, _ in files):
-        raise ValueError("Starter lacks package-lock.json")
+    if not any(p == Path("pnpm-lock.yaml") for p, _ in files):
+        raise ValueError("Starter lacks pnpm-lock.yaml")
     return files
 
 
@@ -83,14 +83,14 @@ def make_project_files(scene_id: str, project: str) -> list[tuple[Path, bytes]]:
     template, _ = STARTERS[scene_id]
     raw = dict(safe_sources(template))
     package = json.loads(raw[Path("package.json")])
-    lock = json.loads(raw[Path("package-lock.json")])
-    if not package.get("private") or lock.get("lockfileVersion") != 3:
-        raise ValueError("Starter is not a private locked npm project")
+    lock = raw[Path("pnpm-lock.yaml")].decode("utf-8")
+    if (not package.get("private") or package.get("packageManager") != "pnpm@10.22.0"
+            or "lockfileVersion: '9.0'" not in lock or "importers:" not in lock):
+        raise ValueError("Starter is not a private pnpm-locked project")
     package["name"] = project
-    lock["name"] = project
-    lock["packages"][""]["name"] = project
     raw[Path("package.json")] = (json.dumps(package, ensure_ascii=False, indent=2) + "\n").encode()
-    raw[Path("package-lock.json")] = (json.dumps(lock, ensure_ascii=False, indent=2) + "\n").encode()
+    # A standalone pnpm lockfile uses the '.' importer, not the package name.
+    # Preserve the generated-and-frozen bytes; changing the project slug needs no lock edit.
     old_readme = raw[Path("README.md")].decode("utf-8")
     raw[Path("README.md")] = (
         f"# {project}\n\n"
@@ -170,7 +170,7 @@ def main() -> int:
     show.add_argument("--json", action="store_true")
     generate = command.add_parser("create", help="Preview/create a new project from a verified starter")
     generate.add_argument("--scene", required=True)
-    generate.add_argument("--project", required=True, help="Lowercase npm package slug")
+    generate.add_argument("--project", required=True, help="Lowercase package slug")
     generate.add_argument("--output", type=Path, required=True, help="Parent folder of new project")
     generate.add_argument("--write", action="store_true", help="Actually create new project")
     generate.add_argument("--json", action="store_true")
@@ -188,7 +188,7 @@ def main() -> int:
                              "; use new_project_docs.py for architecture-only V3 scenes")
         slug = args.project
         if not re.fullmatch(r"[a-z][a-z0-9-]{1,62}[a-z0-9]", slug):
-            raise ValueError("Project name must be a lowercase npm-safe slug (3–64 chars)")
+            raise ValueError("Project name must be a lowercase package slug (3–64 chars)")
         parent = args.output.expanduser().absolute()
         dest = parent / slug
         check_target(parent, dest)
@@ -207,7 +207,7 @@ def main() -> int:
             if not args.write:
                 print("No files written. Add --write after reviewing the target directory.")
             else:
-                print(f"Next: cd {dest} && npm ci && npm run build")
+                print(f"Next: cd {dest} && pnpm install --frozen-lockfile && pnpm build")
         return 0
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
         print("ABORT: " + str(exc), file=sys.stderr)
