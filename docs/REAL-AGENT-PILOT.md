@@ -7,6 +7,8 @@
 > [Human evaluation protocol](./AGENT-EVAL-PROTOCOL.md) ·
 > [Release readiness](./RELEASE-READINESS.md)
 
+Before the randomized 4-session Codex subset, a maintainer can follow the [single native Codex Skill smoke](./CODEX-NATIVE-SMOKE.md) to verify actual client discovery. **That exploratory smoke is NOT one of the blinded paired sessions and must not be counted as an experiment result**. Both workflows currently have zero actual model sessions.
+
 ## Goal and fixed scope
 
 First verify that a real client can discover the Archvela Skill (L2) and that
