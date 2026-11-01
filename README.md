@@ -25,6 +25,8 @@ A **scenario-first frontend architecture Skill and toolkit** for independent dev
 
 **Owner-run Alpha gates:** [GitHub branch protection and live read-only governance](./docs/RELEASE-GOVERNANCE-QUICKSTART.md) · [real Codex native discovery smoke (not yet executed)](./docs/CODEX-NATIVE-SMOKE.md). Both remain unverified; no tag or Release exists.
 
+**Licensing evidence follow-up:** [Six exact missing root-notice dependency cases](./docs/LICENSE-EVIDENCE-EXCEPTIONS.md) were identified from four actual CI artifacts; a [locked evidence register](./docs/INSTALLED-LICENSE-EXCEPTIONS.json) preserves the observations. This is a human-review backlog, not a finding of infringement or permission.
+
 ## First Alpha candidate — not published
 
 The proposed **`v0.1.0-alpha.1`** is a **release candidate draft, not a GitHub Release or tag**. Review the [English release notes](./docs/releases/v0.1.0-alpha.1.md), [中文首发说明](./docs/releases/v0.1.0-alpha.1.zh.md), [owner sign-off checklist](./docs/ALPHA-RELEASE-CHECKLIST.md) and [third-party rights register](./docs/RIGHTS-REVIEW-REGISTER.md). Rights clearance, `main` protection, genuine Codex L2/L3 smoke evidence and owner approval remain outstanding. Run `python3 scripts/check_release_candidate.py` for a **structural draft check only**, never a publication authorization.
