@@ -34,6 +34,10 @@ The new [offline consistency checker](../scripts/verify_license_exceptions.py) c
 
 The 42 flagged unusual SPDX expressions in the separate [all-lockfile metadata review](./DEPENDENCY-LICENSE-REVIEW.json) and the six missing-root-file packages here are **different audit dimensions**. They overlap for libvips, but one must not be substituted for the other. Review all actual redistribution terms and V3 textual/design copyright separately.
 
+## Exact-version upstream license source follow-up (2026-11-01)
+
+The [second-stage upstream license-source triage](./UPSTREAM-LICENSE-SOURCE-TRIAGE.md) records release-tagged primary sources for the six packages, distinct licensing for `sharp-libvips` build scripts versus bundled LGPL libraries, Rolldown's separate third-party license, the unresolved `client-only` copyright holder, and the `@react-three/fiber` source tag's package-version discrepancy. **No original npm tarball or actual deployment bundle was independently inspected in that follow-up.** All six remain unresolved for redistribution approval.
+
 ## Authorized reviewer actions
 
 - [ ] Retrieve the four original artifact JSONs (or archived copies with matching `report_sha256`), and reproduce under the intended release platform(s). If unavailable, rerun `Security scanning` against a clean commit with the same reviewed lockfiles.
