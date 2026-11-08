@@ -46,15 +46,15 @@
 
 ```bash
 # 在仓库根目录：仅列出发现的 Skill
-npx skills add . --list
+pnpm dlx skills@1.7.4 add . --list
 
 # 全局安装到指定主流代理（此命令写入用户级 Skills 目录）
-npx skills add . --skill archvela-architect -g \
+pnpm dlx skills@1.7.4 add . --skill archvela-architect -g \
   -a opencode -a codex -a claude-code -a cursor \
   -a gemini-cli -a github-copilot -y
 ```
 
-**公开仓库安装已经可用并接受 CI 验证：**`npx skills add kunlong-luo/archvela --skill archvela-architect`。在 CI 中，Codex、Claude Code、OpenCode 的 GitHub 来源项目级安装和固定 Git 提交版本安装均进行了落盘检查。此项仍只代表 L1 安装成功，不能充当真实客户端 L2/L3 证据。
+**公开仓库安装已经可用并接受 CI 验证：**`pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect`。在 CI 中，Codex、Claude Code、OpenCode 的 GitHub 来源项目级安装和固定 Git 提交版本安装均进行了落盘检查。此项仍只代表 L1 安装成功，不能充当真实客户端 L2/L3 证据。
 
 **建议本地确认流程：**
 1. 在真实代理里检查 Archvela 的技能名称、description 和根目录是否识别。

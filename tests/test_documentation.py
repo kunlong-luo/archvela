@@ -90,6 +90,24 @@ class DocumentationIntegrityTests(unittest.TestCase):
             self.assertIn("pnpm", text)
             self.assertNotIn("README.en.md", text)
 
+    def test_pnpm_only_user_facing_skill_install_examples(self):
+        # Historical npm-era license evidence is intentionally not rewritten.
+        # User-facing Skill installation instructions must use the pinned pnpm CLI.
+        guides = (
+            "docs/PINNED-SKILL-INSTALL.md",
+            "docs/COMPATIBILITY.md",
+            "docs/REAL-AGENT-PILOT.md",
+            "docs/CODEX-NATIVE-SMOKE.md",
+            "docs/releases/v0.1.0-alpha.1.md",
+            "docs/releases/v0.1.0-alpha.1.zh.md",
+        )
+        for guide in guides:
+            with self.subTest(guide=guide):
+                data = (ROOT / guide).read_text(encoding="utf-8")
+                self.assertIn("pnpm dlx skills@1.7.4", data)
+                self.assertNotIn("npx skills", data)
+                self.assertNotIn("npx --yes skills", data)
+
     def test_github_templates_and_safety_docs_exist(self):
         for path in (
             ".github/ISSUE_TEMPLATE/bug_report.md",

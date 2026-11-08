@@ -25,7 +25,7 @@ cd ..
 mkdir -p archvela-install-check
 cd archvela-install-check
 
-npx --yes skills@1.7.4 add \
+pnpm dlx skills@1.7.4 add \
   "https://github.com/kunlong-luo/archvela/tree/REPLACE_WITH_VERIFIED_40_HEX_SHA/.agents/skills/archvela-architect" \
   --skill archvela-architect --agent codex --copy --yes
 
