@@ -16,7 +16,7 @@ git rev-parse HEAD
 cd ..
 mkdir archvela-smoke-project
 cd archvela-smoke-project
-npx --yes skills@1.7.4 add \
+pnpm dlx skills@1.7.4 add \
   "https://github.com/kunlong-luo/archvela/tree/9bd225f49d9d234e72bb4e371c1e203cdb9b1f90/.agents/skills/archvela-architect" \
   --skill archvela-architect --agent codex --copy --yes
 test -s .agents/skills/archvela-architect/SKILL.md
