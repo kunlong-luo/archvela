@@ -28,7 +28,7 @@ private `operator/manifest.key` holds an integrity signing key and must
 be protected alongside the arm mapping. It is not a client credential,
 not a model credential, and must never be given to reviewers.
 
-Use `npx --yes skills@1.7.4` only in authorized **Treatment** workspaces,
+Use `pnpm dlx skills@1.7.4` only in authorized **Treatment** workspaces,
 and record actual installer/client versions and pinned source commit.
 The baseline must not inherit any global Archvela Skill. The scripts
 cannot inspect login states or independently certify native discovery.
