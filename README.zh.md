@@ -59,16 +59,16 @@ flowchart LR
 
 ## 30 秒安装
 
-在**你的目标项目目录**运行（需要 Node.js 22.20+、npm 与 GitHub 网络访问）：
+在**你的目标项目目录**运行（需要 Node.js 22.20+、pnpm 10.22.0 与 GitHub 网络访问）：
 
 ```bash
-npx skills add kunlong-luo/archvela --skill archvela-architect
+pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect
 ```
 
 按交互提示选择 Agent；或者直接在同一项目安装到三个常用客户端：
 
 ```bash
-npx skills add kunlong-luo/archvela --skill archvela-architect \
+pnpm dlx skills@1.7.4 add kunlong-luo/archvela --skill archvela-architect \
   --agent codex --agent claude-code --agent opencode --copy --yes
 ```
 
@@ -131,7 +131,7 @@ python3 scripts/archvela_create.py list
 python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace
 python3 scripts/archvela_create.py create --scene V3-26 --project home-demo --output ./workspace --write
 cd workspace/home-demo
-npm ci && npm run build
+pnpm install --frozen-lockfile && pnpm run build
 ```
 
 其余 **59 个场景仅支持生成架构文档**，不会假装能输出完整可运行的项目。[生成器完整说明 →](./docs/PROJECT-GENERATOR.md)
@@ -152,7 +152,7 @@ npm ci && npm run build
 - **L0**：Skill 元数据、62 场景和工具脚本测试。
 - **L1**：Skills CLI 本地来源 20 目标安装检查、六个全局目标测试，以及 Codex / Claude Code / OpenCode 的 GitHub 来源安装和固定提交安装测试。
 - **L2/L3**：实际客户端发现、模型调用、架构/代码质量对照——**尚未取得真实试验结果**。新增 [离线试点结果汇总工具](./benchmarks/summarize_pilot.py)，可以核对 12 次操作者提供的真实会话和人工评分，保留失败样本，不跨模型混算；**目前没有真实模型试验数据**。[评测协议](./docs/AGENT-EVAL-PROTOCOL.md) · [试点跟踪 #21](https://github.com/kunlong-luo/archvela/issues/21)
-- **CI**：锁文件、示例/生成项目构建、Chromium E2E、CodeQL、四组 npm 审计与 PR Dependency Review。通过检查不保证零漏洞，也不代表所有设备通过。
+- **CI**：锁文件、示例/生成项目构建、Chromium E2E、CodeQL、四组 pnpm 审计与 PR Dependency Review。通过检查不保证零漏洞，也不代表所有设备通过。
 - **证据与版权来源**：[真实 Agent 试点证据核验](./docs/REAL-AGENT-PILOT.md)只检查日志/文件和摘要；[素材来源登记](./docs/ASSET-PROVENANCE.md)阻止未登记的独立媒体文件进入仓库。两者都不代表模型效果验证或完整版权审核。
 
 ## 仓库导航

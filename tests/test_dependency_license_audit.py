@@ -68,7 +68,7 @@ class DependencyLicenseAuditTests(unittest.TestCase):
                 source = ROOT / rel
                 dest = root / rel
                 dest.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(source, dest)
+                shutil.copyfile(ROOT / "docs/historical/npm-lockfiles" / rel, dest)
             register_path = root / "docs/DEPENDENCY-LICENSE-REVIEW.json"
             register_path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(mod.REGISTER, register_path)
@@ -87,7 +87,7 @@ class DependencyLicenseAuditTests(unittest.TestCase):
             for rel in mod.LOCKFILES:
                 dest = root / rel
                 dest.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(ROOT / rel, dest)
+                shutil.copyfile(ROOT / "docs/historical/npm-lockfiles" / rel, dest)
             target = root / mod.LOCKFILES[3]
             data = json.loads(target.read_text(encoding="utf-8"))
             key = next(k for k in data["packages"] if k)

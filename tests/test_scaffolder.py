@@ -44,10 +44,11 @@ class ScaffoldTests(unittest.TestCase):
                 self.assertEqual(json.loads(result.stdout)["status"], "created")
                 dest = Path(tmp) / "my-new-app"
                 package = json.loads((dest / "package.json").read_text(encoding="utf-8"))
-                lock = json.loads((dest / "package-lock.json").read_text(encoding="utf-8"))
+                lock = (dest / "pnpm-lock.yaml").read_text(encoding="utf-8")
                 self.assertEqual(package["name"], "my-new-app")
-                self.assertEqual(lock["name"], "my-new-app")
-                self.assertEqual(lock["packages"][""]["name"], "my-new-app")
+                self.assertEqual(package["packageManager"], "pnpm@10.22.0")
+                self.assertIn("lockfileVersion: '9.0'", lock)
+                self.assertIn("importers:", lock)
                 plan = json.loads((dest / "docs/architecture/archvela-plan.json").read_text())
                 self.assertEqual(plan["scenario"]["id"], scene)
                 self.assertEqual(plan["status"], "draft")
@@ -62,7 +63,7 @@ class ScaffoldTests(unittest.TestCase):
                 self.assertEqual(first, (dest / "package.json").read_bytes())
 
     def test_prunes_existing_node_modules_without_copying_it(self):
-        # A real user may have already run npm ci inside examples/.
+        # A real user may have already run pnpm install inside examples/.
         # The generator must ignore local build directories and their symlinks.
         spec = importlib.util.spec_from_file_location("archvela_create_test", SCRIPT)
         module = importlib.util.module_from_spec(spec)
@@ -72,7 +73,7 @@ class ScaffoldTests(unittest.TestCase):
             source = root / "examples/cinematic-site"
             source.mkdir(parents=True)
             (source / "package.json").write_text('{"name":"sample","private":true}', encoding="utf-8")
-            (source / "package-lock.json").write_text('{"name":"sample","lockfileVersion":3}', encoding="utf-8")
+            (source / "pnpm-lock.yaml").write_text("lockfileVersion: '9.0'\nimporters:\n", encoding="utf-8")
             node = source / "node_modules"
             node.mkdir()
             (node / "copied-secret.env").write_text("TEST FIXTURE ONLY", encoding="utf-8")
@@ -82,7 +83,7 @@ class ScaffoldTests(unittest.TestCase):
             try:
                 module.REPO = root
                 paths = {str(rel) for rel, _ in module.safe_sources("cinematic-site")}
-                self.assertEqual(paths, {"package.json", "package-lock.json"})
+                self.assertEqual(paths, {"package.json", "pnpm-lock.yaml"})
             finally:
                 module.REPO = previous
 

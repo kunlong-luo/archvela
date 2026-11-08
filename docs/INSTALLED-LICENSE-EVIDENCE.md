@@ -1,4 +1,7 @@
-# Alpha release: installed npm LICENSE/NOTICE evidence (not legal approval)
+# Alpha release: installed dependency LICENSE/NOTICE evidence (not legal approval)
+
+> **Historical data, not current pnpm results:** The original 283 locked / 118 installed / 165 skipped / 10 missing-root notice observations were collected using npm on an earlier commit. Their exact npm lock bytes now live under [historical evidence](./historical/npm-lockfiles/); current CI instead installs with pinned pnpm 10.22.0 and uses the [pnpm virtual-store inventory](../scripts/collect_pnpm_license_evidence.py). Current evidence does not claim to count uninstalled optional-platform packages.
+
 
 > **Status: evidence collection implemented; redistribution review remains OPEN.** Intended version `v0.1.0-alpha.1` is **not** published. This is an engineering aid to [human review](./RIGHTS-REVIEW-REGISTER.md), not a legal opinion.
 
@@ -8,7 +11,7 @@ The [lockfile license metadata audit](./DEPENDENCY-LICENSE-AUDIT.md) covers four
 
 The [new installed-license evidence tool](../scripts/collect_installed_license_evidence.py) examines **actual packages after an isolated `npm ci`**: for each lockfile entry, it records package name/version, optional/development flags, whether installed on the CI runner, any package-root `LICENSE`/`LICENCE`/`COPYING`/`NOTICE`/`ATTRIBUTION` file names, and SHA-256 hashes and sizes (not the license text itself).
 
-Four independent jobs in [Security scanning](../.github/workflows/security.yml) run on Linux / Node.js 24. They use `npm ci --ignore-scripts --include=dev --no-audit --no-fund` to install locked dependencies **without executing third-party lifecycle hooks**. Each job uploads a JSON artifact named `installed-license-evidence-<package>` with a short retention period. An artifact is evidence **for the particular job OS, tool versions and commit only**.
+Historically, four independent jobs in [Security scanning](../.github/workflows/security.yml) run on Linux / Node.js 24. That historical run used `npm ci --ignore-scripts --include=dev --no-audit --no-fund` to install locked dependencies **without executing third-party lifecycle hooks**. Each job uploads a JSON artifact named `installed-license-evidence-<package>` with a short retention period. An artifact is evidence **for the particular job OS, tool versions and commit only**.
 
 The script **fails** if a required locked package is absent, its installed version differs, or inspected license/NOTICE paths are unsafe. It **does not automatically fail** merely because a package lacks a top-level LICENSE file; that gap is recorded for human review rather than interpreted as conclusive infringement or permission.
 
@@ -19,8 +22,8 @@ After a successful PR or main run, visit [Security scanning workflow](https://gi
 To reproduce locally in a disposable checkout:
 
 ```bash
-npm ci --prefix examples/home-digital-twin --include=dev --ignore-scripts --no-audit --no-fund
-python3 scripts/collect_installed_license_evidence.py \
+pnpm --dir examples/home-digital-twin install --frozen-lockfile --ignore-scripts
+python3 scripts/collect_pnpm_license_evidence.py \
   --directory examples/home-digital-twin \
   --output /tmp/archvela-home-installed-license-evidence.json
 ```

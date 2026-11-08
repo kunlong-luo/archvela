@@ -62,7 +62,7 @@ class DocumentationIntegrityTests(unittest.TestCase):
         self.assertIn("(./docs/GETTING-STARTED.zh.md)", zh)
         for text in (en, zh):
             for token in (
-                "npx skills add kunlong-luo/archvela",
+                "pnpm dlx skills@1.7.4 add kunlong-luo/archvela",
                 "--agent codex --agent claude-code --agent opencode",
                 "V3-02", "V3-14", "V3-26",
                 "62", "59", "L1", "L2/L3",
@@ -70,6 +70,7 @@ class DocumentationIntegrityTests(unittest.TestCase):
             ):
                 self.assertIn(token, text)
             self.assertNotIn("ln -s ", text)
+            self.assertNotIn("npx skills", text)
             self.assertNotIn("README.en.md", text)
         self.assertIn("尚未", zh)
         self.assertIn("not", en.lower())
@@ -84,8 +85,9 @@ class DocumentationIntegrityTests(unittest.TestCase):
         self.assertIn("(../README.md)", en)
         self.assertIn("(../README.zh.md)", zh)
         for text in (en, zh):
-            self.assertIn("npx skills add kunlong-luo/archvela", text)
+            self.assertIn("pnpm dlx skills@1.7.4 add kunlong-luo/archvela", text)
             self.assertIn("--write", text)
+            self.assertIn("pnpm", text)
             self.assertNotIn("README.en.md", text)
 
     def test_github_templates_and_safety_docs_exist(self):

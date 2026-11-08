@@ -5,11 +5,11 @@ Next.js 16 + React 19 operational dashboard, with fully functional **client-only
 ## Run
 
 ```bash
-npm install
-npm run dev
-npm run test
-npm run typecheck
-npm run build
+pnpm install --frozen-lockfile
+pnpm run dev
+pnpm run test
+pnpm run typecheck
+pnpm run build
 ```
 
 Visit `http://localhost:3000`. Node 24 recommended.

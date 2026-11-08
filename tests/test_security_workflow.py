@@ -12,10 +12,10 @@ class SecurityWorkflowTests(unittest.TestCase):
         workflow = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("github/codeql-action/analyze@v4", workflow)
         self.assertIn("python, javascript-typescript", workflow)
-        self.assertIn("npm-audit:", workflow)
+        self.assertIn("pnpm-audit:", workflow)
         self.assertIn("cinematic-site, saas-workspace, home-digital-twin, browser-tests", workflow)
-        self.assertIn("--package-lock-only --include=dev --audit-level=high", workflow)
-        self.assertNotIn("\n          npm audit fix", workflow)
+        self.assertIn('pnpm --dir "$directory" audit --audit-level high', workflow)
+        self.assertNotIn("\n          pnpm audit --fix", workflow)
 
     def test_dependency_review_is_not_claimed_without_capability(self):
         workflow = WORKFLOW.read_text(encoding="utf-8")

@@ -6,6 +6,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -27,17 +31,21 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10.22.0"
+          run_install: false
       - name: Generate new isolated starter from V3 scene
         run: |
           python3 scripts/archvela_create.py create --scene ${{ matrix.scenario }} \
             --project generated-smoke --output "$RUNNER_TEMP" --write --json
-      - name: Install locked npm dependencies from generated output
-        run: npm ci --no-audit --no-fund --prefix "$RUNNER_TEMP/generated-smoke"
+      - name: Install locked pnpm dependencies from generated output
+        run: pnpm --dir "$RUNNER_TEMP/generated-smoke" install --frozen-lockfile
       - name: Test and build generated project (not source demo)
         run: |
-          npm run test --if-present --prefix "$RUNNER_TEMP/generated-smoke"
-          npm run typecheck --prefix "$RUNNER_TEMP/generated-smoke"
-          npm run build --prefix "$RUNNER_TEMP/generated-smoke"
+          pnpm --dir "$RUNNER_TEMP/generated-smoke" run --if-present test
+          pnpm --dir "$RUNNER_TEMP/generated-smoke" run typecheck
+          pnpm --dir "$RUNNER_TEMP/generated-smoke" run build
       - name: Confirm generated architectural plan
         run: |
           python3 .agents/skills/archvela-architect/scripts/plan_contract.py \
