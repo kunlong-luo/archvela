@@ -1,6 +1,8 @@
 # Release Readiness — Archvela first Alpha candidate
 
-> **Package-manager change (PR #43 / Issue #42):** New active examples and CI use pinned pnpm 10.22.0 and four independent `pnpm-lock.yaml` files. The earlier npm lockfiles and installed-license report remain byte-identically archived for historical verification, not represented as current pnpm findings. No third-party rights clearance, L2/L3 pilot or release approval follows from this migration.\n\n
+> **Package-manager change (PR #43 / Issue #42):** Active examples and CI use pinned pnpm 10.22.0 and four independent `pnpm-lock.yaml` files. The earlier npm lockfiles and installed-license report remain byte-identically archived for historical verification, not represented as current pnpm findings. No third-party rights clearance, L2/L3 pilot or release approval follows from this migration.
+
+
 > **Status: PRE-RELEASE / NOT APPROVED FOR PUBLICATION.**
 > **2026-10-30 pre-candidate baseline:** `main` commit
 > `4b4c20d93084db1c326afbc561b60184dd69e379`, with seven GitHub Actions
