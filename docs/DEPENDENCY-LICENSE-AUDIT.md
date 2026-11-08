@@ -1,5 +1,7 @@
 # Archvela Alpha — Dependency license metadata triage
 
+> **Historical npm-era evidence only (not the active pnpm lockfile inventory).** The four original lockfiles were moved unchanged to `docs/historical/npm-lockfiles/` in [PR #43](https://github.com/kunlong-luo/archvela/pull/43); their 283 metadata rows and 42 unusual SPDX review entries remain frozen. Active builds now use `pnpm-lock.yaml` and pnpm 10.22.0; the current installed-file scan has a **separate** 15-observation triage in [Issue #46](https://github.com/kunlong-luo/archvela/issues/46). Neither historical nor current results grant redistribution rights.
+
 > **STATUS: AUTOMATED LOCKFILE INVENTORY COMPLETE; LEGAL / REDISTRIBUTION RIGHTS REVIEW NOT COMPLETE.** Candidate: `v0.1.0-alpha.1` (not tagged/published). Source: committed npm v3 `package-lock.json` files, checked at 2026-10-30 baseline `4c8ce65e6406e5431b89714c2cc83477eb5cd64a`. For a final release review, rerun at the **actual release candidate commit**, not the earlier baseline.
 
 ## Observed source data — 4 lockfiles / 283 installation entries
@@ -11,7 +13,7 @@
 | `examples/saas-workspace/package-lock.json` | 80 | LGPL family / mixed expressions (14); CC-BY-4.0 (1) |
 | `tests/browser/package-lock.json` | 26 | None outside the narrow review-triage list |
 
-**All 283 installation entries contain a non-empty license metadata string in the current lockfiles.** This is a check of npm metadata and does not verify actual `LICENSE`/`NOTICE` files or the copyright authority of any publisher.
+**All 283 installation entries contain a non-empty license metadata string in the archived historical lockfiles.** This is a check of npm metadata and does not verify actual `LICENSE`/`NOTICE` files or the copyright authority of any publisher.
 
 The snapshot flags **42 entries** for attention: 28 in the LGPL family (including mixed `AND` expressions), 12 MPL-2.0, and 2 CC-BY-4.0. A package can be repeated across lockfiles and a platform-specific optional package may never be installed on the target platform; neither fact is an automatic waiver of any redistribution requirements. These are 42 **installation rows**, not 42 unique products.
 
@@ -33,9 +35,9 @@ The first command verifies that the four lockfiles match the checked-in [machine
 
 When dependencies update, regenerate the register from actual new lockfile metadata, investigate newly flagged expressions, and obtain appropriate human review. Do **not** flip approval booleans just to pass CI. Genuine legal clearance requires review of actual installed code/binaries, upstream license texts, package notices, the distribution form and the owner's rights in original reference material.
 
-## Evidence from actual installed npm packages (new CI gate)
+## Evidence from historically installed npm packages (archived CI)
 
-The [installed-file evidence collector](./INSTALLED-LICENSE-EVIDENCE.md) uses four isolated Linux `npm ci --ignore-scripts` jobs to inspect **file presence and SHA-256 hashes** of package-root LICENSE/NOTICE files. It records skipped optional platform packages and installed packages with no top-level license/notice file. The workflow archives raw JSON evidence on each successful run; it does **not** automatically sign off or interpret third-party redistribution rights. Review those artifacts and the actual upstream license texts, notices and shipped binaries before owner approval.
+The [historical installed-file evidence](./INSTALLED-LICENSE-EVIDENCE.md) used four isolated Linux `npm ci --ignore-scripts` jobs to inspect **file presence and SHA-256 hashes** of package-root LICENSE/NOTICE files. It records skipped optional platform packages and installed packages with no top-level license/notice file. Those workflow runs archived raw JSON evidence; it does **not** automatically sign off or interpret third-party redistribution rights. Review those artifacts and the actual upstream license texts, notices and shipped binaries before owner approval.
 
 ## Owner's manual release tasks
 
