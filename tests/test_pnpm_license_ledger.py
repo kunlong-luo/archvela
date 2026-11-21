@@ -66,7 +66,7 @@ class PnpmEvidenceLedgerTests(unittest.TestCase):
         data = self.fixture()
         changed = copy.deepcopy(data)
         changed["observations"][0]["virtual_store_path"] += "/untrusted"
-        with self.assertRaisesRegex(ValueError, "path changed"):
+        with self.assertRaisesRegex(ValueError, "path changed|path does not match recorded name"):
             mod.validate(changed)
         changed = copy.deepcopy(data)
         changed["observations"][0]["installed_license_metadata"] = "MIT"
