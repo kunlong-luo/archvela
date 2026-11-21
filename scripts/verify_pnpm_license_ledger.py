@@ -50,6 +50,18 @@ EXPECTED_GAP_PACKAGES = {
         ("@rolldown/binding-linux-x64-musl", "1.2.15"),
     },
 }
+EXPECTED_VIRTUAL_PATH_SUFFIXES = {
+    "@img/sharp-libvips-linux-x64": "@img+sharp-libvips-linux-x64@1.3.4/node_modules/@img/sharp-libvips-linux-x64",
+    "@img/sharp-libvips-linuxmusl-x64": "@img+sharp-libvips-linuxmusl-x64@1.3.4/node_modules/@img/sharp-libvips-linuxmusl-x64",
+    "@next/env": "@next+env@16.4.3/node_modules/@next/env",
+    "@next/swc-linux-x64-gnu": "@next+swc-linux-x64-gnu@16.4.3/node_modules/@next/swc-linux-x64-gnu",
+    "@next/swc-linux-x64-musl": "@next+swc-linux-x64-musl@16.4.3/node_modules/@next/swc-linux-x64-musl",
+    "client-only": "client-only@0.0.1/node_modules/client-only",
+    "@react-three/fiber": "@react-three+fiber@9.8.2_@types+react@19.3.0_react-dom@19.3.1_react@19.3.1__react@19.3.1_three@0.186.1/node_modules/@react-three/fiber",
+    "@rolldown/binding-linux-x64-gnu": "@rolldown+binding-linux-x64-gnu@1.2.15/node_modules/@rolldown/binding-linux-x64-gnu",
+    "@rolldown/binding-linux-x64-musl": "@rolldown+binding-linux-x64-musl@1.2.15/node_modules/@rolldown/binding-linux-x64-musl"
+}
+
 HASH = re.compile(r"^[a-f0-9]{64}$")
 
 
@@ -144,6 +156,13 @@ def validate(ledger: dict, root: Path = ROOT) -> dict:
             raise ValueError("Unknown or unsafe pnpm package root observation")
         if not path.endswith("/node_modules/" + name):
             raise ValueError("Installed package path does not match recorded name")
+        if path != "node_modules/.pnpm/" + EXPECTED_VIRTUAL_PATH_SUFFIXES[name]:
+            raise ValueError("Virtual-store package root path changed from CI observation")
+        expected_license = ("LGPL-3.0-or-later"
+                            if name.startswith("@img/sharp-libvips-") else "MIT")
+        if (row.get("installed_license_metadata") != expected_license
+                or row.get("prior_six_package_source_lead") is ("musl" in name)):
+            raise ValueError("License declaration or earlier-source classification changed")
         if (project, path) in paths or (name, version) in per_project[project]:
             raise ValueError("Duplicate pnpm observed package")
         if (row.get("missing_recognized_root_notice") is not True
