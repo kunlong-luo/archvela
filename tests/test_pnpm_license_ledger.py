@@ -62,6 +62,21 @@ class PnpmEvidenceLedgerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             mod.validate(changed)
 
+    def test_virtual_store_path_and_license_are_original_observations(self):
+        data = self.fixture()
+        changed = copy.deepcopy(data)
+        changed["observations"][0]["virtual_store_path"] += "/untrusted"
+        with self.assertRaisesRegex(ValueError, "path changed"):
+            mod.validate(changed)
+        changed = copy.deepcopy(data)
+        changed["observations"][0]["installed_license_metadata"] = "MIT"
+        with self.assertRaisesRegex(ValueError, "License declaration"):
+            mod.validate(changed)
+        changed = copy.deepcopy(data)
+        changed["observations"][0]["prior_six_package_source_lead"] = False
+        with self.assertRaisesRegex(ValueError, "classification"):
+            mod.validate(changed)
+
     def test_changed_current_pnpm_lock_invalidates_snapshot(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
