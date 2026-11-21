@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "kind": "archvela_pnpm_virtual_store_root_notice_evidence",
+  "review_status": "pending_human",
+  "rights_cleared": false,
+  "pnpm_version": "10.22.0",
+  "capture_scope": "Linux x64 CI virtual-store materialized package roots; not proven reachable runtime/deployment dependencies",
+  "archived_npm_source": "docs/INSTALLED-LICENSE-EXCEPTIONS.json",
+  "archived_npm_root_notice_occurrences": 10,
+  "archived_npm_distinct_package_versions": 6,
+  "reviewed_pnpm_lockfiles": [
+    {
+      "path": "examples/cinematic-site/pnpm-lock.yaml",
+      "git_blob_sha": "25bda3d9f9c52419e3ab263b8914590d82679c79",
+      "materialized_virtual_store_package_roots": 40,
+      "missing_root_notice_occurrences": 6
+    },
+    {
+      "path": "examples/saas-workspace/pnpm-lock.yaml",
+      "git_blob_sha": "f4803522e99af6c926c2c6b846baa6233e7f7fbd",
+      "materialized_virtual_store_package_roots": 32,
+      "missing_root_notice_occurrences": 6
+    },
+    {
+      "path": "examples/home-digital-twin/pnpm-lock.yaml",
+      "git_blob_sha": "fa8f80f2235d1b3ac8556f9a7460eeec267168b0",
+      "materialized_virtual_store_package_roots": 47,
+      "missing_root_notice_occurrences": 3
+    },
+    {
+      "path": "tests/browser/pnpm-lock.yaml",
+      "git_blob_sha": "df9f0e42f81a4d310059538802f82cb46bbb0e5a",
+      "materialized_virtual_store_package_roots": 7,
+      "missing_root_notice_occurrences": 0
+    }
+  ],
+  "observed_virtual_store_total": 126,
+  "root_notice_gap_occurrences": 15,
+  "distinct_package_versions_with_root_notice_gaps": 9,
+  "historical_run_evidence": [
+    {
+      "source": "2026-11-08 PR #43",
+      "run_id": 42446627590,
+      "commit_sha": "33d270cbc07df37c7359694f4269dbb38b13461b",
+      "artifacts": [
+        {
+          "project": "cinematic-site",
+          "artifact_id": 13603552271,
+          "artifact_name": "installed-license-evidence-cinematic-site",
+          "zip_sha256": "0f6d656487b44f5902f178bc5ce79e3759430262b445f67026655c3d50157115",
+          "json_sha256": "6dd9cec6683b67d9432f80bc8e3e3f378bea0ec50f78343d97af6686c869791a",
+          "zip_is_original_github_artifact": true
+        },
+        {
+          "project": "saas-workspace",
+          "artifact_id": 13603194954,
+          "artifact_name": "installed-license-evidence-saas-workspace",
+          "zip_sha256": "c37fe215576108753557cf3c8a48cab4731c67fe6a2da26a1eaaa1638d9af18f",
+          "json_sha256": "3a4865b4dd2898c00994116f058cc1a2a091dd6a6525875e4e0b3223e5776c02",
+          "zip_is_original_github_artifact": true
+        },
+        {
+          "project": "home-digital-twin",
+          "artifact_id": 13603976253,
+          "artifact_name": "installed-license-evidence-home-digital-twin",
+          "zip_sha256": "e6e0d5f3d8a2886fd744bfc72a36d70b9fee6643162b71f700c444af1aec4c94",
+          "json_sha256": "9e9488b4f734657dd910771d712f49a43c446937c332604104090981a28f29c4",
+          "zip_is_original_github_artifact": true
+        },
+        {
+          "project": "browser-tests",
+          "artifact_id": 13603199980,
+          "artifact_name": "installed-license-evidence-browser-tests",
+          "zip_sha256": "eec23cec1b079a05dcc621c71a44939d55b3391a3fd6aad36144dbc3e95e0d1f",
+          "json_sha256": "6aab14186655af811b463cdbd0e98b7b02a5ba5d03abe3ebd4b503f066a4b356",
+          "zip_is_original_github_artifact": true
+        }
+      ]
+    },
+    {
+      "source": "2026-11-16 scheduled main",
+      "run_id": 43869383890,
+      "commit_sha": "31a04f4bf010beca66dad4042f1bd2c19a3ba82a",
+      "artifacts": [
+        {
+          "project": "cinematic-site",
+          "artifact_id": 14227570742,
+          "artifact_name": "installed-license-evidence-cinematic-site",
+          "zip_sha256": "b8776113da20e0105da4b23d4df1dda93e73bf90ed94f0326f24f3dcaa42eaaa",
+          "json_sha256": "6dd9cec6683b67d9432f80bc8e3e3f378bea0ec50f78343d97af6686c869791a",
+          "zip_is_original_github_artifact": true
+        },
+        {
+          "project": "saas-workspace",
+          "artifact_id": 14225764469,
+          "artifact_name": "installed-license-evidence-saas-workspace",
+          "zip_sha256": "2525aedff2624215c373b2105504d280a90216cc3f9b5ff26e520e4eefffcb57",
+          "json_sha256": "3a4865b4dd2898c00994116f058cc1a2a091dd6a6525875e4e0b3223e5776c02",
+          "zip_is_original_github_artifact": true
+        },
+        {
+          "project": "home-digital-twin",
+          "artifact_id": 14227056292,
+          "artifact_name": "installed-license-evidence-home-digital-twin",
+          "zip_sha256": "c08e7a6d2f8543566b9526b5c5bba01de7541be947cfe12a32de86d566e417c2",
+          "json_sha256": "9e9488b4f734657dd910771d712f49a43c446937c332604104090981a28f29c4",
+          "zip_is_original_github_artifact": true
+        },
+        {
+          "project": "browser-tests",
+          "artifact_id": 14227760394,
+          "artifact_name": "installed-license-evidence-browser-tests",
+          "zip_sha256": "5892232188b762f49a5bcb0b306d634fc877f19fbd2b75f129d03fa04e9a989e",
+          "json_sha256": "6aab14186655af811b463cdbd0e98b7b02a5ba5d03abe3ebd4b503f066a4b356",
+          "zip_is_original_github_artifact": true
+        }
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "project": "examples/cinematic-site",
+      "name": "@img/sharp-libvips-linux-x64",
+      "version": "1.3.4",
+      "virtual_store_path": "node_modules/.pnpm/@img+sharp-libvips-linux-x64@1.3.4/node_modules/@img/sharp-libvips-linux-x64",
+      "installed_license_metadata": "LGPL-3.0-or-later",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/cinematic-site",
+      "name": "@img/sharp-libvips-linuxmusl-x64",
+      "version": "1.3.4",
+      "virtual_store_path": "node_modules/.pnpm/@img+sharp-libvips-linuxmusl-x64@1.3.4/node_modules/@img/sharp-libvips-linuxmusl-x64",
+      "installed_license_metadata": "LGPL-3.0-or-later",
+      "prior_six_package_source_lead": false,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/cinematic-site",
+      "name": "@next/env",
+      "version": "16.4.3",
+      "virtual_store_path": "node_modules/.pnpm/@next+env@16.4.3/node_modules/@next/env",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/cinematic-site",
+      "name": "@next/swc-linux-x64-gnu",
+      "version": "16.4.3",
+      "virtual_store_path": "node_modules/.pnpm/@next+swc-linux-x64-gnu@16.4.3/node_modules/@next/swc-linux-x64-gnu",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/cinematic-site",
+      "name": "@next/swc-linux-x64-musl",
+      "version": "16.4.3",
+      "virtual_store_path": "node_modules/.pnpm/@next+swc-linux-x64-musl@16.4.3/node_modules/@next/swc-linux-x64-musl",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": false,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/cinematic-site",
+      "name": "client-only",
+      "version": "0.0.1",
+      "virtual_store_path": "node_modules/.pnpm/client-only@0.0.1/node_modules/client-only",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/saas-workspace",
+      "name": "@img/sharp-libvips-linux-x64",
+      "version": "1.3.4",
+      "virtual_store_path": "node_modules/.pnpm/@img+sharp-libvips-linux-x64@1.3.4/node_modules/@img/sharp-libvips-linux-x64",
+      "installed_license_metadata": "LGPL-3.0-or-later",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/saas-workspace",
+      "name": "@img/sharp-libvips-linuxmusl-x64",
+      "version": "1.3.4",
+      "virtual_store_path": "node_modules/.pnpm/@img+sharp-libvips-linuxmusl-x64@1.3.4/node_modules/@img/sharp-libvips-linuxmusl-x64",
+      "installed_license_metadata": "LGPL-3.0-or-later",
+      "prior_six_package_source_lead": false,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/saas-workspace",
+      "name": "@next/env",
+      "version": "16.4.3",
+      "virtual_store_path": "node_modules/.pnpm/@next+env@16.4.3/node_modules/@next/env",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/saas-workspace",
+      "name": "@next/swc-linux-x64-gnu",
+      "version": "16.4.3",
+      "virtual_store_path": "node_modules/.pnpm/@next+swc-linux-x64-gnu@16.4.3/node_modules/@next/swc-linux-x64-gnu",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/saas-workspace",
+      "name": "@next/swc-linux-x64-musl",
+      "version": "16.4.3",
+      "virtual_store_path": "node_modules/.pnpm/@next+swc-linux-x64-musl@16.4.3/node_modules/@next/swc-linux-x64-musl",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": false,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/saas-workspace",
+      "name": "client-only",
+      "version": "0.0.1",
+      "virtual_store_path": "node_modules/.pnpm/client-only@0.0.1/node_modules/client-only",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/home-digital-twin",
+      "name": "@react-three/fiber",
+      "version": "9.8.2",
+      "virtual_store_path": "node_modules/.pnpm/@react-three+fiber@9.8.2_@types+react@19.3.0_react-dom@19.3.1_react@19.3.1__react@19.3.1_three@0.186.1/node_modules/@react-three/fiber",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/home-digital-twin",
+      "name": "@rolldown/binding-linux-x64-gnu",
+      "version": "1.2.15",
+      "virtual_store_path": "node_modules/.pnpm/@rolldown+binding-linux-x64-gnu@1.2.15/node_modules/@rolldown/binding-linux-x64-gnu",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": true,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    },
+    {
+      "project": "examples/home-digital-twin",
+      "name": "@rolldown/binding-linux-x64-musl",
+      "version": "1.2.15",
+      "virtual_store_path": "node_modules/.pnpm/@rolldown+binding-linux-x64-musl@1.2.15/node_modules/@rolldown/binding-linux-x64-musl",
+      "installed_license_metadata": "MIT",
+      "prior_six_package_source_lead": false,
+      "missing_recognized_root_notice": true,
+      "registry_tarball_verified": false,
+      "runtime_linkage_verified": false,
+      "shipped_payload_verified": false,
+      "review_status": "pending_human",
+      "rights_cleared": false
+    }
+  ],
+  "verification_limits": [
+    "The ZIP SHA-256 values are actual downloaded GitHub artifact archive bytes; JSON SHA-256 values are the decompressed single-file JSON bytes. The two runs produced identical JSON bytes per project.",
+    "A materialized pnpm virtual-store directory does not establish active dependency linkage, libc compatibility or inclusion in a shipped deliverable.",
+    "Missing recognized root LICENSE/NOTICE filenames do not establish missing license rights or infringement.",
+    "Three Linux musl-named packages are additional compared with six npm-era exact-version exceptions; no actual tarball, upstream exact-version musl binary notices or delivered artifact was independently verified.",
+    "Source-level leads in the prior six-package triage do not establish published tarball contents or legal permission."
+  ]
+}

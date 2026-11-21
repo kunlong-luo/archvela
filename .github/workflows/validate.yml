@@ -34,3 +34,4 @@ jobs:
           python scripts/check_release_candidate.py
           python scripts/audit_dependency_licenses.py
           python scripts/verify_license_exceptions.py
+          python scripts/verify_pnpm_license_ledger.py

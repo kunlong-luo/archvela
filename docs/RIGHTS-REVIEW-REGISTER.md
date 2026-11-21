@@ -8,7 +8,7 @@ Complete this register against the **actual proposed release commit**, not merel
 
 ## Preliminary machine-readable npm license metadata (2026-10-30)
 
-Automated inventory now covers the four committed `package-lock.json` files: **283 installation rows, zero absent license *metadata* strings, 42 rows flagged for human attention**. All 42 flagged entries remain `pending_human_review` in [DEPENDENCY-LICENSE-REVIEW.json](./DEPENDENCY-LICENSE-REVIEW.json), with source-lockfile Git blob IDs for change detection. The [summary and next-step guide](./DEPENDENCY-LICENSE-AUDIT.md) identifies the LGPL-family, MPL-2.0 and CC-BY-4.0 expressions. **This is NOT a dependency license-file audit, copyright clearance, notice list or owner approval.** The other 241 entries also require applicable notice review.
+The historical 2026-10-30 automated inventory covers the four now-archived `package-lock.json` files: **283 installation rows, zero absent license *metadata* strings, 42 rows flagged for human attention**. All 42 flagged entries remain `pending_human_review` in [DEPENDENCY-LICENSE-REVIEW.json](./DEPENDENCY-LICENSE-REVIEW.json), with source-lockfile Git blob IDs for change detection. The [summary and next-step guide](./DEPENDENCY-LICENSE-AUDIT.md) identifies the LGPL-family, MPL-2.0 and CC-BY-4.0 expressions. **This is NOT a dependency license-file audit, copyright clearance, notice list or owner approval.** The other 241 entries also require applicable notice review.
 
 ## Installed LICENSE/NOTICE collection (not a sign-off)
 
@@ -22,6 +22,13 @@ The [Linux CI evidence collector](./INSTALLED-LICENSE-EVIDENCE.md) now scans pac
 - [ ] Independently inspect the **six exact npm tarballs**, their nested/native notices and the intended build/deployment artifacts. A missing root-level file is **not automatically a license violation**.
 - [ ] Obtain authorized human redistribution/NOTICE approval for all applicable dependencies and the original V3 content. **Review remains pending.**
 
+## Verified pnpm virtual-store root-notice evidence (2026-11-21)
+
+- [x] Downloaded and inspected eight real ZIP/JSON artifacts from two successful CI runs, on 2026-11-08 and 2026-11-16, both bound to the four exact pnpm Git lockfile blobs. The decompressed JSON hashes match across runs. [Complete artifact IDs, ZIP and JSON SHA-256 register](./PNPM-LICENSE-EVIDENCE-2026-11.json) and [nine-package triage](./PNPM-LICENSE-ARTIFACT-TRIAGE.md).
+- [x] Recorded **126 virtual-store package roots, 15 observations lacking a recognized root LICENSE/NOTICE filename, across nine distinct exact package versions**; three of those nine are additional Linux musl-named variants relative to the six archived npm-era cases. These are **not** proof of runtime use or actual distribution.
+- [ ] Inspect the nine exact published tarballs (including native components and downstream source/notice obligations), resolve libc/platform reachability, and independently inspect the shipped Next server/container or Vite bundles. None of these three checks has been completed.
+- [ ] Complete source rights checks and obtain an **authorized human** sign-off. The evidence register and every observation remain `rights_cleared=false`. **Release decision remains HOLD.**
+
 ## Inventory and manual decisions
 
 | Content class | Sources to examine | Evidence required | Status |
@@ -30,7 +37,7 @@ The [Linux CI evidence collector](./INSTALLED-LICENSE-EVIDENCE.md) now scans pac
 | Templates and architecture profiles | `references/templates/T01–T03`, `references/architecture_profiles.json`, generated text | Authorship and origins of adapted document structures, code excerpts and borrowed checklists | **PENDING HUMAN REVIEW** |
 | Python scripts and benchmarks | `scripts/`, Skill `scripts/`, `benchmarks/` and tests | Confirm contributor rights and source attribution for any imported snippets or fixtures; no customer transcripts | **PENDING HUMAN REVIEW** |
 | 3 web/3D Starters | `examples/cinematic-site`, `examples/saas-workspace`, `examples/home-digital-twin` | Inline SVG/JSX/CSS, sample data and procedural 3D originality; no recreated third-party trademarks or product screenshots | **PENDING HUMAN REVIEW** |
-| Third-party JavaScript/npm dependencies | All **four committed lockfiles**, npm licenses and packages included with generated starters | Record dependency name/version/license, link to authoritative license and any notices/redistribution conditions; a vulnerability audit is **not** a license audit | **PENDING HUMAN REVIEW** |
+| Third-party JavaScript/npm dependencies | All **four active pnpm locks**, archived npm-era audit locks, license texts and any packages bundled or distributed with generated starters | Record dependency name/version/license, link to authoritative license and any notices/redistribution conditions; a vulnerability audit is **not** a license audit | **PENDING HUMAN REVIEW** |
 | Product names, icons and vendor references | README, guides, logos, client names and compatibility links | Descriptive nominative references only; avoid endorsement implication; verify permissions for any embedded graphic/logo | **PENDING HUMAN REVIEW** |
 | Standalone graphics/media/fonts/PDF | Git tracked files and `docs/ASSET-PROVENANCE.json` | Exact media inventory and source rights; current manifest is empty, must be rechecked at candidate commit | **PENDING HUMAN REVIEW** |
 | English translated/derived content | English Skill entrypoint and `ENGLISH-DECISION-GUIDE.md` | Check any adapted translated work and confirm rights in the original material | **PENDING HUMAN REVIEW** |

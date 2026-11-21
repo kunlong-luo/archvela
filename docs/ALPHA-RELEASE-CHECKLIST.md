@@ -10,6 +10,12 @@
 - 62 architecture references, six domains, only 3 runnable generated starters and 20 agent **installer** targets.
 - Current CI green means tested source/scripts, not independent legal rights or any AI model performance.
 
+## pnpm CI license evidence (not a publication approval)
+
+- [x] Archived eight actual CI artifact ZIP SHA-256 hashes and four project JSON SHA-256 hashes from two runs, tied to four pnpm lockfile Git blobs. [15 observations / nine exact package versions](./PNPM-LICENSE-ARTIFACT-TRIAGE.md).
+- [ ] Determine actual Linux glibc/musl dependency linkage, inspect the nine exact registry archives and all delivered Next/Vite output artifacts. A materialized virtual-store directory does not prove redistribution.
+- [ ] Obtain human rights and NOTICE sign-off for the final release SHA. **`rights_cleared=false`, release remains HOLD.**
+
 ## Live governance / native-client operator procedure (not approvals)
 
 - [x] Added the **read-only** [live GitHub governance audit](../scripts/audit_release_governance.py) and manually runnable [governance workflow](../.github/workflows/alpha-governance.yml), both nonpublishing. [Owner settings checklist](./RELEASE-GOVERNANCE-QUICKSTART.md).
