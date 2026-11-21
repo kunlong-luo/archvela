@@ -48,7 +48,7 @@ The earlier [npm-era report](./INSTALLED-LICENSE-EXCEPTIONS.json), using four np
 
 ```bash
 python3 scripts/verify_pnpm_license_ledger.py
-python3 -m unittest tests.test_pnpm_license_ledger -v
+python3 -m unittest discover -s tests -p 'test_pnpm_license_ledger.py' -v
 ```
 
 The verifier checks lockfile Git blob identities, original workflow source SHAs, eight original archive and JSON digests, the complete 15-observation / nine-version list, and preserves `rights_cleared=false`. It runs alongside existing older npm-era evidence validations in the Skill CI. **It does not re-download artifacts, parse native binaries or verify rights.** If the active pnpm lockfile changes, the evidence check intentionally fails closed until its new source graph and evidence are reviewed; the original observation ledger must not be rewritten to falsely represent a new dependency graph.
