@@ -54,7 +54,7 @@ HASH = re.compile(r"^[a-f0-9]{64}$")
 
 
 def blob_sha(raw: bytes) -> str:
-    return hashlib.sha1(f"blob {len(raw)}\\0".encode("ascii") + raw).hexdigest()
+    return hashlib.sha1(f"blob {len(raw)}\0".encode("ascii") + raw).hexdigest()
 
 
 def validate(ledger: dict, root: Path = ROOT) -> dict:
