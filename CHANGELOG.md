@@ -8,6 +8,12 @@ The version in `.agents/skills/archvela-architect/SKILL.md` is **candidate
 metadata**, not proof of a published Git tag or release. Dates below describe
 repository development, not official release dates.
 
+## pnpm virtual-store license evidence triage (2026-11-21; unreleased)
+
+- Downloaded and SHA-256 verified eight actual GitHub Actions ZIP archives (four on 2026-11-08 and four on 2026-11-16), including independent JSON SHA-256 digests. The two runs had identical decompressed JSON per project; all four pnpm lock Git blobs matched the CI data.
+- Preserved 15 package-root LICENSE/NOTICE observations from 126 materialized pnpm virtual-store package roots: **nine exact versions**, including three musl-named native variants not present in the older six-package npm installation evidence. These are virtual-store observations, not proven runtime dependencies or delivered software.
+- Added a fail-closed offline ledger and regression tests under Python 3.10/3.12/3.13. No native tarball inspection, distribution inventory, copyright approval, tag or GitHub Release performed. See [the review record](./docs/PNPM-LICENSE-ARTIFACT-TRIAGE.md) and [Issue #46](https://github.com/kunlong-luo/archvela/issues/46).
+
 ## First Alpha governance preflight (still unreleased)
 
 - Added read-only, exact-main-SHA GitHub governance audit covering protection visibility, auto-delete settings, current SHA's 7 CI workflows, release existence and permanently unsigned owner/rights/native-client gates. No live API error becomes an approval.
