@@ -9,15 +9,17 @@
 
 The [lockfile license metadata audit](./DEPENDENCY-LICENSE-AUDIT.md) covers four npm v3 lockfiles and 283 dependency installation rows, with 42 specially flagged license expressions. A lockfile license field can differ from what actually ships.
 
-The [new installed-license evidence tool](../scripts/collect_installed_license_evidence.py) examines **actual packages after an isolated `npm ci`**: for each lockfile entry, it records package name/version, optional/development flags, whether installed on the CI runner, any package-root `LICENSE`/`LICENCE`/`COPYING`/`NOTICE`/`ATTRIBUTION` file names, and SHA-256 hashes and sizes (not the license text itself).
+The [historical npm-era evidence tool](../scripts/collect_installed_license_evidence.py) inspected a flat npm v3 install and recorded names, versions, optional/development flags, package-root recognized notice filenames, sizes and SHA-256 hashes. Its results remain frozen; **it is not the current pnpm collector**.
+
+The [active pnpm collector](../scripts/collect_pnpm_license_evidence.py) instead records materialized real package directories in `node_modules/.pnpm/`, skipping dependency symlinks. It does **not** independently establish which optional/native variants were linked, executable on this libc, or included in a delivered product. [Two real CI runs and eight ZIP/JSON SHA-256 records](./PNPM-LICENSE-ARTIFACT-TRIAGE.md) capture **126 materialized roots and 15 root-notice gaps involving nine exact versions**, separate from the old 10/six observation.
 
 Historically, four independent jobs in [Security scanning](../.github/workflows/security.yml) run on Linux / Node.js 24. That historical run used `npm ci --ignore-scripts --include=dev --no-audit --no-fund` to install locked dependencies **without executing third-party lifecycle hooks**. Each job uploads a JSON artifact named `installed-license-evidence-<package>` with a short retention period. An artifact is evidence **for the particular job OS, tool versions and commit only**.
 
-The script **fails** if a required locked package is absent, its installed version differs, or inspected license/NOTICE paths are unsafe. It **does not automatically fail** merely because a package lacks a top-level LICENSE file; that gap is recorded for human review rather than interpreted as conclusive infringement or permission.
+The **archived npm collector** failed if a required locked package was absent, its installed version differed, or inspected license/NOTICE paths were unsafe. The **current pnpm collector** validates direct-package presence and hashes materialized package-root notice files; this is not a complete deployment graph. It **does not automatically fail** merely because a package lacks a top-level LICENSE file; that gap is recorded for human review rather than interpreted as conclusive infringement or permission.
 
 ## How to inspect real CI evidence
 
-After a successful PR or main run, visit [Security scanning workflow](https://github.com/kunlong-luo/archvela/actions/workflows/security.yml), choose the **exact tested commit**, then download the four `installed-license-evidence-*` artifacts from that run. Inspect `rows`, `installed_package_rows`, `optional_platform_rows_not_installed` and `installed_rows_without_top_level_license_or_notice`. Reviewers must verify any upstream license URLs, notices, and the actual distributed product or build artifact separately.
+After a successful PR or main run, visit [Security scanning workflow](https://github.com/kunlong-luo/archvela/actions/workflows/security.yml), choose the **exact tested commit**, then download the four `installed-license-evidence-*` artifacts from that run. For the active pnpm report, inspect `rows`, `installed_package_rows`, `uninstalled_optional_platform_rows` (currently `not_measured`) and `installed_rows_without_top_level_license_or_notice`. These are virtual-store roots, not validated runtime-shipped packages. Reviewers must verify any upstream license URLs, notices, and the actual distributed product or build artifact separately.
 
 To reproduce locally in a disposable checkout:
 
@@ -32,7 +34,7 @@ Do not run the install on a production host or treat generated reports as proof 
 
 ## Residual limits
 
-- npm lockfiles can include platform-specific optional packages that are **not installed** on Linux. The report records them as absent rather than as inspected; Windows/macOS redistribution needs separate review.
+- Archived npm lockfiles contained platform-specific optional packages absent from the old Linux installation; **that old collector** measured them as absent. The active pnpm report does not measure absent optional variants, and materialized musl-named native directories do not prove active glibc linkage. Windows/macOS/ARM/musl redistribution must be reviewed separately.
 - Licenses may live in nonstandard locations or be inherited from a parent package. A package-root filename scanner will not find every applicable notice. Hashes demonstrate file bytes in one environment but cannot certify authenticity or legal sufficiency.
 - `MIT`/`Apache-2.0` declarations still require valid license texts/notices where applicable. LGPL-family, MPL and CC-BY cases require special attention; see the [42-entry review register](./DEPENDENCY-LICENSE-REVIEW.json).
 - The original V3 reference text, examples, inline UI, procedural 3D geometry, trademarks and generated source remain subject to the independent [source rights checklist](./RIGHTS-REVIEW-REGISTER.md).
